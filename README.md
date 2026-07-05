@@ -29,3 +29,110 @@ identification of at-risk patients before complications escalate.
 
 
 ## System Architecture
+Data Input (Vitals + History)
+│
+▼
+Preprocessing Pipeline
+│
+▼
+XGBoost Risk Classification Model
+│
+▼
+SHAP Explainability Layer
+│
+▼
+Alert Engine (Rule + AI Hybrid)
+│
+▼
+CHW / Clinician Dashboard (Streamlit)
+│
+▼
+Patient Record Store (SQLite)
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Machine Learning | XGBoost, scikit-learn |
+| Explainability | SHAP |
+| API | FastAPI |
+| Frontend | Streamlit |
+| Database | SQLite + SQLAlchemy |
+| Containerization | Docker |
+
+---
+
+## Dataset
+
+Training data: [Maternal Health Risk Dataset](https://archive.ics.uci.edu/dataset/863/maternal+health+risk)  
+Source: UCI Machine Learning Repository  
+Features: Age, Systolic BP, Diastolic BP, Blood Sugar, Body Temperature, Heart Rate  
+Target: Risk Level (Low / Mid / High)
+
+---
+
+## Quick Start
+
+### Prerequisites
+- Docker and Docker Compose installed
+- OR Python 3.10+
+
+### Run with Docker
+```bash
+git clone https://github.com/ojibovictor111-cpu/natabridge.git
+cd natabridge
+docker-compose up --build
+```
+
+### Run without Docker
+```bash
+pip install -r requirements.txt
+# Start API
+uvicorn src.api.main:app --reload
+# Start Dashboard (new terminal)
+streamlit run src/dashboard/app.py
+```
+
+---
+
+## Project Structure
+natabridge/
+├── data/
+│   ├── raw/                  # Original dataset
+│   ├── processed/            # Cleaned, feature-engineered data
+│   └── sample_patients.json  # Demo records for evaluation
+├── notebooks/
+│   ├── 01_EDA.ipynb
+│   ├── 02_model_training.ipynb
+│   └── 03_model_evaluation.ipynb
+├── src/
+│   ├── api/                  # FastAPI backend
+│   ├── ml/                   # Model training, prediction, SHAP
+│   ├── dashboard/            # Streamlit frontend
+│   └── database/             # SQLAlchemy models and CRUD
+├── tests/
+├── docker-compose.yml
+├── Dockerfile
+└── requirements.txt
+
+---
+
+## Team
+
+| Name | Discipline | Role |
+|---|---|---|
+| Ojibo Victor | Electrical & Electronic Engineering | Project Lead, Systems Architecture |
+| [CS Teammate] | Computer Science | AI/ML, Backend Development |
+| [BME Teammate] | Biomedical Engineering | Clinical Research, Data Analysis |
+
+University of Ibadan, Nigeria — 2026
+
+---
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
+
+
