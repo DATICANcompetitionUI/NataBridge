@@ -116,7 +116,6 @@ natabridge/
 ├── docker-compose.yml
 ├── Dockerfile
 └── requirements.txt
-
 ---
 
 ## Team
