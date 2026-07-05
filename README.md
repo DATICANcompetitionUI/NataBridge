@@ -99,19 +99,20 @@ streamlit run src/dashboard/app.py
 
 ## Project Structure
 natabridge/
+
 ├── data/
-│   ├── raw/                  # Original dataset
-│   ├── processed/            # Cleaned, feature-engineered data
-│   └── sample_patients.json  # Demo records for evaluation
+│   ├── raw/                 
+│   ├── processed/            
+│   └── sample_patients.json  
 ├── notebooks/
 │   ├── 01_EDA.ipynb
 │   ├── 02_model_training.ipynb
 │   └── 03_model_evaluation.ipynb
 ├── src/
-│   ├── api/                  # FastAPI backend
-│   ├── ml/                   # Model training, prediction, SHAP
-│   ├── dashboard/            # Streamlit frontend
-│   └── database/             # SQLAlchemy models and CRUD
+│   ├── api/                  
+│   ├── ml/                  
+│   ├── dashboard/           
+│   └── database/             
 ├── tests/
 ├── docker-compose.yml
 ├── Dockerfile
