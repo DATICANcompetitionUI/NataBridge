@@ -124,8 +124,8 @@ natabridge/
 | Name | Discipline | Role |
 |---|---|---|
 | Ojibo Victor | Electrical & Electronic Engineering | Project Lead, Systems Architecture |
-| [CS Teammate] | Computer Science | AI/ML, Backend Development |
-| [BME Teammate] | Biomedical Engineering | Clinical Research, Data Analysis |
+| James Samuel | Computer Science | AI/ML, Backend Development |
+| Oluwadimito Iyun | Biomedical Engineering | Clinical Research, Data Analysis |
 
 University of Ibadan, Nigeria — 2026
 
