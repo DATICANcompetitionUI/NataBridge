@@ -1,4 +1,4 @@
-# NataBridge — Clinical Rationale
+# NataBridge - Clinical Rationale
 
 ## Target Condition
 
@@ -56,6 +56,7 @@ beyond the scope of this system.
 ## Important Limitations
 
 - NataBridge is a **clinical decision support tool**, not a diagnostic device
+- The model was trained on Bangladeshi cohort, thresholds and use-case framed for Nigeria, external validation on Nigerian data is our future work.
 - All outputs must be interpreted by a qualified healthcare worker
 - The system does not replace clinical examination, urine protein testing,
   or laboratory investigation
