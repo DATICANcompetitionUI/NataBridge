@@ -16,11 +16,11 @@ The system is designed to support Community Health Workers (CHWs) and clinicians
 - Tracking risk trends across multiple antenatal visits
 - Generating actionable alerts and referral recommendations
 
-This project is developed for the **DATICAN Artificial Intelligence in Medicine Competition**
+This project has been developed for the **DATICAN Artificial Intelligence in Medicine Competition**
 at the University of Ibadan, Nigeria.
 
 
-## Clinical Focus
+## The Clinical Focus
 
 Hypertensive disorders of pregnancy are among the leading causes of maternal mortality
 in Nigeria and Sub-Saharan Africa. NataBridge targets the **first delay** in the Three
