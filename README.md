@@ -28,7 +28,7 @@ Delays Model - delayed recognition of danger signs — by enabling earlier, data
 identification of at-risk patients before complications escalate.
 
 
-## System Architecture
+## The System Architecture
 Data Input (Vitals + History)
 │
 ▼
@@ -51,7 +51,7 @@ Patient Record Store (SQLite)
 
 ---
 
-## Tech Stack
+## The Tech Stack
 
 | Layer | Technology |
 |---|---|
