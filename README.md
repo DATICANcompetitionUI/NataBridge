@@ -139,13 +139,13 @@ __________________
 
 # NataBridge — Clinical Rationale
 
-**Version:** 1.0.0 (DATICAN Competition Build)  
+**Version:** 1.0.0 
 **Last Updated:** July 2026  
-**Repository:** https://github.com/ojibovictor111-cpu/natabridge
+**Our Repository:** https://github.com/ojibovictor111-cpu/natabridge
 
 ---
 
-## 1. Target Condition
+## 1. The Target Condition
 
 **Hypertensive Disorders of Pregnancy (HDP)**, including:
 - Gestational hypertension
@@ -153,66 +153,41 @@ __________________
 - Severe preeclampsia
 - Eclampsia
 
-NataBridge focuses on **risk stratification** across this spectrum — placing
-patients into Low, Mid, or High risk categories — rather than claiming to
-diagnose any specific condition. This distinction is clinically and ethically
-important: the system is a decision support tool, not a diagnostic device.
+NataBridge focuses on **risk stratification** across this spectrum - placing patients into Low, Mid, or High risk categories - rather than claiming to diagnose any specific condition. This distinction is clinically and ethically important: the system is a decision support tool, not a diagnostic device.
 
 ---
 
 ## 2. Why Hypertensive Disorders of Pregnancy?
 
-Hypertensive disorders of pregnancy are among the top three direct causes of
-maternal mortality in Nigeria and across Sub-Saharan Africa. They are
-responsible for a significant proportion of the estimated 75,000 maternal
-deaths Nigeria records annually — the highest absolute number of any country
-in the world, representing 29% of global maternal deaths in 2023.
+Hypertensive disorders of pregnancy (HDP) are among the top three direct causes of maternal mortality in Nigeria and across Sub-Saharan Africa. It accounts for 15% to 32% of all maternal deaths in the country according to National Institue of Health. HDP  are responsible for a significant proportion of the estimated 75,000 maternal deaths Nigeria records annually the highest absolute number of any country in the world, representing 29% of global maternal deaths in 2023.
 
-HDP is particularly well-suited for AI-assisted risk stratification for four
-specific reasons:
+HDP is particularly well-suited for AI-assisted risk stratification for four specific reasons:
 
 **1. Measurable physiological precursors exist.**
-The progression from gestational hypertension to preeclampsia to eclampsia
-follows a defined clinical pathway with measurable vital sign changes —
-elevated blood pressure, tachycardia, metabolic disruption — that can be
-detected with non-invasive measurements any Community Health Worker can take.
+The progression from gestational hypertension to preeclampsia to eclampsia follows a defined clinical pathway with measurable vital sign changes - elevated blood pressure, tachycardia, metabolic disruption - and this can be detected with non-invasive measurements any Community Health Worker can take.
 
 **2. An intervention window exists.**
-Unlike complications such as postpartum haemorrhage, which occur acutely
-after delivery, HDP develops progressively during pregnancy. This progression
-creates an actionable window between first signs and life-threatening
-emergency — exactly the window NataBridge is designed to exploit through
-earlier identification and escalation.
+Unlike complications such as postpartum haemorrhage, which occur acutely after delivery, HDP develops progressively during pregnancy. This progression creates an actionable window between first signs and life-threatening emergency - and this is exactly the window NataBridge is designed to exploit through earlier identification and escalation.
 
 **3. The data exists to train a meaningful model.**
-The UCI Maternal Health Risk Dataset provides 1,014 labeled records with
-the key physiological features associated with HDP risk. This enables
-supervised classification model training without requiring locally collected
-clinical data — appropriate for a competition prototype stage.
+The UCI Maternal Health Risk Dataset provides 1,014 labeled records with the key physiological features associated with HDP risk. This enables supervised classification model training without requiring locally collected clinical data - and this is appropriate for this competition prototype stage.
 
 **4. The Three Delays Model maps directly onto the problem.**
-Most HDP deaths in low-resource settings occur because of Delay 1 — the
-woman or her CHW does not recognise danger signs early enough to act.
-NataBridge directly targets this delay by enabling data-driven early
-identification of at-risk patients between and during antenatal visits.
+Most HDP deaths in low-resource settings from our research occur because of Delay 1 - the woman or her Community Health Worker (CHW) does not recognise danger signs early enough to act. NataBridge directly targets this delay by enabling data-driven early identification of at-risk patients between and during antenatal visits.
 
 ---
 
-## 3. Literature Review — Evidence Base for Feature Selection
+## 3. Literature Review - Evidence Base for The Feature Selection
 
-The clinical features selected for the NataBridge model are grounded in
-peer-reviewed evidence from Sub-Saharan African populations. The following
-three systematic reviews directly support our approach.
+The clinical features selected for the NataBridge model are grounded in peer-reviewed evidence from Sub-Saharan African populations. The following three systematic reviews directly support our approach to solving this problem.
 
 ---
 
 ### Citation 1
 
-**Title:** Systematic review of observational studies of the impact of
-cardiovascular risk factors on preeclampsia in sub-Saharan Africa
+**Title:** Systematic review of observational studies of the impact of cardiovascular risk factors on preeclampsia in sub-Saharan Africa
 
-**Authors:** Hounkpatin OI, Amidou SA, Houehanou YC, Lacroix P, Preux PM,
-Houinato DS, Bezanahary H
+**Authors:** Hounkpatin OI, Amidou SA, Houehanou YC, Lacroix P, Preux PM, Houinato DS, Bezanahary H
 
 **Journal:** BMC Pregnancy and Childbirth
 
@@ -220,24 +195,14 @@ Houinato DS, Bezanahary H
 
 **PMID:** 33516185 | **DOI:** 10.1186/s12884-021-03566-2
 
-**Key Finding:** A systematic review of 12 observational studies covering
-24,369 pregnant women across Sub-Saharan Africa found that cardiovascular
-risk factors - including chronic hypertension, overweight, obesity, and
-diabetes - were significantly associated with elevated risk of preeclampsia.
+**Key Finding:** A systematic review of 12 observational studies covering 24,369 pregnant women across Sub-Saharan Africa found that cardiovascular risk factors - including chronic hypertension, overweight, obesity, and diabetes - were significantly associated with elevated risk of preeclampsia.
 
-**Relevance to NataBridge:** This study directly validates the inclusion of
-blood pressure and blood sugar as primary features in the NataBridge risk
-model. The finding that chronic hypertension and diabetes are independent
-risk factors for preeclampsia in Sub-Saharan African populations confirms
-that our model's reliance on systolic BP, diastolic BP, and blood sugar as
-the dominant predictive features is clinically justified and evidence-based
-for the target population NataBridge serves.
+**Relevance to NataBridge:** This study directly validates the inclusion of blood pressure and blood sugar as primary features in the NataBridge riskmodel. The finding that chronic hypertension and diabetes are independent risk factors for preeclampsia in Sub-Saharan African populations confirms that our model's reliance on systolic BP, diastolic BP, and blood sugar as the dominant predictive features is clinically justified and evidence-based for the target population NataBridge serves.
                     
 
 ### Citation 2
 
-**Title:** Systematic and meta-analysis of factors associated with
-preeclampsia and eclampsia in sub-Saharan Africa
+**Title:** Systematic and meta-analysis of factors associated with preeclampsia and eclampsia in sub-Saharan Africa
 
 **Authors:** Meazaw MW, Chojenta C, Muluneh MD, Loxton D
 
@@ -247,30 +212,17 @@ preeclampsia and eclampsia in sub-Saharan Africa
 
 **PMID:** 32813750 | **DOI:** 10.1371/journal.pone.0237600
 
-**Key Finding:** A meta-analysis of 51 studies across Sub-Saharan Africa
-identified the following as significant risk factors for preeclampsia and
-eclampsia: primiparity (OR: 2.52), previous history of preeclampsia (OR:
-5.6), family history of preeclampsia (OR: 1.68), high maternal BMI (OR:
-1.69), chronic hypertension (OR: 2.52), anaemia during pregnancy (OR:
+**Key Finding:** A meta-analysis of 51 studies across Sub-Saharan Africa identified the following as significant risk factors for preeclampsia and eclampsia: primiparity (OR: 2.52), previous history of preeclampsia (OR: 5.6), family history of preeclampsia (OR: 1.68), high maternal BMI (OR: 1.69), chronic hypertension (OR: 2.52), anaemia during pregnancy (OR:
 3.22), and lack of antenatal care visits (OR: 2.71).
 
-**Relevance to NataBridge:** This is the strongest single piece of evidence
-supporting the NataBridge feature set. The identification of chronic
-hypertension (OR: 2.52) as a major risk factor directly validates our
-blood pressure thresholds. The finding that lack of ANC attendance (OR:
-2.71) significantly increases risk reinforces the core NataBridge mission:
-women who are least connected to the health system are most at risk, and
-CHW-delivered monitoring between visits is a clinical priority, not a
-convenience. This study also highlights anaemia and BMI as risk factors
-not currently captured in our dataset — important considerations for
-future model expansion using locally collected Nigerian data.
+**Relevance to NataBridge:** This is the strongest single piece of evidence supporting the NataBridge feature set. The identification of chronic hypertension (OR: 2.52) as a major risk factor directly validates our blood pressure thresholds. The finding that lack of ANC attendance (OR: 2.71) significantly increases risk reinforces the core NataBridge mission:
+Women who are least connected to the health system are most at risk, and CHW-delivered monitoring between visits is a clinical priority, not a convenience. This study also highlights anaemia and BMI as risk factors not currently captured in our dataset - these are important considerations for our future model expansion using locally collected Nigerian data.
 
 ---
 
 ### Citation 3
 
-**Title:** Complications associated with adolescent childbearing in
-Sub-Saharan Africa: A systematic literature review and meta-analysis
+**Title:** Complications associated with adolescent childbearing in Sub-Saharan Africa: A systematic literature review and meta-analysis
 
 **Authors:** Grønvik T, Sandøy IF
 
@@ -280,21 +232,9 @@ Sub-Saharan Africa: A systematic literature review and meta-analysis
 
 **PMID:** 30256821 | **DOI:** 10.1371/journal.pone.0204327
 
-**Key Finding:** A systematic review of 18 studies across Sub-Saharan
-Africa found that adolescent mothers (under 18 years) face significantly
-elevated risk of preeclampsia, eclampsia, preterm birth, and low birth
-weight compared to adult women aged 20–35 years.
+**Key Finding:** A systematic review of 18 studies across Sub-Saharan Africa found that adolescent mothers (under 18 years) face significantly elevated risk of preeclampsia, eclampsia, preterm birth, and low birth weight compared to adult women aged 20–35 years.
 
-**Relevance to NataBridge:** This study provides the evidence base for
-age as a risk feature in the NataBridge model at both extremes of the
-age distribution. While our model flags advanced maternal age (≥35 years)
-as an elevated risk indicator based on established clinical literature,
-this systematic review confirms that very young maternal age — also
-present in our dataset, which includes patients from age 10 — similarly
-elevates HDP risk in Sub-Saharan African populations. The UCI dataset's
-age range of 10–65 years means NataBridge's model encounters both
-high-risk age groups, and this study validates that age is a clinically
-meaningful predictor across the full spectrum, not only at the upper end.
+**Relevance to NataBridge:** This study provides the evidence base for age as a risk feature in the NataBridge model at both extremes of the age distribution. While our model flags advanced maternal age (≥35 years) as an elevated risk indicator based on established clinical literature, this systematic review confirms that very young maternal age - also present in our dataset, which includes patients from age 10 - similarly elevates HDP risk in Sub-Saharan African populations. The UCI dataset's age range of 10–65 years means NataBridge's model encounters both high-risk age groups, and this study validates that age is a clinically meaningful predictor across the full spectrum, and not only at the upper end.
 
 ---
 
