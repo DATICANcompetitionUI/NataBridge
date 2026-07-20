@@ -12,9 +12,8 @@ router = APIRouter(
 
 @router.post("/predict", response_model=PredictionResponse)
 async def predict_risk(request: PredictionRequest):
-    """
-    Predict maternal health risk.
-    """
+    # Predict maternal health risk.
+    
 
     try:
         result = predict(request)
