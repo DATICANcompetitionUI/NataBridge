@@ -1,0 +1,297 @@
+
+     @if(!userAuthenticated()) {
+     <h2 nata-h2 class="capitalize">
+          maternal health risk assessment
+     </h2>
+     <p class="text-sm text-balance">Complete the assessment below to receive an instant Ai-powered prediction of your
+          pregnancy risk level along with your personalized recommendations. <br>
+          <span class="italic">This assessment is designed to support *not replace* professional medical advice.</span>
+     </p>
+     } @else {
+     <h2 nata-h2 class="capitalize">
+          New Maternal Assessment
+     </h2>
+
+     <p class="text-sm text-balance">Capture current vitals and symptom manifestations. Data will be analyzed against
+          historical baselines.
+     </p>
+     }
+
+
+<div class="mt-10">
+     @if(userAuthenticated()) {
+     <mat-stepper linear="true" #stepper>
+          <mat-step [stepControl]="personalInformationFormGroup">
+               <form [formGroup]="personalInformationFormGroup" class="px-5">
+                    <ng-template matStepLabel class="text-sm">Personal Information</ng-template>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="lastname">last name</label>
+                              <input type="text" id="lastname" placeholder="e.g. John" formControlName="lastname">
+                         </div>
+                         <div class="field">
+                              <label for="firstname">first name</label>
+                              <input type="text" id="firstname" placeholder="e.g. Doe" formControlName="firstname">
+                         </div>
+                         <div class="field">
+                              <label for="middlename">middle name</label>
+                              <input type="text" id="middlename" placeholder="e.g. Jane" formControlName="middlename">
+                         </div>
+                    </div>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="email">email address</label>
+                              <input type="email" id="email" placeholder="e.g. test@gmail.com" formControlName="email">
+                         </div>
+                         <div class="field">
+                              <label for="phone">
+                                   phone number
+                              </label>
+                              <input type="text" id="phone" placeholder="e.g. +(234)XXX-XXXX" formControlName="phone">
+                         </div>
+                    </div>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="dob">date of birth</label>
+                              <input type="date" id="dob" formControlName="dob">
+                         </div>
+                    </div>
+
+                    <div class="flex-center mt-10 justify-end">
+                         <button matStepperNext class="nata-btn primary">
+                              Next
+                              <ng-icon name="heroArrowLongRight" />
+                         </button>
+                    </div>
+               </form>
+          </mat-step>
+
+          <mat-step [stepControl]="pregnancyInformationFormGroup">
+               <form [formGroup]="pregnancyInformationFormGroup" class="px-5">
+                    <ng-template matStepLabel class="text-sm">Pregnancy Information</ng-template>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="gestationalAge">current gestational age (weeks)</label>
+                              <input type="text" id="gestationalAge" placeholder="e.g. 24 weeks"
+                                   formControlName="gestationalAge">
+                         </div>
+
+                         <div class="field">
+                              <label for="firstPregnancy">
+                                   is this the first pregnancy?
+                                   <span class="lowercase">(optional)</span>
+                              </label>
+
+                              <select id="firstPregnancy" formControlName="firstPregnancy">
+                                   <option value="true">Yes</option>
+                                   <option value="false">No</option>
+                              </select>
+                         </div>
+                    </div>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="previousComplications">previous pregnancy complications
+                                   <span class="lowercase">(optional)</span>
+                              </label>
+                              <textarea id="previousComplications"
+                                   placeholder="please specify any previous pregnancy complications"></textarea>
+                         </div>
+                    </div>
+
+                    <div class="flex-center gap-x-2.5 mt-10 justify-end">
+                         <button matStepperPrevious class="nata-btn secondary">Back</button>
+                         <button matStepperNext class="nata-btn primary">
+                              Next
+                              <ng-icon name="heroArrowLongRight" />
+                         </button>
+                    </div>
+               </form>
+          </mat-step>
+
+          <mat-step [stepControl]="healthMeasurementsFormGroup">
+               <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
+                    <ng-template matStepLabel class="text-sm">Health Measurements</ng-template>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="bloodPressure">blood pressure (mmHg)</label>
+
+                              <div class="flex-center gap-x-0.5">
+                                   <input type="number" id="systolicBP" placeholder="120" min="60"
+                                        formControlName="systolicBP">
+                                   <span class="mx-2">/</span>
+                                   <input type="number" id="diastolicBP" placeholder="80" min="30"
+                                        formControlName="diastolicBP">
+                              </div>
+                         </div>
+
+                         <div class="field">
+                              <label for="age">age</label>
+                              <input type="number" id="age" placeholder="e.g. 18" min="18" formControlName="age">
+                         </div>
+                    </div>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="bloodSugar">blood sugar <span class="uppercase">(mg/dL)</span></label>
+                              <input type="number" id="bloodSugar" placeholder="e.g. 95" min="70"
+                                   formControlName="bloodSugar">
+                         </div>
+
+                         <div class="field">
+                              <label for="bodyTemp">body temperature <span class="uppercase">(°C)</span></label>
+                              <input type="number" id="bodyTemp" placeholder="e.g. 37" min="36" max="42" step="0.1"
+                                   formControlName="bodyTemp">
+                         </div>
+                    </div>
+
+                    <div class="row">
+                         <div class="field">
+                              <label for="heartRate">heart rate <span class="uppercase">(bpm)</span></label>
+                              <input type="number" id="heartRate" placeholder="e.g. 70" min="40" max="180"
+                                   formControlName="heartRate">
+                         </div>
+                    </div>
+               </form>
+
+               <div class="flex-center gap-x-2.5 mt-10 justify-end">
+                    <button matStepperPrevious class="nata-btn secondary">Back</button>
+                    <button class="nata-btn primary capitalize" (click)="openDialog()">
+                         submit
+                    </button>
+               </div>
+          </mat-step>
+     </mat-stepper>
+     } @else {
+     <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
+          <div class="row">
+               <div class="field">
+                    <label for="bloodPressure">blood pressure (mmHg)</label>
+
+                    <div class="flex-center gap-x-0.5">
+                         <div class="flex-1">
+                         <input type="number" id="systolicBP" placeholder="120" min="60" formControlName="systolicBP">
+
+                         @if(healthMeasurementsFormGroup.controls.systolicBP; as systolicField) {
+                         @if(systolicField.hasError('min')){
+                         <div class="error-field">
+                              Enter valid systolic BP
+                         </div>     
+                         }
+                         @else if (systolicField.invalid && (systolicField.touched ||
+                         systolicField.dirty)) {
+                         <div class="error-field">
+                              Enter a value
+                         </div>
+                         }}
+                         </div>
+
+                         <span class="mx-2">
+                              <ng-icon name="heroSlash" />
+                         </span>
+
+                         <div class="flex-1">
+                         <input type="number" id="diastolicBP" placeholder="80" min="30" formControlName="diastolicBP">
+
+                         @if(healthMeasurementsFormGroup.controls.diastolicBP; as diastolicField) {
+                         @if(diastolicField.hasError('min')){
+                         <div class="error-field">
+                              Enter valid diastolic BP
+                         </div>     
+                         }
+                         @else if (diastolicField.invalid && (diastolicField.touched ||
+                         diastolicField.dirty)) {
+                         <div class="error-field">
+                              Enter a value
+                         </div>
+                         }}
+                         </div>
+                    </div>
+               </div>
+
+               <div class="field">
+                    <label for="age">age</label>
+                    <input type="number" id="age" placeholder="e.g. 18" min="18" formControlName="age">
+
+                    @if(healthMeasurementsFormGroup.controls.age; as ageField) {
+                         @if(ageField.hasError('min')){
+                         <div class="error-field">
+                              Enter a valid age
+                         </div>     
+                         }
+                         @else if (ageField.invalid && (ageField.touched ||
+                         ageField.dirty)) {
+                         <div class="error-field">
+                              Enter a value
+                         </div>
+                         }}
+               </div>
+          </div>
+
+          <div class="row">
+               <div class="field">
+                    <label for="bloodSugar">blood sugar <span class="uppercase">(mg/dL)</span></label>
+                    <input type="number" id="bloodSugar" placeholder="e.g. 4.5" min="2" formControlName="bloodSugar">
+
+                    @if(healthMeasurementsFormGroup.controls.bloodSugar; as bsField) {
+                         @if(bsField.hasError('min')){
+                         <div class="error-field">
+                              Enter a valid bloodsugar
+                         </div>     
+                         }
+                         @else if (bsField.invalid && (bsField.touched ||
+                         bsField.dirty)) {
+                         <div class="error-field">
+                              Enter a value
+                         </div>
+                         }}
+               </div>
+
+               <div class="field">
+                    <label for="bodyTemp">body temperature <span class="uppercase">(°C)</span></label>
+                    <input type="number" id="bodyTemp" placeholder="e.g. 37" min="36" max="42" step="0.1"
+                         formControlName="bodyTemp">
+
+                         @if(healthMeasurementsFormGroup.controls.bodyTemp; as bodyTempField) {
+                         @if(bodyTempField.hasError('min')){
+                         <div class="error-field">
+                              Enter a valid body temperature
+                         </div>     
+                         }
+                         @else if (bodyTempField.invalid && (bodyTempField.touched ||
+                         bodyTempField.dirty)) {
+                         <div class="error-field">
+                              Enter a value
+                         </div>
+                         }}
+               </div>
+          </div>
+
+          <div class="row">
+               <div class="field">
+                    <label for="heartRate">heart rate <span class="uppercase">(bpm)</span></label>
+                    <input type="number" id="heartRate" placeholder="e.g. 70" min="40" max="180"
+                         formControlName="heartRate">
+
+                    <div class="error-field">
+                         @if(healthMeasurementsFormGroup.controls.heartRate; as heartRateField) {
+                         @if(heartRateField.hasError('min') || heartRateField.hasError('max')){
+                              <span>Enter a valid heartRate</span>
+                         }
+                         @else if (heartRateField.invalid && (heartRateField.touched ||
+                         heartRateField.dirty)) {
+                              <span>Enter a value</span>
+                         }}
+                    </div>
+               </div>
+          </div>
+
+          <button type="submit" class="nata-btn primary mt-10" (click)="openDialog()" [disabled]="!isValidForSubmission()">Access my pregnancy</button>
+     </form>
+     }
+</div>

@@ -1,9 +1,105 @@
-<section class="px-5 py-3.5">
+<section class="px-5 py-7 text-center my-10">
      <h1 nata-h1>
-          predict maternal risk before it becomes critical
+          Predict maternal risk before it becomes critical
      </h1>
 
-     <h2 [class]="style">helllowww</h2>
+     <p nata-p class="md:px-[18%]">
+          NataBridge empowers <i>healthcare workers</i> with Ai-assisted maternal risk assessment tools, turning
+          clininal data
+          into life-saving early warnings for expecting mothers.
+     </p>
 
-     <!-- <p class="text-4xl">hello</p> -->
+     <button class="nata-btn primary mx-auto px-7.5 py-2.5 mt-6 capitalize" routerLink="/assessment">Start assessment</button>
+
+     <div class="mt-15 mx-auto max-w-[95%]">
+          <img src="./home-heros.webp" alt="image depicting a pregnant woman"
+               class=" w-full max-h-96 object-cover object-center rounded-2xl" />
+     </div>
 </section>
+
+<section class="px-4.5 py-5">
+     <header class="mb-5">
+          <fieldset class="border-t">
+               <legend class="text-3xl capitalize pl-3.5 pr-7">
+                    why early maternal risk detection matters
+               </legend>
+               <p></p>
+          </fieldset>
+     </header>
+     <div class="card-container">
+          <div class="card">
+               <p class="capitalize" nata-lead>late detection</p>
+               <p class="text-sm">Over 60% of complications are <span
+                         class="text-(--nata-primary-hover) font-medium">identified too late</span> due to lack of
+                    real-time monitoring tools in clinical settings.</p>
+          </div>
+          <div class="card">
+               <p class="capitalize" nata-lead>Maternal Mortality</p>
+               <p class="text-sm">
+                    Informed interventions could prevent 80% of <span
+                         class="text-(--nata-primary-hover) font-medium">maternal deaths</span> worldwide through early
+                    warning systems.</p>
+          </div>
+          <div class="card">
+               <p class="capitalize" nata-lead>clinical workload</p>
+               <p class="text-sm">
+                    Healthcare worker are
+                    <span class="text-(--nata-primary-hover) font-medium">overburdened</span>; NataBridge automates risk
+                    scoring to let providers focus on patient care
+               </p>
+          </div>
+     </div>
+</section>
+
+<section class="px-4.5 pt-20 pb-5">
+     <header class="mb-5">
+          <p class="text-4xl capitalize">how natabridge <br>secures better outcomes</p>
+     </header>
+     <article class="step-container">
+          <div class="step">
+               <p class="capitalize" nata-lead>register mother</p>
+               <p nata-muted>
+                    Capture patient demographics and history
+               </p>
+          </div>
+
+          <div class="step">
+               <p class="capitalize" nata-lead>perform assessment</p>
+               <p nata-muted>
+                    Guided digital health checkup
+               </p>
+          </div>
+
+          <div class="step">
+               <p class="capitalize" nata-lead>ai risk prediction</p>
+               <p nata-muted>
+                    Instant scoring using clinical models
+               </p>
+          </div>
+
+          <div class="step">
+               <p class="capitalize" nata-lead>clinical plans</p>
+               <p nata-muted>
+                    Personalised health recommendation
+               </p>
+          </div>
+
+          <div class="step">
+               <p class="capitalize" nata-lead>continuous care</p>
+               <p nata-muted>
+                    Long term tracking of vitals
+               </p>
+          </div>
+     </article>
+</section>
+
+<section class="py-30 px-50 max-md:px-30">
+     <article class="py-14 px-12 max-md:px-10 rounded-2xl bg-(--nata-text-primary) text-neutral-100 text-center">
+          <h1 nata-h1>Ready to Transform Maternal Outcomes?</h1>
+          <p class="mt-6 mb-6 px-30">Join hundreds of healthcare facilities already using NataBridge to make maternal
+               healthcare safer and smarter</p>
+          <button class="nata-btn secondary scale-105 mx-auto">Take a demo</button>
+     </article>
+</section>
+
+<nata-footer />

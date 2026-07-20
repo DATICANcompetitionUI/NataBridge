@@ -1,0 +1,10 @@
+<div [ngStyle]="{
+     'background-color': riskColor().background,
+     'border': '1px solid ' + riskColor().border,
+     'color': riskColor().text,
+     'height': '100dvh'
+}">
+     <nata-test-nav-bar />
+
+     <nata-assessment-result [result]="result()" [styles]="riskColor()" [userInput]="input()"  />
+</div>

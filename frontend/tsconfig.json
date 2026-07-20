@@ -13,9 +13,7 @@
     "module": "preserve",
     "paths": {
       "@spartan-ng/helm/typography": ["./libs/ui/typography/src/index.ts"],
-      "@spartan-ng/helm/utils": ["./libs/ui/utils/src/index.ts"],
-      "@spartan-ng/helm/button": ["./libs/ui/button/src/index.ts"],
-      "@spartan-ng/helm/alert-dialog": ["./libs/ui/alert-dialog/src/index.ts"]
+      "@spartan-ng/helm/utils": ["./libs/ui/utils/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

@@ -1,0 +1,123 @@
+<div class="px-30">
+     <h3 nata-h3 class="capitalize">
+          ai assessment result
+     </h3>
+
+     <p>
+          Your assessment has been completed successfully. Below is your AI-generated maternal health risk report based
+          on the information you provided.
+     </p>
+
+     <div class="flex-center gap-x-32 pl-5 mt-5" [ngStyle]="{
+     'border-left': '8px solid ' + styles()?.border,
+     'background-color': styles()?.background,
+     'color': styles()?.text
+     }">
+          <h1 class="text-5xl tracking-wide">
+               {{ result()?.prediction }}
+          </h1>
+
+          <section class="flex flex-col items-center gap-2.5">
+               <div class="p-0.35 rounded-full w-fit relative" [ngStyle]="{
+               'border': '1px solid ' + styles()?.border
+          }">
+                    <mat-spinner mode="determinate" [value]="34" diameter="70" [ngStyle]="{
+                    'stroke' : styles()?.text
+               }"></mat-spinner>
+                    <span class="absolute left-1/2 top-1/2 -translate-1/2 font-medium">
+                         {{ confidencePercent() }}%
+                    </span>
+               </div>
+               <span class="uppercase text-xs font-medium">ai confidence</span>
+          </section>
+     </div>
+
+     <section class="mt-10">
+          <p class="text-base font-semibold capitalize">
+               Key Contributing Factors
+          </p>
+
+          <p class="text-sm text-gray-500 mt-1">
+               These health measurements had the greatest influence on your assessment.
+          </p>
+     </section>
+
+     <table mat-table [dataSource]="dataSource" class="w-full mt-2.5">
+
+          <!-- Vital -->
+          <ng-container matColumnDef="vital">
+               <th mat-header-cell *matHeaderCellDef>
+                    Vital
+               </th>
+
+               <td mat-cell *matCellDef="let row">
+                    {{ row.vital }}
+               </td>
+          </ng-container>
+
+          <!-- Current Value -->
+          <ng-container matColumnDef="currentValue">
+               <th mat-header-cell *matHeaderCellDef>
+                    Current Value
+               </th>
+
+               <td mat-cell *matCellDef="let row">
+                    {{ row.currentValue }}
+               </td>
+          </ng-container>
+
+          <!-- Influence -->
+          <ng-container matColumnDef="influence">
+               <th mat-header-cell *matHeaderCellDef>
+                    Influence
+               </th>
+
+               <td mat-cell *matCellDef="let row">
+
+                    <span [class]="row.influence > 0 ? 'text-red-500' : 'text-green-600'">
+
+                         {{ row.influence | number:'1.3-3' }}
+
+                    </span>
+
+               </td>
+          </ng-container>
+
+          <!-- Visual Impact -->
+          <ng-container matColumnDef="progress">
+               <th mat-header-cell *matHeaderCellDef>
+                    Visual Impact
+               </th>
+
+               <td mat-cell *matCellDef="let row">
+
+                    <div class="flex items-center gap-3">
+
+                         <mat-progress-bar mode="determinate" [value]="row.progress">
+                         </mat-progress-bar>
+
+                         <span class="text-xs text-gray-500">
+                              {{ row.progress | number:'1.0-0' }}%
+                         </span>
+
+                    </div>
+
+               </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+     </table>
+
+     <section class="mt-10">
+          <p class="text-base font-semibold capitalize">
+               Recommendations
+          </p>
+
+          <p class="text-sm text-gray-500 mt-1">
+               These health measurements had the greatest influence on your assessment.
+          </p>
+     </section>
+</div>

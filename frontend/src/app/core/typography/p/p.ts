@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { hlmP } from '@spartan-ng/helm/typography';
-
 
 @Component({
-  selector: 'nata-p',
+  selector: 'p[nata-p]',
   imports: [],
-  templateUrl: './p.html',
-  styleUrl: './p.css',
+  template: `<ng-content></ng-content>`,
 })
-export class P {
-  style = hlmP;
-}
+export class P {}

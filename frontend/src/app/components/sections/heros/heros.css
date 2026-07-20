@@ -1,0 +1,56 @@
+.card-container {
+     display: grid;
+     gap: 20px;
+     grid-template-rows: repeat(1, min-content);
+     grid-template-columns: repeat(3, minmax(50px, 1fr));
+     grid-auto-rows: min-content;
+
+     .card {
+          padding: 200px 24px 34px;
+          border-radius: 20px;
+          background-color: rgba(from var(--nata-primary-hover) r g b /0.2);
+     }
+}
+
+@media screen and (max-width: 768px) {
+     .card-container {
+          grid-template-rows: repeat(1, min-content);
+          grid-template-columns: repeat(3, minmax(50px, 1fr));
+          grid-auto-rows: min-content;
+     }
+}
+
+@media screen and (max-width: 425px) {
+     .card-container {
+          grid-template-rows: repeat(1, min-content);
+          grid-template-columns: repeat(1, minmax(50px, 1fr));
+          grid-auto-rows: min-content;
+     }
+}
+
+.step-container {
+     counter-reset: step-counter;
+
+     .step {
+          position: relative;
+          padding-block: 16px;
+          margin-bottom: 10px;
+          padding-left: 120px;
+
+          &::before {
+               position: absolute;
+               left: 0;
+               top: 0;
+               font-size: 48px;
+               font-weight: 200;
+               content: "0" counter(step-counter);
+               counter-increment: step-counter;
+               line-height: normal;
+               padding-top: 8px;
+          }
+     }
+
+     .step:not(:last-of-type) {
+          border-bottom: 1px solid #666;
+     }
+}

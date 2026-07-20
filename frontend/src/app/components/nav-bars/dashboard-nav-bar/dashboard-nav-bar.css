@@ -1,0 +1,27 @@
+.sidebar {
+     border-right: 1px solid oklch(0.922 0 0);
+     background-color: whitesmoke;
+
+     & button {
+          text-transform: capitalize;
+          font-weight: 500;
+          display: block;
+          width: 100%;
+          text-align: left;
+          padding: 8px 10px;
+          cursor: pointer;
+
+          &:focus,
+          &:focus-visible {
+               outline: 1px solid oklch(0.708 0 0);
+          }
+
+          &:hover {
+               background-color: rgb(from #050505 r g b /0.02);
+          }
+
+          &:where(.active) {
+               background-color: rgb(from #050505 r g b /0.02);
+          }
+     }
+}

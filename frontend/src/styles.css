@@ -1,87 +1,9 @@
-@layer theme, base, components, utilities;
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/preflight.css' layer(base);
 @import 'tailwindcss/utilities.css';
 
-@import '@spartan-ng/brain/hlm-tailwind-preset.css';
-
-
-:root {
-  color-scheme: light;
-
-  --font-sans:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-:root.dark {
-  color-scheme: dark;
-
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.985 0 0);
-  --sidebar-primary-foreground: oklch(0.205 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
 
 :root {
      --nata-primary: #0F766E;
@@ -91,6 +13,87 @@
      --nata-text-primary: #111827;
      --nata-text-secondary: #6B7280;
      --nata-text-muted: #9CA3AF;
+     --nata-warning: #DF0000;
+
+     color-scheme: light;
+     --font-sans: 'DM Sans', sans-serif;
+
+     --radius: 0.625rem;
+     --background: oklch(1 0 0);
+     --foreground: oklch(0.145 0 0);
+     --card: oklch(1 0 0);
+     --card-foreground: oklch(0.145 0 0);
+     --popover: oklch(1 0 0);
+     --popover-foreground: oklch(0.145 0 0);
+     --primary: oklch(0.205 0 0);
+     --primary-foreground: oklch(0.985 0 0);
+     --secondary: oklch(0.97 0 0);
+     --secondary-foreground: oklch(0.205 0 0);
+     --muted: oklch(0.97 0 0);
+     --muted-foreground: oklch(0.556 0 0);
+     --accent: oklch(0.97 0 0);
+     --accent-foreground: oklch(0.205 0 0);
+     --destructive: oklch(0.577 0.245 27.325);
+     --border: oklch(0.922 0 0);
+     --input: oklch(0.922 0 0);
+     --ring: oklch(0.708 0 0);
+     --sidebar: oklch(0.985 0 0);
+     --sidebar-foreground: oklch(0.145 0 0);
+     --sidebar-primary: oklch(0.205 0 0);
+     --sidebar-primary-foreground: oklch(0.985 0 0);
+     --sidebar-accent: oklch(0.97 0 0);
+     --sidebar-accent-foreground: oklch(0.205 0 0);
+     --sidebar-border: oklch(0.922 0 0);
+     --sidebar-ring: oklch(0.708 0 0);
+}
+
+:root.dark {
+     color-scheme: dark;
+     --background: oklch(0.145 0 0);
+     --foreground: oklch(0.985 0 0);
+     --card: oklch(0.205 0 0);
+     --card-foreground: oklch(0.985 0 0);
+     --popover: oklch(0.205 0 0);
+     --popover-foreground: oklch(0.985 0 0);
+     --primary: oklch(0.922 0 0);
+     --primary-foreground: oklch(0.205 0 0);
+     --secondary: oklch(0.269 0 0);
+     --secondary-foreground: oklch(0.985 0 0);
+     --muted: oklch(0.269 0 0);
+     --muted-foreground: oklch(0.708 0 0);
+     --accent: oklch(0.269 0 0);
+     --accent-foreground: oklch(0.985 0 0);
+     --destructive: oklch(0.704 0.191 22.216);
+     --border: oklch(1 0 0 / 10%);
+     --input: oklch(1 0 0 / 15%);
+     --ring: oklch(0.556 0 0);
+     --sidebar: oklch(0.205 0 0);
+     --sidebar-foreground: oklch(0.985 0 0);
+     --sidebar-primary: oklch(0.985 0 0);
+     --sidebar-primary-foreground: oklch(0.205 0 0);
+     --sidebar-accent: oklch(0.269 0 0);
+     --sidebar-accent-foreground: oklch(0.985 0 0);
+     --sidebar-border: oklch(1 0 0 / 10%);
+     --sidebar-ring: oklch(0.556 0 0);
+}
+
+body {
+     letter-spacing: -0.5px;
+}
+
+input, select, textarea {
+     outline: none
+}
+
+button:disabled {
+     background-color: var(--ring) !important;
+     opacity: 0.8;
+     pointer-events: none;
+}
+
+textarea {
+     max-height: 120px;
+     resize: none;
 }
 
 .flex-center {
@@ -100,20 +103,118 @@
 
 .nata-btn {
      color: #fff;
-     padding: 4px 12px;
      font-size: 14px;
      cursor: pointer;
+     border-radius: 4px;
+     border: 1.5px solid transparent;
+
+     @apply flex items-center gap-1.5 py-1.5 px-6;
+
+     &.big {
+          padding: 8px 24px;
+          font-size: 16px;
+     }
 
      &.primary {
-      background-color: var(--nata-primary);
-      transition: all 200ms ease-out;
+          background-color: var(--nata-primary);
+          transition: all 200ms ease-out;
 
-      &:hover {
-        background-color: var(--nata-primary-hover);
-      }
+          &:hover {
+               background-color: var(--nata-primary-hover);
+          }
      }
 
      &.secondary {
-      background-color: var(--nata-secondary);
+          color: var(--nata-primary-hover);
+          border-color: rgba(var(--nata-primary-hover), 0.2);
+          transition: 200ms ease;
+
+          &:hover {
+               background-color: rgba(from var(--nata-primary-hover) r g b /0.15);
+               /* color: var(--color-white) */
+          }
      }
+}
+
+p[nata-p] {
+     @apply leading-6 not-first:mt-4;
+}
+
+p[nata-small] {
+     @apply text-sm font-medium leading-none;
+}
+
+p[nata-lead] {
+     @apply text-xl;
+}
+
+p[nata-muted] {
+     @apply text-sm text-(--muted-foreground);
+}
+
+h3[nata-h3] {
+     @apply scroll-m-20 text-2xl tracking-tight;
+}
+
+h2[nata-h2] {
+     @apply scroll-m-20 pb-2 text-3xl tracking-tight transition-colors first:mt-0;
+}
+
+h1[nata-h1] {
+     @apply scroll-m-20 text-5xl tracking-tight lg:text-5xl;
+}
+
+.separator {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: oklch(0.922 0 0);
+}
+
+.row {
+     margin-bottom: 15px;
+     display: flex;
+     align-items: center;
+     gap: 15px;
+     flex-wrap: wrap;
+     
+     .field {
+          flex:1;
+     }
+
+     .field label {
+          display: block;
+          font-weight: 500;
+          width: 100%;
+          font-size: 14px;
+          margin-bottom: 5px;
+          text-transform: capitalize;
+     }
+
+     .field :where(input, textarea, select)::placeholder {
+          letter-spacing: -1.25px;
+     }
+
+     .nata-input,
+     .field input,
+     .field select,
+     .field textarea {
+          width: 100%;
+          padding: 5px 12px;
+          border-radius: 4px;
+          border: 1px solid var(--input);
+          transition: 200ms ease-out;
+     }
+
+     .nata-input:where(:active, :focus),
+     .field input:where(:active, :focus) {
+          border-color: var(--ring);
+          box-shadow: 0 0 0 0.5px var(--ring);
+     }
+}
+
+.error-field {
+     color: var(--destructive);
+     padding-left: 5px;
+     padding-top: 2.5px;
 }

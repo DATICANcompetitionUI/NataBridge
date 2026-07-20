@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { H1 } from "../../../core/typography/h1/h1";
-import { hlmH2 } from '@spartan-ng/helm/typography';
+import { Muted } from "../../../core/typography/muted/muted";
+import { Footer } from "../../footer/footer";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'nata-heros',
-  imports: [H1],
+  imports: [H1, Muted, Footer, RouterModule],
   templateUrl: './heros.html',
   styleUrl: './heros.css',
 })
 export class Heros {
-  style = hlmH2;
+
 }

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { P } from "../../../core/typography/p/p";
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'nata-landing-nav-bar',
-  imports: [P],
+  imports: [RouterModule],
   templateUrl: './landing-nav-bar.html',
   styleUrl: './landing-nav-bar.css',
 })

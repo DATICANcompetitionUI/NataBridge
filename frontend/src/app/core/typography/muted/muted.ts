@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { hlmMuted } from '@spartan-ng/helm/typography';
 
 @Component({
-  selector: 'nata-muted',
+  selector: 'p[nata-muted]',
   imports: [],
-  templateUrl: './muted.html',
-  styleUrl: './muted.css',
+  template: `<ng-content></ng-content>`,
 })
-export class Muted {
-  style = hlmMuted;
-}
+export class Muted {}

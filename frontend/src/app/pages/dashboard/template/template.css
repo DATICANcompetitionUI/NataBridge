@@ -1,0 +1,16 @@
+.container {
+     display: grid;
+     grid-template-areas: 'sidebar content';
+     grid-template-columns: 15vw 1fr;
+     gap: 10px;
+     color: oklch(0.145 0 0);
+
+     & s {
+          grid-area: sidebar;
+     }
+
+     & .content {
+          grid-area: content;
+          background-color: #fafafa;
+     }
+}

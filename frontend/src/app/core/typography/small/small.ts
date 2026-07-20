@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { hlmSmall } from '@spartan-ng/helm/typography';
 
 @Component({
-  selector: 'nata-small',
+  selector: 'p[nata-small]',
   imports: [],
-  templateUrl: './small.html',
-  styleUrl: './small.css',
+  template: `<ng-content></ng-content>`,
 })
-export class Small {
-  style = hlmSmall;
-}
+export class Small {}

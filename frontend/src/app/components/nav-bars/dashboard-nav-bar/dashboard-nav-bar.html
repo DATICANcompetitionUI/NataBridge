@@ -1,0 +1,21 @@
+<section class="h-dvh w-full sidebar relative">
+     <div class="top max-h-12 flex-center py-5 px-1.5  cursor-pointer">
+          <a href="">
+               <img src="./logo.webp" alt="Natabridge logo" class="h-8.5">
+          </a>
+          <span class="capitalize">nataBridge</span>
+     </div>
+     <span class="separator"></span>
+     <main class="px-1.5 py-3 flex flex-col gap-y-1.5">
+          <button type="button" routerLink="" routerLinkActive="active">home</button>
+          <button type="button" routerLink="patients" routerLinkActive="active">patients</button>
+          <button type="button" routerLink="assessment" routerLinkActive="active">assessments</button>
+     </main>
+     <div class="absolute w-full bottom-0 px-3.5">
+          <button type="button">profile</button>
+          <button type="button" class="flex-center gap-x-2.5">
+               <ng-icon name="hugeLogout01" />
+               logout
+          </button>
+     </div>
+</section>
