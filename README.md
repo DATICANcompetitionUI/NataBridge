@@ -14,7 +14,6 @@ AI-powered maternal health risk stratification system for low-resource settings
 - Offline-first architecture for Primary Health Centres and Community Health Workers.
 - Hybrid AI + rule-based emergency alert system for severe hypertension.
 
-```
 > **Developed for the NACOS–UI DATICAN AI in Medicine Competition 2026**, NataBridge combines explainable AI, clinical decision support, and stakeholder-informed design to improve maternal healthcare in low-resource settings.
 
 
