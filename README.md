@@ -332,18 +332,6 @@ Patient Record Store (SQLite)
 ---
 
 
-## Competition Deliverables
-
-✔ AI-powered maternal risk prediction model
-✔ Explainable AI using SHAP
-✔ Streamlit Clinical Dashboard
-✔ FastAPI Backend
-✔ Clinical Recommendation Engine
-✔ Hybrid Rule-based Alert Engine
-✔ Documentation
-✔ Stakeholder Validation
-✔ Clinical Rationale
-✔ GitHub Repository
 
 ## Competition Deliverables
 Team NataBridge developed and worked on the following deliverables:
