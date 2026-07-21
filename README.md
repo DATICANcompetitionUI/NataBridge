@@ -201,25 +201,28 @@ This dataset served as the baseline for developing and validating the NataBridge
 
 
 # How the AI Works (AI Workflow)
-Input (Patient Clinical Data)
-        │
-        ▼
-Feature Engineering
-        │
-        ▼
-XGBoost Prediction Model
-        │
-        ▼
-SHAP Explainability
-        │
-        ▼
-Recommendation Engine
-        │
-        ▼
-Emergency Alert Engine
-        │
-        ▼
-Healthcare Worker Dashboard
+
+```text
+                 Patient Clinical Data
+                         │
+                         ▼
+              Feature Engineering
+                         │
+                         ▼
+          XGBoost Prediction Model
+                         │
+                         ▼
+              SHAP Explainability
+                         │
+                         ▼
+           Recommendation Engine
+                         │
+                         ▼
+           Emergency Alert Engine
+                         │
+                         ▼
+      Healthcare Worker Dashboard
+```
 
 1. Input: Healthcare worker enters maternal clinical information.
 2. Prediction: AI model predicts maternal risk level.
@@ -234,7 +237,7 @@ Healthcare Worker Dashboard
 - Emergency alerts
 
 
-# AI Model Performance Metrics
+## AI Model Performance Metrics
 The NataBridge maternal risk prediction model was evaluated using standard machine learning performance metrics.
 
 | Metric | Value |
@@ -248,13 +251,13 @@ The NataBridge maternal risk prediction model was evaluated using standard machi
 These metrics demonstrate the model's ability to accurately identify maternal risk while minimizing false negatives, which is critical for early detection of pregnancy-related complications.
 
 
-# Explainable AI (SHAP)
+## Explainable AI (SHAP)
 Unlike many black-box AI systems, NataBridge provides transparent explanations using SHAP.
 
 Healthcare workers can see the most influential clinical features contributing to each prediction, improving trust, accountability, and interpretability.
 
 
-# Clinical Decision Support
+## Clinical Decision Support
 Following every prediction, NataBridge generates structured recommendations including:
 
 - Clinical Urgency Assessment
@@ -266,7 +269,8 @@ Following every prediction, NataBridge generates structured recommendations incl
 
 The system is designed to support-not replace-clinical judgment.
 
-## Clinical Rationale
+
+# Clinical Rationale
 
 NataBridge was developed to address the early identification of Hypertensive Disorders of Pregnancy (HDP), including gestational hypertension, preeclampsia, severe preeclampsia, and eclampsia—conditions that remain among the leading causes of maternal mortality in Nigeria and Sub-Saharan Africa.
 
