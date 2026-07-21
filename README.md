@@ -135,7 +135,23 @@ Hypertensive disorders of pregnancy are among the leading causes of maternal mor
 - Referral recommendations.
 - User-friendly dashboard for healthcare workers.
 
-# AI Workflow
+
+# What Makes NataBridge Unique
+| Existing Solutions             | NataBridge                                                                                                             |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| Black-box AI predictions       | Explainable AI using SHAP for transparent decision-making                                                              |
+| Prediction only                | Prediction + Clinical Decision Support recommendations                                                                 |
+| Focused on hospitals           | Designed for Community Health Workers and Primary Health Centres                                                       |
+| Internet-dependent             | Offline-first architecture for low-resource settings                                                                   |
+| Limited clinical guidance      | Evidence-informed referral pathways and emergency alerts                                                               |
+| Generic healthcare tools       | Specifically tailored for maternal risk prediction and hypertensive disorders of pregnancy                             |
+| Minimal stakeholder engagement | Co-designed and refined through community surveys and validation by nurses, doctors, PHCs, and maternal health experts |
+| Difficult to interpret         | Confidence scores, SHAP explanations, and clinician-friendly recommendations                                           |
+
+NataBridge combines artificial intelligence, explainable machine learning, and evidence-informed clinical decision support into a single platform tailored for low-resource maternal healthcare. By integrating AI predictions with transparent explanations, emergency referral guidance, and extensive stakeholder validation, NataBridge goes beyond risk prediction to provide a practical, trusted, and scalable solution for frontline healthcare workers.
+
+
+# How the AI Works (AI Workflow)
 Input
 
 ↓
@@ -166,10 +182,26 @@ Clinical Decision
 - Referral guidance
 - Emergency alerts
 
-# Explainable AI
+
+# AI Model Performance Metrics
+The NataBridge maternal risk prediction model was evaluated using standard machine learning performance metrics.
+
+| Metric | Value |
+|---------|-------|
+| Accuracy | XX.X% |
+| Precision | XX.X% |
+| Recall | XX.X% |
+| F1-Score | XX.X% |
+| ROC-AUC | XX.X% |
+
+These metrics demonstrate the model's ability to accurately identify maternal risk while minimizing false negatives, which is critical for early detection of pregnancy-related complications.
+
+
+# Explainable AI (SHAP)
 Unlike many black-box AI systems, NataBridge provides transparent explanations using SHAP.
 
 Healthcare workers can see the most influential clinical features contributing to each prediction, improving trust, accountability, and interpretability.
+
 
 # Clinical Decision Support
 Following every prediction, NataBridge generates structured recommendations including:
@@ -588,6 +620,46 @@ We sincerely appreciate and say Thank You to:
 - Faculty of Nursing, University of Ibadan
 - University College Hospital (UCH), Ibadan
 - Community survey participants
+
+
+## Conclusion & Future Vision
+
+NataBridge demonstrates how explainable artificial intelligence can strengthen maternal healthcare in low-resource settings by enabling early risk identification, supporting evidence-informed clinical decisions, and facilitating timely referrals.
+
+Developed with continuous input from healthcare professionals, researchers, and potential users, NataBridge combines machine learning, explainable AI, and clinical decision support into a practical solution designed for Community Health Workers and Primary Health Centres. Rather than replacing healthcare professionals, the platform empowers them with transparent insights and actionable recommendations that can improve maternal outcomes.
+
+Our long-term vision is to evolve NataBridge into a scalable digital health platform integrated with wearable monitoring devices, national health systems, and community-based maternal care programs across Africa, contributing to the reduction of preventable maternal and neonatal deaths while advancing equitable access to quality healthcare.
+
+
+## References
+
+The development of NataBridge was informed by established literature, international clinical guidelines, publicly available machine learning resources, and open-source technologies.
+
+1. World Health Organization. (2023). Trends in Maternal Mortality 2000–2023: Estimates by WHO, UNICEF, UNFPA, World Bank Group and the United Nations Population Division. Geneva, Switzerland.
+2. World Health Organization. (2023). WHO Recommendations on Antenatal Care for a Positive Pregnancy Experience. Geneva, Switzerland.
+3. International Society for the Study of Hypertension in Pregnancy (ISSHP). (2021). The ISSHP Classification, Diagnosis and Management Recommendations for Hypertensive Disorders of Pregnancy.
+4. American College of Obstetricians and Gynecologists (ACOG). (2020). Gestational Hypertension and Preeclampsia: Practice Bulletin No. 222.
+5. Lundberg, S. M., & Lee, S. I. (2017). A Unified Approach to Interpreting Model Predictions. Proceedings of the 31st Conference on Neural Information Processing Systems (NeurIPS).
+6. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining.
+7. Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
+8. Harris, C. R., et al. (2020). Array Programming with NumPy. Nature, 585(7825), 357–362.
+9. McKinney, W. (2010). Data Structures for Statistical Computing in Python. Proceedings of the 9th Python in Science Conference.
+10. Plotly Technologies Inc. Plotly Python Graphing Library. https://plotly.com/python/
+11. FastAPI. FastAPI Documentation. https://fastapi.tiangolo.com/
+12. React. React Documentation. https://react.dev/
+13. Python Software Foundation. Python Programming Language. https://www.python.org/
+14. SHAP Documentation. SHapley Additive Explanations. https://shap.readthedocs.io/
+15. University College Hospital (UCH), Ibadan; Agbowo Primary Health Centre, Ibadan; Redeemer's Hospital, Ibadan. Clinical stakeholder consultations and expert feedback conducted during the development of NataBridge (2026).
+16. NataBridge Community Needs Assessment Survey (2026). Primary stakeholder survey conducted among prospective users to identify healthcare challenges, validate solution needs, and inform system design.
+
+    ### Primary Sources
+The following primary sources directly informed the design and refinement of NataBridge:
+
+- Community Needs Assessment Survey conducted by Team NataBridge (2026).
+- Stakeholder engagement with Agbowo Primary Health Centre, Ibadan.
+- Stakeholder engagement with Redeemer's Hospital, Ibadan.
+- Expert consultation with a Nurse and Midwife, Faculty of Nursing, University of Ibadan.
+- Clinical research consultation with a Nurse Researcher, University College Hospital (UCH), Ibadan.
 
 
 *NataBridge - DATICAN AI in Medicine Competition 2026*  
