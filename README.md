@@ -136,11 +136,11 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 __________________
 
-# NataBridge — Clinical Rationale
+# NataBridge - Clinical Rationale
 
 **Version:** 1.0.0 
 **Last Updated:** July 2026  
-**Our Repository:** https://github.com/ojibovictor111-cpu/natabridge
+**Our Repository:** https://github.com/DATICANcompetitionUI/natabridge
 
 ---
 
@@ -310,11 +310,11 @@ clinics, and maternal health camps in rural areas.
 
 
 
-## 9. Important Limitations
+## 9. Limitations
 
-NataBridge is a research prototype built for the DATICAN AI in Medicine
-Competition. The following limitations must be clearly understood before
-any consideration of real-world deployment:
+The NataBridge solution prototype has been built for the DATICAN AI in Medicine
+Competition. The following limitations currently exist and are being taken note of and worked upon before
+proceeding for full real-world deployment:
 
 **1. Not validated on Nigerian patient data.**
 The model was trained on the UCI Maternal Health Risk Dataset, which was
