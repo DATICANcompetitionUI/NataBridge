@@ -6,7 +6,6 @@ AI-powered maternal health risk stratification system for low-resource settings
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
-![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
 ![XGBoost](https://img.shields.io/badge/XGBoost-ML-orange)
 ![SHAP](https://img.shields.io/badge/Explainable%20AI-SHAP-purple)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
@@ -311,25 +310,28 @@ XGBoost Risk Classification Model
     │
     ▼
 SHAP Explainability Layer
-│
-▼
-Alert Engine (Rule + AI Hybrid)
-│
-▼
-CHW / Clinician Dashboard (Streamlit)
-│
-▼
-Patient Record Store (SQLite)
+    │
+    ▼
+Alert Engine (Rule + AI Hybrid) & Recommendation Engine
+    │
+    ▼
+CHW / Clinician Dashboard (Angular)
+    │
+    ▼
+Patient Record Store (Postgresql)
+```
 
 
 ## The Technology Stack
 
-Machine Learning: Scikit-learn, XGBoost
-Explainability: SHAP
-API: FastAPI, Fastify
-Frontend: Angular
-Database: Postgresql
-Containerization: Docker
+| Layer | Technology |
+|---|---|
+| Machine Learning | XGBoost, scikit-learn |
+| Explainability | SHAP |
+| API | FastAPI |
+| Frontend | Angular |
+| Database | Postgresql |
+| Containerization | Docker |
 
 ---
 
@@ -342,8 +344,8 @@ Team NataBridge developed and worked on the following deliverables:
 2. Explainable AI using SHAP for transparent predictions
 3. Hybrid AI + rule-based clinical recommendation engine
 4. Emergency hypertension alert system
-5. Anugular-based Clinical Decision Support Dashboard
-6. Fastify backend API
+5. Angular-based Clinical Decision Support Dashboard
+6. FastAPI backend API
 7. Maternal risk classification (Low / Medium / High)
 8. Stakeholder validation through community surveys and clinical engagement
 9. Comprehensive Clinical Rationale documentation
@@ -355,48 +357,312 @@ Together, these deliverables demonstrate a complete, explainable, stakeholder-in
 ## Repository Structure
 The repository is organized into modular components to separate data processing, machine learning, backend services, frontend visualization, and testing. This structure improves maintainability, scalability, and ease of collaboration.
 
-### Repository Overview
-
-| Directory/File | Description |
-|---------------|-------------|
-| `data/` | Raw, processed, and sample maternal health datasets |
-| `notebooks/` | Exploratory data analysis, model training, and evaluation notebooks |
-| `src/api/` | FastAPI backend for AI prediction services |
-| `src/ml/` | Machine learning pipeline, XGBoost model, prediction engine, and SHAP explainability |
-| `src/dashboard/` | Streamlit dashboard for healthcare professionals |
-| `src/database/` | Database models and CRUD operations |
-| `tests/` | Unit and integration tests |
-| `docker-compose.yml` | Docker Compose configuration |
-| `Dockerfile` | Docker container configuration |
-| `requirements.txt` | Python project dependencies |
-| `README.md` | Project documentation |
-
 ### Directory Tree
 ```text
 natabridge/
-│
-├── data/
-│   ├── raw/                         # Original maternal health dataset
-│   ├── processed/                   # Cleaned and feature-engineered datasets
-│   └── sample_patients.json         # Sample patient records for testing
-│
-├── notebooks/
-│   ├── 01_EDA.ipynb                 # Exploratory Data Analysis
-│   ├── 02_model_training.ipynb      # Model training pipeline
-│   └── 03_model_evaluation.ipynb    # Model evaluation and performance metrics
-│
-├── src/
-│   ├── api/                         # FastAPI backend services
-│   ├── ml/                          # Machine Learning models, prediction & SHAP
-│   ├── dashboard/                   # Streamlit web dashboard
-│   └── database/                    # Database models and CRUD operations
-│
-├── tests/                           # Unit and integration tests
-│
-├── docker-compose.yml               # Docker Compose configuration
-├── Dockerfile                       # Docker image definition
-├── requirements.txt                 # Python dependencies
-└── README.md                        # Project documentation
+├── ai
+│   ├── app
+│   │   ├── api
+│   │   │   └── predict.py
+│   │   ├── core
+│   │   │   └── model_loader.py
+│   │   ├── schemas
+│   │   │   ├── request.py
+│   │   │   └── response.py
+│   │   ├── services
+│   │   │   ├── predictor.py
+│   │   │   └── recommendations.py
+│   │   └── main.py
+│   ├── data
+│   │   ├── processed
+│   │   │   ├── test
+│   │   │   │   ├── x_test.csv
+│   │   │   │   └── y_test.csv
+│   │   │   └── train
+│   │   │       ├── x_train.csv
+│   │   │       └── y_train.csv
+│   │   └── raw
+│   │       ├── kaggle_dataset_test.csv
+│   │       └── uci_dataset_train.csv
+│   ├── models
+│   │   ├── random_forest.pkl
+│   │   └── xgboost.pkl
+│   ├── notebooks
+│   │   ├── 01_EDA.ipynb
+│   │   ├── 02_Preprocessing.ipynb
+│   │   ├── 03_Training.ipynb
+│   │   ├── 04_Evaluation.ipynb
+│   │   └── 05_Explainability.ipynb
+│   ├── Dockerfile
+│   ├── requirements-dev.txt
+│   ├── requirements.lock.xt
+│   └── requirements.txt
+├── backend
+│   ├── configs
+│   │   └── db.config.ts
+│   ├── controllers
+│   │   ├── assessment
+│   │   │   └── assessment.controller.ts
+│   │   ├── patient
+│   │   │   └── patient.controller.ts
+│   │   └── user
+│   │       └── user.controller.ts
+│   ├── db
+│   │   ├── index
+│   │   │   └── patient.index.sql
+│   │   ├── views
+│   │   │   └── getPatientAssessment.view.sql
+│   │   ├── pool.ts
+│   │   └── tables.db.sql
+│   ├── models
+│   │   ├── ai
+│   │   │   └── aiApiResponse.model.ts
+│   │   ├── assessment
+│   │   │   ├── dto
+│   │   │   │   └── assessment.dto.ts
+│   │   │   ├── repo
+│   │   │   │   └── assessment.repo.ts
+│   │   │   └── assessmentFeatures.model.ts
+│   │   ├── patient
+│   │   │   ├── dto
+│   │   │   │   └── patient.dto.ts
+│   │   │   └── repo
+│   │   │       └── patients.repo.ts
+│   │   └── users
+│   │       └── user.model.ts
+│   ├── repositories
+│   │   ├── assessment
+│   │   │   └── assessment.repo.ts
+│   │   ├── patient
+│   │   │   └── patient.repo.ts
+│   │   └── prediction.repo.ts
+│   ├── routes
+│   │   ├── assessment
+│   │   │   └── assessment.route.ts
+│   │   ├── patient
+│   │   │   └── patient.route.ts
+│   │   └── user
+│   │       └── user.route.ts
+│   ├── services
+│   │   ├── assessment
+│   │   │   └── assessment.service.ts
+│   │   └── patient
+│   │       └── patient.service.ts
+│   ├── Dockerfile
+│   ├── app.ts
+│   ├── fastify.d.ts
+│   ├── package.json
+│   ├── pnpm-lock.yaml
+│   └── pnpm-workspace.yaml
+├── docs
+│   ├── architecture.md
+│   ├── clinical_rationale.md
+│   └── technical_decisions.md
+├── frontend
+│   ├── .angular
+│   ├── public
+│   │   ├── favicon
+│   │   │   ├── android-chrome-192x192.png
+│   │   │   ├── android-chrome-512x512.png
+│   │   │   ├── apple-touch-icon.png
+│   │   │   ├── favicon-16x16.png
+│   │   │   ├── favicon-32x32.png
+│   │   │   ├── favicon.ico
+│   │   │   └── site.webmanifest
+│   │   ├── auth.webp
+│   │   ├── home-heros.webp
+│   │   └── logo.webp
+│   ├── src
+│   │   ├── app
+│   │   │   ├── components
+│   │   │   │   ├── assessment
+│   │   │   │   │   ├── result
+│   │   │   │   │   │   ├── assessment-result.css
+│   │   │   │   │   │   ├── assessment-result.html
+│   │   │   │   │   │   ├── assessment-result.spec.ts
+│   │   │   │   │   │   └── assessment-result.ts
+│   │   │   │   │   └── test
+│   │   │   │   │       ├── assessment-test.css
+│   │   │   │   │       ├── assessment-test.html
+│   │   │   │   │       ├── assessment-test.spec.ts
+│   │   │   │   │       └── assessment-test.ts
+│   │   │   │   ├── footer
+│   │   │   │   │   ├── footer.css
+│   │   │   │   │   ├── footer.html
+│   │   │   │   │   ├── footer.spec.ts
+│   │   │   │   │   └── footer.ts
+│   │   │   │   ├── loaders
+│   │   │   │   │   └── page-loader
+│   │   │   │   │       ├── page-loader.css
+│   │   │   │   │       ├── page-loader.html
+│   │   │   │   │       ├── page-loader.spec.ts
+│   │   │   │   │       └── page-loader.ts
+│   │   │   │   ├── modals
+│   │   │   │   │   ├── acknowledgement-dialog
+│   │   │   │   │   │   ├── acknowledgement-dialog.css
+│   │   │   │   │   │   ├── acknowledgement-dialog.html
+│   │   │   │   │   │   ├── acknowledgement-dialog.spec.ts
+│   │   │   │   │   │   └── acknowledgement-dialog.ts
+│   │   │   │   │   ├── emergency-override-dialog
+│   │   │   │   │   │   ├── emergency-override-dialog.css
+│   │   │   │   │   │   ├── emergency-override-dialog.html
+│   │   │   │   │   │   ├── emergency-override-dialog.spec.ts
+│   │   │   │   │   │   └── emergency-override-dialog.ts
+│   │   │   │   │   └── logout
+│   │   │   │   │       ├── logout.css
+│   │   │   │   │       ├── logout.html
+│   │   │   │   │       ├── logout.spec.ts
+│   │   │   │   │       └── logout.ts
+│   │   │   │   ├── nav-bars
+│   │   │   │   │   ├── dashboard-nav-bar
+│   │   │   │   │   │   ├── dashboard-nav-bar.css
+│   │   │   │   │   │   ├── dashboard-nav-bar.html
+│   │   │   │   │   │   ├── dashboard-nav-bar.spec.ts
+│   │   │   │   │   │   └── dashboard-nav-bar.ts
+│   │   │   │   │   ├── landing-nav-bar
+│   │   │   │   │   │   ├── landing-nav-bar.css
+│   │   │   │   │   │   ├── landing-nav-bar.html
+│   │   │   │   │   │   ├── landing-nav-bar.spec.ts
+│   │   │   │   │   │   └── landing-nav-bar.ts
+│   │   │   │   │   └── test-nav-bar
+│   │   │   │   │       ├── test-nav-bar.css
+│   │   │   │   │       ├── test-nav-bar.html
+│   │   │   │   │       ├── test-nav-bar.spec.ts
+│   │   │   │   │       └── test-nav-bar.ts
+│   │   │   │   └── sections
+│   │   │   │       └── heros
+│   │   │   │           ├── heros.css
+│   │   │   │           ├── heros.html
+│   │   │   │           ├── heros.spec.ts
+│   │   │   │           └── heros.ts
+│   │   │   ├── core
+│   │   │   │   └── typography
+│   │   │   │       ├── h1
+│   │   │   │       │   ├── h1.spec.ts
+│   │   │   │       │   └── h1.ts
+│   │   │   │       ├── h2
+│   │   │   │       │   ├── h2.spec.ts
+│   │   │   │       │   └── h2.ts
+│   │   │   │       ├── h3
+│   │   │   │       │   ├── h3.spec.ts
+│   │   │   │       │   └── h3.ts
+│   │   │   │       ├── lead
+│   │   │   │       │   ├── lead.spec.ts
+│   │   │   │       │   └── lead.ts
+│   │   │   │       ├── muted
+│   │   │   │       │   ├── muted.spec.ts
+│   │   │   │       │   └── muted.ts
+│   │   │   │       ├── p
+│   │   │   │       │   ├── p.spec.ts
+│   │   │   │       │   └── p.ts
+│   │   │   │       └── small
+│   │   │   │           ├── small.spec.ts
+│   │   │   │           └── small.ts
+│   │   │   ├── environment
+│   │   │   │   └── environment.ts
+│   │   │   ├── models
+│   │   │   │   ├── api
+│   │   │   │   │   ├── ApiResponse.ts
+│   │   │   │   │   └── Error.ts
+│   │   │   │   ├── assessment
+│   │   │   │   │   ├── Assessment-result.api.ts
+│   │   │   │   │   └── Assessment.api.ts
+│   │   │   │   ├── auth
+│   │   │   │   │   └── Auth.ui.ts
+│   │   │   │   ├── patient
+│   │   │   │   │   └── Patient.api.ts
+│   │   │   │   └── user
+│   │   │   │       └── User.api.ts
+│   │   │   ├── pages
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── auth.css
+│   │   │   │   │   ├── auth.html
+│   │   │   │   │   ├── auth.spec.ts
+│   │   │   │   │   └── auth.ts
+│   │   │   │   ├── dashboard
+│   │   │   │   │   ├── assessment
+│   │   │   │   │   │   ├── result
+│   │   │   │   │   │   │   └── user-result
+│   │   │   │   │   │   │       ├── user-result.css
+│   │   │   │   │   │   │       ├── user-result.html
+│   │   │   │   │   │   │       ├── user-result.spec.ts
+│   │   │   │   │   │   │       └── user-result.ts
+│   │   │   │   │   │   └── test
+│   │   │   │   │   │       ├── user-assessment.css
+│   │   │   │   │   │       ├── user-assessment.html
+│   │   │   │   │   │       ├── user-assessment.spec.ts
+│   │   │   │   │   │       └── user-assessment.ts
+│   │   │   │   │   ├── home
+│   │   │   │   │   │   ├── home.css
+│   │   │   │   │   │   ├── home.html
+│   │   │   │   │   │   ├── home.spec.ts
+│   │   │   │   │   │   └── home.ts
+│   │   │   │   │   ├── patients
+│   │   │   │   │   │   ├── patients.css
+│   │   │   │   │   │   ├── patients.html
+│   │   │   │   │   │   ├── patients.spec.ts
+│   │   │   │   │   │   └── patients.ts
+│   │   │   │   │   └── template
+│   │   │   │   │       ├── template.css
+│   │   │   │   │       ├── template.html
+│   │   │   │   │       ├── template.spec.ts
+│   │   │   │   │       └── template.ts
+│   │   │   │   ├── home
+│   │   │   │   │   ├── home.css
+│   │   │   │   │   ├── home.html
+│   │   │   │   │   ├── home.spec.ts
+│   │   │   │   │   └── home.ts
+│   │   │   │   ├── quick-test
+│   │   │   │   │   ├── quick-test.css
+│   │   │   │   │   ├── quick-test.html
+│   │   │   │   │   ├── quick-test.spec.ts
+│   │   │   │   │   └── quick-test.ts
+│   │   │   │   └── quick-test-result
+│   │   │   │       ├── quick-test-result.css
+│   │   │   │       ├── quick-test-result.html
+│   │   │   │       ├── quick-test-result.spec.ts
+│   │   │   │       └── quick-test-result.ts
+│   │   │   ├── services
+│   │   │   │   ├── assessment
+│   │   │   │   │   ├── assessment-service.spec.ts
+│   │   │   │   │   └── assessment-service.ts
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── auth-service.spec.ts
+│   │   │   │   │   └── auth-service.ts
+│   │   │   │   ├── patient
+│   │   │   │   │   ├── patient-service.spec.ts
+│   │   │   │   │   └── patient-service.ts
+│   │   │   │   └── util
+│   │   │   │       ├── util-service.spec.ts
+│   │   │   │       └── util-service.ts
+│   │   │   ├── app.config.ts
+│   │   │   ├── app.css
+│   │   │   ├── app.html
+│   │   │   ├── app.routes.ts
+│   │   │   ├── app.spec.ts
+│   │   │   └── app.ts
+│   │   ├── index.html
+│   │   ├── main.ts
+│   │   ├── material-theme.scss
+│   │   └── styles.css
+│   ├── .editorconfig
+│   ├── .gitignore
+│   ├── .postcssrc.json
+│   ├── .prettierrc
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── angular.json
+│   ├── components.json
+│   ├── package.json
+│   ├── pnpm-lock.yaml
+│   ├── pnpm-workspace.yaml
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   └── tsconfig.spec.json
+├── LICENSE
+├── README.md
+├── docker-compose.yml
+└── sample_patients.json
 ```
 
 
@@ -413,35 +679,170 @@ docker-compose up --build
 ### Option 2 - Run without Docker
 ```bash
 pip install -r requirements.txt
-# Start API
-uvicorn src.api.main:app --reload
-# Start Dashboard (new terminal)
-streamlit run src/dashboard/app.py
+# Start Ai Service
+uvicorn ai.app.main:app --reload
+
+# Start Backend Service
+cd backend
+pnpm run dev or npm run dev
+
+# Start Frontend 
+pnpm exec ng build
 ```
 
 
-### Project Structure
 
-natabridge/
-├── data/
-│   ├── raw/ # Original dataset
-│   ├── processed/ # Cleaned, feature-engineered data
-│   └── sample_patients.json # Demo records for evaluation
-├── notebooks/
-│   ├── 01_EDA.ipynb
-│   ├── 02_model_training.ipynb
-│   └── 03_model_evaluation.ipynb
-├── src/
-│   ├── api/ # FastAPI backend
-│   ├── ml/ # Model training, prediction, SHAP
-│   ├── dashboard/ # Streamlit frontend
-│   └── database/ # SQLAlchemy models and CRUD
-├── tests/
-├── docker-compose.yml
-├── Dockerfile
-└── requirements.txt
+## Installation & Setup
 
----
+Follow the steps below to set up and run NataBridge locally.
+
+### Prerequisites
+
+Ensure the following software is installed:
+- Python 3.10 or later
+- Git
+- Node.js (if running the frontend)
+- pip (Python package manager)
+
+### Clone the Repository
+```bash
+git clone https://github.com/DATICANcompetitionUI/NataBridge.git
+cd NataBridge
+```
+
+### Create a Virtual Environment
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment.
+
+**Windows**
+```bash
+venv\Scripts\activate
+```
+
+**macOS/Linux**
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Run the Frontend
+
+If applicable:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The application will be available locally in your browser.
+
+Backend:
+```
+http://localhost:3000
+```
+
+Frontend:
+```
+http://localhost:4200
+```
+
+*(Update the ports if your project uses different ones.)*
+
+
+
+## Usage
+NataBridge is designed as an AI-powered Clinical Decision Support System (CDSS) to assist healthcare professionals in identifying pregnant women who may be at risk of developing hypertensive disorders of pregnancy and other maternal complications.
+
+### Step 1: Launch the Application
+Start the backend API and Angular dashboard following the installation instructions. Open the dashboard in your web browser.
+
+### Step 2: Enter Patient Information
+Input the patient's clinical information into the prediction form, including:
+- Age
+- Systolic Blood Pressure (SBP)
+- Diastolic Blood Pressure (DBP)
+- Blood Sugar
+- Body Temperature
+- Heart Rate
+
+### Step 3: Generate AI Prediction
+Click the **Predict Risk** button.
+
+The trained XGBoost model analyzes the patient's clinical data and classifies the maternal risk level as:
+
+- 🟢 Low Risk
+- 🟡 Medium Risk
+- 🔴 High Risk
+
+### Step 4: Review Explainable AI Results
+The system generates SHAP (SHapley Additive Explanations) visualizations that highlight the clinical features contributing most to the prediction.
+
+This enables healthcare professionals to understand why the AI produced a particular risk classification.
+
+### Step 5: Review Clinical Recommendations
+Based on the predicted risk level, NataBridge automatically generates evidence-informed recommendations, including:
+- Risk level and confidence score
+- Clinical interpretation
+- Recommended urgency
+- Referral recommendations
+- Recommended healthcare facility
+- Maternal danger signs
+- Immediate next clinical actions
+- Emergency alerts for severe hypertension
+
+### Step 6: Support Clinical Decision-Making
+Healthcare professionals use the AI prediction together with SHAP explanations and clinical recommendations to support timely, evidence-informed decision-making and referral.
+
+> **Note:** NataBridge is intended to support—not replace—the clinical judgement of qualified healthcare professionals.
+
+
+
+## Sample Prediction
+
+### Sample Input
+
+| Clinical Parameter | Value |
+|--------------------|------:|
+| Age | 29 years |
+| Systolic BP | 165 mmHg |
+| Diastolic BP | 112 mmHg |
+| Blood Sugar | 7.8 mmol/L |
+| Body Temperature | 37.4 °C |
+| Heart Rate | 96 bpm |
+
+### AI Output
+
+| Result | Output |
+|--------|--------|
+| Risk Level | 🔴 High Risk |
+| Confidence | 96.4% |
+| Top SHAP Features | Systolic BP, Diastolic BP, Blood Sugar |
+| Clinical Recommendation | Immediate referral to a Comprehensive Emergency Obstetric Care (CEmONC) facility |
+| Emergency Alert | Severe Hypertension Detected |
+
+This example demonstrates how NataBridge combines machine learning, explainable AI, and clinical decision support to facilitate early detection and timely intervention for high-risk pregnancies.
+
+
+
+# Future Roadmap
+The NataBridge solutions will incorporate future features such as:
+
+- Wearable integration (NataBand).
+- Real-time monitoring for PHCs.
+- SMS alerts for CHWs.
+- Integration with National health information systems.
+- Multilingual support.
+- Electronic Medical Record integration.
+- Full Mobile deployment.
+
 
 ## Team
 | Name             | Discipline                          | Primary Responsibilities                                                                            |
