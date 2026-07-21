@@ -14,6 +14,9 @@ AI-powered maternal health risk stratification system for low-resource settings
 - Offline-first architecture for Primary Health Centres and Community Health Workers.
 - Hybrid AI + rule-based emergency alert system for severe hypertension.
 
+```
+> **Developed for the NACOS–UI DATICAN AI in Medicine Competition 2026**, NataBridge combines explainable AI, clinical decision support, and stakeholder-informed design to improve maternal healthcare in low-resource settings.
+
 
 ## Problem Statement
 Maternal mortality remains one of the most pressing public health challenges in Africa, particularly in low-resource communities where access to timely and quality maternal healthcare is limited. According to the World Health Organization, hypertensive disorders of pregnancy-including pre-eclampsia and eclampsia—are among the leading causes of maternal and neonatal deaths, many of which are preventable through early detection and timely intervention.
@@ -136,7 +139,7 @@ Hypertensive disorders of pregnancy are among the leading causes of maternal mor
 - User-friendly dashboard for healthcare workers.
 
 
-# What Makes NataBridge Unique
+# Why NataBridge Stands Out
 | Existing Solutions             | NataBridge                                                                                                             |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
 | Black-box AI predictions       | Explainable AI using SHAP for transparent decision-making                                                              |
@@ -149,6 +152,33 @@ Hypertensive disorders of pregnancy are among the leading causes of maternal mor
 | Difficult to interpret         | Confidence scores, SHAP explanations, and clinician-friendly recommendations                                           |
 
 NataBridge combines artificial intelligence, explainable machine learning, and evidence-informed clinical decision support into a single platform tailored for low-resource maternal healthcare. By integrating AI predictions with transparent explanations, emergency referral guidance, and extensive stakeholder validation, NataBridge goes beyond risk prediction to provide a practical, trusted, and scalable solution for frontline healthcare workers.
+
+
+## Dataset
+
+The initial machine learning model was developed and evaluated using the **Maternal Health Risk Dataset** from the **UCI Machine Learning Repository**, a publicly available dataset containing maternal clinical parameters associated with pregnancy risk.
+
+**Source:** UCI Machine Learning Repository
+
+**Dataset:** Maternal Health Risk Dataset
+
+https://archive.ics.uci.edu/dataset/863/maternal+health+risk
+
+### Features
+- Age
+- Systolic Blood Pressure
+- Diastolic Blood Pressure
+- Blood Sugar
+- Body Temperature
+- Heart Rate
+
+### Target Variable
+- Low Risk
+- Mid Risk
+- High Risk
+
+This dataset served as the baseline for developing and validating the NataBridge maternal risk prediction model. Future versions will incorporate locally collected clinical datasets to improve generalizability across African populations.
+
 
 
 # How the AI Works (AI Workflow)
@@ -253,67 +283,214 @@ Patient Record Store (SQLite)
 
 ---
 
-## Dataset
+## Project Structure
+The repository is organized into modular components to separate data processing, machine learning, backend services, frontend visualization, and testing. This structure improves maintainability, scalability, and ease of collaboration.
 
-Training data: [Maternal Health Risk Dataset](https://archive.ics.uci.edu/dataset/863/maternal+health+risk)  
-Source: UCI Machine Learning Repository  
-Features: Age, Systolic BP, Diastolic BP, Blood Sugar, Body Temperature, Heart Rate  
-Target: Risk Level (Low / Mid / High)
-                
+natabridge/
+│
+├── data/
+│   ├── raw/                     # Original dataset
+│   ├── processed/               # Cleaned and engineered data
+│   └── sample_patients.json     # Demo records for evaluation
+│
+├── notebooks/
+│   ├── 01_EDA.ipynb
+│   ├── 02_model_training.ipynb
+│   └── 03_model_evaluation.ipynb
+│
+├── src/
+│   ├── api/                     # FastAPI backend
+│   ├── ml/                      # Machine Learning, Prediction & SHAP
+│   ├── dashboard/               # Streamlit frontend
+│   └── database/                # SQLAlchemy models and CRUD
+│
+├── tests/
+│
+├── docker-compose.yml
+├── Dockerfile
+└── requirements.txt
 
-## Quick Start
+
+## Installation & Setup
+
+Follow the steps below to set up and run NataBridge locally.
 
 ### Prerequisites
-- Docker and Docker Compose installed
-- OR Python 3.10+
 
-### Run with Docker
+Ensure the following software is installed:
+- Python 3.10 or later
+- Git
+- Node.js (if running the frontend)
+- pip (Python package manager)
+
+### Clone the Repository
+```bash
+git clone https://github.com/DATICANcompetitionUI/NataBridge.git
+cd NataBridge
+```
+
+### Create a Virtual Environment
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment.
+
+**Windows**
+```bash
+venv\Scripts\activate
+```
+
+**macOS/Linux**
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Run the Backend
+```bash
+python app.py
+```
+
+or
+
+```bash
+uvicorn app:app --reload
+```
+
+*(Use whichever command matches your project.)*
+
+### Run the Frontend
+
+If applicable:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The application will be available locally in your browser.
+
+Backend:
+```
+http://localhost:8000
+```
+
+Frontend:
+```
+http://localhost:5173
+```
+
+*(Update the ports if your project uses different ones.)*
+
+
+## Quick Start
+Follow the steps below to launch NataBridge locally.
+
+### Option 1 - Run with Docker (Recommended)
 ```bash
 git clone https://github.com/ojibovictor111-cpu/natabridge.git
 cd natabridge
 docker-compose up --build
 ```
 
-### Run without Docker
+### Option 2 - Run without Docker
 ```bash
 pip install -r requirements.txt
 # Start API
 uvicorn src.api.main:app --reload
 # Start Dashboard (new terminal)
 streamlit run src/dashboard/app.py
+#The dashboard will open automatically in your browser.
 ```
 
 
-### Project Structure
+## Usage
+NataBridge is designed as an AI-powered Clinical Decision Support System (CDSS) to assist healthcare professionals in identifying pregnant women who may be at risk of developing hypertensive disorders of pregnancy and other maternal complications.
 
-natabridge/
-├── data/
-│   ├── raw/ # Original dataset
-│   ├── processed/ # Cleaned, feature-engineered data
-│   └── sample_patients.json # Demo records for evaluation
-├── notebooks/
-│   ├── 01_EDA.ipynb
-│   ├── 02_model_training.ipynb
-│   └── 03_model_evaluation.ipynb
-├── src/
-│   ├── api/ # FastAPI backend
-│   ├── ml/ # Model training, prediction, SHAP
-│   ├── dashboard/ # Streamlit frontend
-│   └── database/ # SQLAlchemy models and CRUD
-├── tests/
-├── docker-compose.yml
-├── Dockerfile
-└── requirements.txt
+### Step 1: Launch the Application
+Start the backend API and Streamlit dashboard following the installation instructions. Open the dashboard in your web browser.
 
----
+### Step 2: Enter Patient Information
+Input the patient's clinical information into the prediction form, including:
+- Age
+- Systolic Blood Pressure (SBP)
+- Diastolic Blood Pressure (DBP)
+- Blood Sugar
+- Body Temperature
+- Heart Rate
+
+### Step 3: Generate AI Prediction
+Click the **Predict Risk** button.
+
+The trained XGBoost model analyzes the patient's clinical data and classifies the maternal risk level as:
+
+- 🟢 Low Risk
+- 🟡 Medium Risk
+- 🔴 High Risk
+
+### Step 4: Review Explainable AI Results
+The system generates SHAP (SHapley Additive Explanations) visualizations that highlight the clinical features contributing most to the prediction.
+
+This enables healthcare professionals to understand why the AI produced a particular risk classification.
+
+### Step 5: Review Clinical Recommendations
+Based on the predicted risk level, NataBridge automatically generates evidence-informed recommendations, including:
+- Risk level and confidence score
+- Clinical interpretation
+- Recommended urgency
+- Referral recommendations
+- Recommended healthcare facility
+- Maternal danger signs
+- Immediate next clinical actions
+- Emergency alerts for severe hypertension
+
+### Step 6: Support Clinical Decision-Making
+Healthcare professionals use the AI prediction together with SHAP explanations and clinical recommendations to support timely, evidence-informed decision-making and referral.
+
+> **Note:** NataBridge is intended to support—not replace—the clinical judgement of qualified healthcare professionals.
+
+
+
+## Sample Prediction
+
+### Sample Input
+
+| Clinical Parameter | Value |
+|--------------------|------:|
+| Age | 29 years |
+| Systolic BP | 165 mmHg |
+| Diastolic BP | 112 mmHg |
+| Blood Sugar | 7.8 mmol/L |
+| Body Temperature | 37.4 °C |
+| Heart Rate | 96 bpm |
+
+### AI Output
+
+| Result | Output |
+|--------|--------|
+| Risk Level | 🔴 High Risk |
+| Confidence | 96.4% |
+| Top SHAP Features | Systolic BP, Diastolic BP, Blood Sugar |
+| Clinical Recommendation | Immediate referral to a Comprehensive Emergency Obstetric Care (CEmONC) facility |
+| Emergency Alert | Severe Hypertension Detected |
+
+This example demonstrates how NataBridge combines machine learning, explainable AI, and clinical decision support to facilitate early detection and timely intervention for high-risk pregnancies.
+
+
 
 # Future Roadmap
-Include ambitions such as:
+The NataBridge solutions will incorporate future features such as:
 
 - Wearable integration (NataBand).
-- Real-time monitoring.
+- Real-time monitoring for PHCs.
 - SMS alerts for CHWs.
-- Integration with national health information systems.
+- Integration with National health information systems.
 - Multilingual support.
 - Electronic Medical Record integration.
 - Full Mobile deployment.
@@ -323,7 +500,7 @@ Include ambitions such as:
 | Name | Discipline | Role |
 |---|---|---|
 | Ojibo Victor | Electrical & Electronic Engineering | Project Lead, Systems Architecture, Product Strategy | Research & CLincal Validation|
-| James Samuel | Computer Science | AI/ML, Frontend & Backend Developments |
+| James Samuel | Computer Science | Lead AI Engineer, Frontend & Backend Development |
 | Oluwadamito Iyun | Biomedical Engineering | Clinical Research & Validation, Data Analysis |
 
 University of Ibadan, Nigeria - 2026
