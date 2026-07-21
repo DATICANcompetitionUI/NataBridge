@@ -44,23 +44,21 @@ SHAP Explainability Layer
 Alert Engine (Rule + AI Hybrid)
 │
 ▼
-CHW / Clinician Dashboard (Streamlit)
+CHW / Clinician Dashboard 
 │
 ▼
-Patient Record Store (SQLite)
+Patient Record Store (Postgresql)
 
 ---
 
 ## The Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Machine Learning | XGBoost, scikit-learn |
-| Explainability | SHAP |
-| API | FastAPI |
-| Frontend | Streamlit |
-| Database | SQLite + SQLAlchemy |
-| Containerization | Docker |
+Machine Learning: Scikit-learn, XGBoost
+Explainability: SHAP
+API: FastAPI, Fastify
+Frontend: Angular
+Database: Postgresql
+Containerization: Docker
 
 ---
 
@@ -91,7 +89,7 @@ pip install -r requirements.txt
 # Start API
 uvicorn src.api.main:app --reload
 # Start Dashboard (new terminal)
-streamlit run src/dashboard/app.py
+Angular run src/dashboard/app.py
 ```
 
 
@@ -109,7 +107,7 @@ natabridge/
 ├── src/
 │   ├── api/ # FastAPI backend
 │   ├── ml/ # Model training, prediction, SHAP
-│   ├── dashboard/ # Streamlit frontend
+│   ├── dashboard/ # Angular frontend
 │   └── database/ # SQLAlchemy models and CRUD
 ├── tests/
 ├── docker-compose.yml

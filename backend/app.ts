@@ -5,6 +5,7 @@ import { fastify, FastifyInstance } from 'fastify'
 import { dbConfig } from "./configs/db.config";
 import { assessmentRoutes } from "./routes/assessment/assessment.route";
 import { patientRoutes } from "./routes/patient/patient.route";
+import { userRoutes } from "./routes/user/user.route";
 
 const server: FastifyInstance = fastify({
 	logger: true,
@@ -17,6 +18,7 @@ server.register(fastifyCors, {
 	allowedHeaders: ["Content-Type", "Authorization"],
 });
 server.register(fastifyPostgres, dbConfig);
+server.register(userRoutes, {prefix: '/api/users'});
 server.register(patientRoutes, {prefix: '/api/patients'});
 server.register(assessmentRoutes, {prefix: '/api/assessments'});
 
