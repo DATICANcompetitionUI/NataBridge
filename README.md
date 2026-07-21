@@ -4,6 +4,13 @@ AI-powered maternal health risk stratification system for low-resource settings
 **NataBridge is an AI-powered Hypertensive Disorder of Pregnancy Risk Stratification System**  
 *Designed for low-resource healthcare settings in Nigeria and Sub-Saharan Africa*
 
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
+![XGBoost](https://img.shields.io/badge/XGBoost-ML-orange)
+![SHAP](https://img.shields.io/badge/Explainable%20AI-SHAP-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 ## Project Highlights
 
 - AI-powered Clinical Decision Support System (CDSS) for maternal healthcare.
@@ -15,6 +22,19 @@ AI-powered maternal health risk stratification system for low-resource settings
 - Hybrid AI + rule-based emergency alert system for severe hypertension.
 
 > **Developed for the NACOS–UI DATICAN AI in Medicine Competition 2026**, NataBridge combines explainable AI, clinical decision support, and stakeholder-informed design to improve maternal healthcare in low-resource settings.
+
+
+## Table of Contents
+- Problem Statement
+- Impact
+- Solution
+- Stakeholder Validation
+- Clinical Rationale
+- AI Workflow
+- Installation
+- Usage
+- Team
+- References
 
 
 ## Problem Statement
@@ -243,6 +263,33 @@ Following every prediction, NataBridge generates structured recommendations incl
 - Immediate next steps
 
 The system is designed to support-not replace-clinical judgment.
+
+## Clinical Rationale
+
+NataBridge was developed to address the early identification of Hypertensive Disorders of Pregnancy (HDP), including gestational hypertension, preeclampsia, severe preeclampsia, and eclampsia—conditions that remain among the leading causes of maternal mortality in Nigeria and Sub-Saharan Africa.
+
+Rather than diagnosing disease, NataBridge functions as an AI-powered Clinical Decision Support System (CDSS) that stratifies pregnant women into **Low**, **Medium**, or **High** maternal risk categories. This approach supports healthcare professionals in making timely, evidence-informed referral decisions while preserving clinical judgement.
+
+The prediction model utilizes clinically relevant physiological parameters including:
+- Age
+- Systolic Blood Pressure
+- Diastolic Blood Pressure
+- Blood Sugar
+- Body Temperature
+- Heart Rate
+
+To improve predictive performance and clinical interpretability, the system also engineers additional features such as:
+- Mean Arterial Pressure (MAP)
+- Pulse Pressure
+- Hypertension Flag
+- Advanced Maternal Age Flag
+- Tachycardia Flag
+
+Clinical safety is reinforced through rule-based thresholds aligned with international obstetric guidelines. For example, patients presenting with blood pressure ≥160/110 mmHg automatically trigger an emergency referral recommendation irrespective of the AI prediction, ensuring patient safety remains paramount.
+
+The design of NataBridge is informed by WHO recommendations, peer-reviewed literature, and stakeholder consultations with clinicians, nurses, midwives, and maternal health experts.
+
+> **For the complete clinical rationale, literature review, feature engineering justification, clinical thresholds, ethical considerations, and development roadmap, please see [`docs/Clinical_Rationale.md`](docs/Clinical_Rationale.md).**
 
 
 ## The System Architecture
