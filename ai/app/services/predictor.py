@@ -5,6 +5,7 @@ import pandas as pd
 
 from app.core.model_loader import model, explainer
 from app.schemas.request import PredictionRequest
+from app.services.recommendations import generate_recommendations
 
 # maps encoded predictions back to their original labels
 RISK_LABELS = {
@@ -53,6 +54,29 @@ def predict(request: PredictionRequest) -> Dict:
         ascending=False
     )
 
+    feature_values = {
+        "Age": request.age,
+        "SystolicBP": request.systolicBP,
+        "DiastolicBP": request.diastolicBP,
+        "BS": request.bs,
+        "BodyTemp": request.bodyTemp,
+        "HeartRate": request.heartRate,
+    }
+
+    top_factors = [
+        {
+            "feature": row.feature,
+            "impact": round(float(row.impact), 4)
+        }
+        for _, row in importance.head(3).iterrows()
+    ]
+
+    # generate recommendations based on the top factors
+    recommendations = generate_recommendations(
+        top_factors=top_factors,
+        feature_values=feature_values,
+    )
+
     return {
         "prediction": RISK_LABELS[prediction],
         "confidence": round(confidence, 4),
@@ -61,12 +85,7 @@ def predict(request: PredictionRequest) -> Dict:
             "Mid Risk": round(float(probabilities[1]), 4),
             "High Risk": round(float(probabilities[2]), 4),
         },
-        "topFactors": [
-            {
-                "feature": row.feature,
-                "impact": round(float(row.impact), 4)
-            }
-            for _, row in importance.head(3).iterrows()
-        ],
+        "topFactors": top_factors,
+        "recommendations": recommendations,
         "modelVersion": "1.0.0",
     }
