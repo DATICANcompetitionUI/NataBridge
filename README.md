@@ -38,7 +38,7 @@ AI-powered maternal health risk stratification system for low-resource settings
 
 
 ## Problem Statement
-Maternal mortality remains one of the most pressing public health challenges in Africa, particularly in low-resource communities where access to timely and quality maternal healthcare is limited. According to the World Health Organization, hypertensive disorders of pregnancy-including pre-eclampsia and eclampsia—are among the leading causes of maternal and neonatal deaths, many of which are preventable through early detection and timely intervention.
+Maternal mortality remains one of the most pressing public health challenges in Africa, particularly in low-resource communities where access to timely and quality maternal healthcare is limited. According to the World Health Organization, hypertensive disorders of pregnancy-including pre-eclampsia and eclampsia-are among the leading causes of maternal and neonatal deaths, many of which are preventable through early detection and timely intervention.
 
 Unfortunately, many pregnant women attend antenatal clinics infrequently, live far from healthcare facilities, or are identified only after complications have become severe. Primary Health Centres (PHCs) and Community Health Workers (CHWs), who serve as the first point of care for many women, often have limited decision-support tools for identifying high-risk pregnancies early.
 
@@ -68,7 +68,7 @@ By combining artificial intelligence with human clinical expertise, NataBridge t
 ## Our Solution - NataBridge
 NataBridge is an AI-powered Clinical Decision Support System (CDSS) developed to assist healthcare workers in identifying pregnant women at risk of developing hypertensive disorders of pregnancy and other maternal complications.
 
-Using maternal clinical information—including blood pressure and other risk factors-the system predicts maternal risk levels using machine learning models and explains each prediction using SHAP (SHapley Additive Explanations).
+Using maternal clinical information - including blood pressure and other risk factors-the system predicts maternal risk levels using machine learning models and explains each prediction using SHAP (SHapley Additive Explanations).
 
 Rather than replacing healthcare professionals, NataBridge augments clinical decision-making by providing:
 
@@ -96,10 +96,10 @@ This project has been developed for the **DATICAN Artificial Intelligence in Med
 at the University of Ibadan, Nigeria.
 
 
-## Stakeholder Validation
+# Stakeholder Validation
 To ensure that NataBridge addresses real healthcare needs and is acceptable to intended users, we conducted stakeholder validation through community surveys and engagements with healthcare professionals, several of whom now serve as clinical advisers to the NataBridge team on the NataBridge solution.
 
-# Community Needs Assessment
+## Community Needs Assessment
 A structured survey was conducted among potential users across urban, peri-urban, and rural communities. Respondents included students and healthcare workers. The findings revealed strong demand for affordable digital health solutions that support early detection and monitoring of maternal and chronic health conditions.
 
 Key findings included:
@@ -114,7 +114,7 @@ Key findings included:
 The survey also demonstrated encouraging market acceptance, with many participants expressing willingness to purchase an affordable wearable device or access it through subscription or institutional sponsorship models.
 
 
-# Clinical Stakeholder Validation
+## Clinical Stakeholder Validation
 To complement the community survey, the NataBridge concept and prototype were presented to frontline healthcare professionals for clinical review.
 
 Stakeholder engagements were conducted with healthcare professionals at:
@@ -129,7 +129,7 @@ Additional expert feedback was obtained from:
 - Nurse-researcher from University College Hospital (UCH), Ibadan, who reviewed the innovation from a clinical research perspective and offered recommendations that strengthened the medical relevance, explainability, and practical applicability of the AI-assisted decision support system.
 
 
-# Impact of Stakeholder Feedback
+## Impact of Stakeholder Feedback
 Insights gathered from community members and healthcare professionals directly informed the refinement of NataBridge by:
 
 - Strengthening the AI-powered clinical recommendation engine.
@@ -345,6 +345,22 @@ Patient Record Store (SQLite)
 ✔ Clinical Rationale
 ✔ GitHub Repository
 
+## Competition Deliverables
+Team NataBridge developed and worked on the following deliverables:
+
+1. AI-powered maternal risk prediction model (XGBoost)
+2. Explainable AI using SHAP for transparent predictions
+3. Hybrid AI + rule-based clinical recommendation engine
+4. Emergency hypertension alert system
+5. Streamlit-based Clinical Decision Support Dashboard
+6. FastAPI backend API
+7. Maternal risk classification (Low / Medium / High)
+8. Stakeholder validation through community surveys and clinical engagement
+9. Comprehensive Clinical Rationale documentation
+10. Project documentation (README, architecture, installation guide, references)
+11. GitHub repository with reproducible implementation
+
+Together, these deliverables demonstrate a complete, explainable, stakeholder-informed, and clinically grounded AI-assisted Clinical Decision Support System designed for maternal healthcare in low-resource settings.
 
 ## Repository Structure
 The repository is organized into modular components to separate data processing, machine learning, backend services, frontend visualization, and testing. This structure improves maintainability, scalability, and ease of collaboration.
@@ -584,7 +600,7 @@ The NataBridge solutions will incorporate future features such as:
 ## Team
 | Name             | Discipline                          | Primary Responsibilities                                                                            |
 | ---------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Ojibo Victor     | Electrical & Electronic Engineering | Project Lead • Systems Architecture • Product Strategy • Clinical Research • Stakeholder Validation |
+| Ojibo Victor     | Electrical & Electronic Engineering | Project Lead • Systems Architecture • Product Strategy • Clinical Research • Stakeholder Validation | Hardware Enginneer |
 | James Samuel     | Computer Science                    | AI Engineer • Backend Development • Frontend Development • Model Integration                        |
 | Oluwadamito Iyun | Biomedical Engineering              | Clinical Research • Literature Review • Data Analysis • Clinical Validation                         |
 
@@ -610,13 +626,13 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 We sincerely appreciate and say Thank You to:
 
-- DATICAN Team
+- The DATICAN Team
 - NACOS UI
 - Agbowo Primary Health Centre, Ibadan
 - Redeemer's Hospital, Ibadan
-- Faculty of Nursing, University of Ibadan
+- Faculty of Nursing & Staff, University of Ibadan
 - University College Hospital (UCH), Ibadan
-- Community survey participants
+- Our Community survey participants
 
 
 ## Conclusion & Future Vision
