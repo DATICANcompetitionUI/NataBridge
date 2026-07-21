@@ -185,47 +185,28 @@ The system is designed to support-not replace-clinical judgment.
 
 
 ## The System Architecture
-Data Input (Vitals + History)
-│
-▼
-Preprocessing Pipeline
-│
-▼
-XGBoost Risk Classification Model
-│
-▼
-SHAP Explainability Layer
-│
-▼
-Alert Engine (Rule + AI Hybrid)
-│
-▼
-CHW / Clinician Dashboard (Streamlit)
-│
-▼
-Patient Record Store (SQLite)
-
----
-
-
 ```text
-Data Input
+Data Input (Vitals + History)
     │
     ▼
-Preprocessing
+Preprocessing Pipeline
     │
     ▼
-XGBoost
+XGBoost Risk Classification Model
     │
     ▼
-SHAP
+SHAP Explainability Layer
     │
     ▼
-Recommendation Engine
+Alert Engine (Rule + AI Hybrid) & Recommendation Engine
     │
     ▼
-Dashboard
+CHW / Clinician Dashboard (Streamlit)
+    │
+    ▼
+Patient Record Store (SQLite)
 ```
+
 
 ## The Technology Stack
 
