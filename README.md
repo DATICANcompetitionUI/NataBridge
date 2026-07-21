@@ -285,30 +285,32 @@ Patient Record Store (SQLite)
 ## Project Structure
 The repository is organized into modular components to separate data processing, machine learning, backend services, frontend visualization, and testing. This structure improves maintainability, scalability, and ease of collaboration.
 
+```text
 natabridge/
 │
 ├── data/
-│   ├── raw/                     # Original dataset
-│   ├── processed/               # Cleaned and engineered data
-│   └── sample_patients.json     # Demo records for evaluation
+│   ├── raw/                         # Original maternal health dataset
+│   ├── processed/                   # Cleaned and feature-engineered datasets
+│   └── sample_patients.json         # Sample patient records for testing
 │
 ├── notebooks/
-│   ├── 01_EDA.ipynb
-│   ├── 02_model_training.ipynb
-│   └── 03_model_evaluation.ipynb
+│   ├── 01_EDA.ipynb                 # Exploratory Data Analysis
+│   ├── 02_model_training.ipynb      # Model training pipeline
+│   └── 03_model_evaluation.ipynb    # Model evaluation and performance metrics
 │
 ├── src/
-│   ├── api/                     # FastAPI backend
-│   ├── ml/                      # Machine Learning, Prediction & SHAP
-│   ├── dashboard/               # Streamlit frontend
-│   └── database/                # SQLAlchemy models and CRUD
+│   ├── api/                         # FastAPI backend services
+│   ├── ml/                          # Machine Learning models, prediction & SHAP
+│   ├── dashboard/                   # Streamlit web dashboard
+│   └── database/                    # Database models and CRUD operations
 │
-├── tests/
+├── tests/                           # Unit and integration tests
 │
-├── docker-compose.yml
-├── Dockerfile
-└── requirements.txt
-
+├── docker-compose.yml               # Docker Compose configuration
+├── Dockerfile                       # Docker image definition
+├── requirements.txt                 # Python dependencies
+└── README.md                        # Project documentation
+```
 
 ## Installation & Setup
 
