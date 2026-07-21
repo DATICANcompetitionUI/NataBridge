@@ -19,33 +19,38 @@ import { EmergencyOverrideDialog } from '../../modals/emergency-override-dialog/
 export class AssessmentTest {
   readonly dialog = inject(MatDialog);
   private assessmentService = inject(AssessmentService);
-  userAuthenticated = input<boolean>(false);
+  userAuthenticated = input<boolean>();
 
   personalInformationFormGroup = new FormGroup({
     lastname: new FormControl<string | null>(null, {
-      nonNullable: this.userAuthenticated()
+      nonNullable: this.userAuthenticated(),
+      validators: this.userAuthenticated() ? [Validators.required] : []
     }),
     firstname: new FormControl<string | null>(null, {
-      nonNullable: this.userAuthenticated()
+      nonNullable: this.userAuthenticated(),
+      validators: this.userAuthenticated() ? [Validators.required] : []
     }),
     middlename: new FormControl<string | null>(null, {
       nonNullable: this.userAuthenticated()
     }),
     email: new FormControl<string | null>(null, {
       nonNullable: this.userAuthenticated(),
-      validators: Validators.email
+      validators: this.userAuthenticated() ? [Validators.required, Validators.email] : []
     }),
     phone: new FormControl<string | null>(null, {
-      nonNullable: this.userAuthenticated()
+      nonNullable: this.userAuthenticated(),
+      validators: this.userAuthenticated() ? [Validators.required] : []
     }),
     dob: new FormControl<string | null>(null, {
-      nonNullable: this.userAuthenticated()
+      nonNullable: this.userAuthenticated(),
+      validators: this.userAuthenticated() ? [Validators.required] : []
     }),
   })
 
   pregnancyInformationFormGroup = new FormGroup({
-    gestationalAge: new FormControl(null, {
-      nonNullable: this.userAuthenticated()
+    gestationalAge: new FormControl<number | null>(null, {
+      nonNullable: this.userAuthenticated(),
+      validators: this.userAuthenticated() ? [Validators.required] : []
     }),
     firstPregnancy: new FormControl(null, {
       nonNullable: false

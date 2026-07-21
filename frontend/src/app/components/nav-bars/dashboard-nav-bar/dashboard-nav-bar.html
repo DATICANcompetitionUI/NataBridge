@@ -1,21 +1,25 @@
 <section class="h-dvh w-full sidebar relative">
-     <div class="top max-h-12 flex-center py-5 px-1.5  cursor-pointer">
-          <a href="">
-               <img src="./logo.webp" alt="Natabridge logo" class="h-8.5">
-          </a>
+     <div class="top max-h-12 flex-center py-5 px-1.5  cursor-pointer" routerLink="">
+          <img src="./logo.webp" alt="Natabridge logo" class="h-8.5">
           <span class="capitalize">nataBridge</span>
      </div>
      <span class="separator"></span>
      <main class="px-1.5 py-3 flex flex-col gap-y-1.5">
-          <button type="button" routerLink="" routerLinkActive="active">home</button>
-          <button type="button" routerLink="patients" routerLinkActive="active">patients</button>
-          <button type="button" routerLink="assessment" routerLinkActive="active">assessments</button>
+          <button type="button" routerLink="" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">home</button>
+          <button type="button" routerLink="patients" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">patients</button>
+          <button type="button" routerLink="assessment" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">assessments</button>
      </main>
-     <div class="absolute w-full bottom-0 px-3.5">
-          <button type="button">profile</button>
-          <button type="button" class="flex-center gap-x-2.5">
-               <ng-icon name="hugeLogout01" />
-               logout
-          </button>
+     <div class="absolute bottom-0 w-full p-1.5 pt-0">
+          <span class="separator mb-1.5"></span>
+          <div class="px-1.5">
+               <button type="button">profile</button>
+               <button type="button" class="mt-1.5 gap-x-1.5 hover:bg-(--nata-warning)/15 logout" (click)="logout()">
+                    <ng-icon name="hugeLogout01" />
+                    <span>logout</span>
+               </button>
+          </div>
      </div>
 </section>

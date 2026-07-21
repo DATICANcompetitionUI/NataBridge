@@ -15,35 +15,41 @@ export class AuthService {
      readonly loading = signal<boolean>(false);
      readonly errorMessage = signal<string | null>(null);
      readonly user = signal<UserApi | null>(null);
-     readonly isUserAuthenticated = signal<boolean>(false);
+     readonly isUserAuthenticated = signal<boolean>(true);
+
+     isUserCredentialsCorrect(id: string, password: string) {
+          return id == "jane@natabridge.com" && password == "12345";
+     }
 
      async login(authCredentials: AuthCredentials) {
           this.loading.set(true);
 
+          // await fetch(`${environment.api}/users/login`, {
+          //      method: 'post'
+          // })
+          
           // simple delay
-          setTimeout(() => console.log("in"), 3500);
+          setTimeout(() => {
+               // demo call
+               if (this.isUserCredentialsCorrect(authCredentials.id, authCredentials.password)) {
+                    this.isUserAuthenticated.set(true);
 
-          // demo call
-          if (authCredentials.id === "test@gmail.com" && authCredentials.password === "12345") {
-               this.isUserAuthenticated.set(true);
+                    this.router.navigateByUrl('/dashboard');
+               } else this.errorMessage.set("Wrong Credentials")
 
-               this.router.navigateByUrl('/dashboard');
-          } else this.errorMessage.set("Wrong Credentials")
+               this.loading.set(false)
+          }, 2500);
 
-          this.loading.set(false)
           // api call 
-          // this.http
-          //      .post<ApiResponse<UserApi>>(`${environment.api}/login`, authCredentials)
-          //      .pipe(finalize(() => this.loading.set(false)))
-          //      .subscribe({
-          //           next: (resp) => {
-          //                this.user.set(resp.data);
-          //                this.isUserAuthenticated.set(true);
-
-          //                this.router.navigateByUrl('/office');
-          //           },
-          //           error: (err) => this.errorMessage.set(err),
-          //      });
+          this.http
+               .post<ApiResponse<UserApi>>(`${environment.api}/login`, authCredentials)
+               .pipe(finalize(() => this.loading.set(false)))
+               .subscribe({
+                    next: (resp) => {
+                         console.log(resp.data);
+                    },
+                    error: (err) => this.errorMessage.set(err),
+               });
      }
 
      async logout() {

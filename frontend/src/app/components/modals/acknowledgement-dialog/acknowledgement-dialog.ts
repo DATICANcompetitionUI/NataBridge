@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { UtilService } from '../../../services/util/util-service';
 
 @Component({
   selector: 'nata-acknowledgement-dialog',

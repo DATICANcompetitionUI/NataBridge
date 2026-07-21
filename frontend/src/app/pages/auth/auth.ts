@@ -4,11 +4,11 @@ import { heroArrowLongRight } from '@ng-icons/heroicons/outline';
 import { AuthService } from '../../services/auth/auth-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { fluentWarning } from '@ng-icons/fluent-ui';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'nata-auth',
-  imports: [NgIcon, ReactiveFormsModule, MatProgressSpinner],
+  imports: [NgIcon, ReactiveFormsModule, MatProgressSpinnerModule],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
   viewProviders: [provideIcons({ heroArrowLongRight, fluentWarning })]

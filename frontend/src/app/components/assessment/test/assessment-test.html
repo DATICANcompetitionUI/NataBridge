@@ -1,25 +1,17 @@
-
+<h2 nata-h2 class="capitalize">
      @if(!userAuthenticated()) {
-     <h2 nata-h2 class="capitalize">
-          maternal health risk assessment
-     </h2>
-     <p class="text-sm text-balance">Complete the assessment below to receive an instant Ai-powered prediction of your
-          pregnancy risk level along with your personalized recommendations. <br>
-          <span class="italic">This assessment is designed to support *not replace* professional medical advice.</span>
-     </p>
+          <span>maternal health risk assessment</span>
      } @else {
-     <h2 nata-h2 class="capitalize">
-          New Maternal Assessment
-     </h2>
+          <span>New Maternal Assessment</span>
+     }
+</h2>
 
-     <p class="text-sm text-balance">Capture current vitals and symptom manifestations. Data will be analyzed against
+<div class="mt-5">
+     @if(userAuthenticated()) {
+     <p class="text-sm text-balance mb-3.5">Capture current vitals and symptom manifestations. Data will be analyzed
+          against
           historical baselines.
      </p>
-     }
-
-
-<div class="mt-10">
-     @if(userAuthenticated()) {
      <mat-stepper linear="true" #stepper>
           <mat-step [stepControl]="personalInformationFormGroup">
                <form [formGroup]="personalInformationFormGroup" class="px-5">
@@ -61,7 +53,8 @@
                     </div>
 
                     <div class="flex-center mt-10 justify-end">
-                         <button matStepperNext class="nata-btn primary">
+                         <button matStepperNext class="nata-btn primary"
+                              [disabled]="!userAuthenticated() || personalInformationFormGroup.invalid">
                               Next
                               <ng-icon name="heroArrowLongRight" />
                          </button>
@@ -76,7 +69,8 @@
                     <div class="row">
                          <div class="field">
                               <label for="gestationalAge">current gestational age (weeks)</label>
-                              <input type="text" id="gestationalAge" placeholder="e.g. 24 weeks"
+                              <input type="number" id="gestationalAge"
+                              min="0" placeholder="e.g. 24 weeks"
                                    formControlName="gestationalAge">
                          </div>
 
@@ -169,26 +163,33 @@
      </mat-stepper>
      } @else {
      <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
+          <p class="text-sm text-balance mb-3.5">Complete the assessment below to receive an instant Ai-powered
+               prediction of your pregnancy risk level along with your personalized recommendations.
+               <span class="italic font-medium">This assessment is designed to support *not replace* professional
+                    medical advice.</span>
+          </p>
+
           <div class="row">
                <div class="field">
                     <label for="bloodPressure">blood pressure (mmHg)</label>
 
                     <div class="flex-center gap-x-0.5">
                          <div class="flex-1">
-                         <input type="number" id="systolicBP" placeholder="120" min="60" formControlName="systolicBP">
+                              <input type="number" id="systolicBP" placeholder="120" min="60"
+                                   formControlName="systolicBP">
 
-                         @if(healthMeasurementsFormGroup.controls.systolicBP; as systolicField) {
-                         @if(systolicField.hasError('min')){
-                         <div class="error-field">
-                              Enter valid systolic BP
-                         </div>     
-                         }
-                         @else if (systolicField.invalid && (systolicField.touched ||
-                         systolicField.dirty)) {
-                         <div class="error-field">
-                              Enter a value
-                         </div>
-                         }}
+                              @if(healthMeasurementsFormGroup.controls.systolicBP; as systolicField) {
+                              @if(systolicField.hasError('min')){
+                              <div class="error-field">
+                                   Enter valid systolic BP
+                              </div>
+                              }
+                              @else if (systolicField.invalid && (systolicField.touched ||
+                              systolicField.dirty)) {
+                              <div class="error-field">
+                                   Enter a value
+                              </div>
+                              }}
                          </div>
 
                          <span class="mx-2">
@@ -196,20 +197,21 @@
                          </span>
 
                          <div class="flex-1">
-                         <input type="number" id="diastolicBP" placeholder="80" min="30" formControlName="diastolicBP">
+                              <input type="number" id="diastolicBP" placeholder="80" min="30"
+                                   formControlName="diastolicBP">
 
-                         @if(healthMeasurementsFormGroup.controls.diastolicBP; as diastolicField) {
-                         @if(diastolicField.hasError('min')){
-                         <div class="error-field">
-                              Enter valid diastolic BP
-                         </div>     
-                         }
-                         @else if (diastolicField.invalid && (diastolicField.touched ||
-                         diastolicField.dirty)) {
-                         <div class="error-field">
-                              Enter a value
-                         </div>
-                         }}
+                              @if(healthMeasurementsFormGroup.controls.diastolicBP; as diastolicField) {
+                              @if(diastolicField.hasError('min')){
+                              <div class="error-field">
+                                   Enter valid diastolic BP
+                              </div>
+                              }
+                              @else if (diastolicField.invalid && (diastolicField.touched ||
+                              diastolicField.dirty)) {
+                              <div class="error-field">
+                                   Enter a value
+                              </div>
+                              }}
                          </div>
                     </div>
                </div>
@@ -219,17 +221,17 @@
                     <input type="number" id="age" placeholder="e.g. 18" min="18" formControlName="age">
 
                     @if(healthMeasurementsFormGroup.controls.age; as ageField) {
-                         @if(ageField.hasError('min')){
-                         <div class="error-field">
-                              Enter a valid age
-                         </div>     
-                         }
-                         @else if (ageField.invalid && (ageField.touched ||
-                         ageField.dirty)) {
-                         <div class="error-field">
-                              Enter a value
-                         </div>
-                         }}
+                    @if(ageField.hasError('min')){
+                    <div class="error-field">
+                         Enter a valid age
+                    </div>
+                    }
+                    @else if (ageField.invalid && (ageField.touched ||
+                    ageField.dirty)) {
+                    <div class="error-field">
+                         Enter a value
+                    </div>
+                    }}
                </div>
           </div>
 
@@ -239,17 +241,17 @@
                     <input type="number" id="bloodSugar" placeholder="e.g. 4.5" min="2" formControlName="bloodSugar">
 
                     @if(healthMeasurementsFormGroup.controls.bloodSugar; as bsField) {
-                         @if(bsField.hasError('min')){
-                         <div class="error-field">
-                              Enter a valid bloodsugar
-                         </div>     
-                         }
-                         @else if (bsField.invalid && (bsField.touched ||
-                         bsField.dirty)) {
-                         <div class="error-field">
-                              Enter a value
-                         </div>
-                         }}
+                    @if(bsField.hasError('min')){
+                    <div class="error-field">
+                         Enter a valid bloodsugar
+                    </div>
+                    }
+                    @else if (bsField.invalid && (bsField.touched ||
+                    bsField.dirty)) {
+                    <div class="error-field">
+                         Enter a value
+                    </div>
+                    }}
                </div>
 
                <div class="field">
@@ -257,18 +259,18 @@
                     <input type="number" id="bodyTemp" placeholder="e.g. 37" min="36" max="42" step="0.1"
                          formControlName="bodyTemp">
 
-                         @if(healthMeasurementsFormGroup.controls.bodyTemp; as bodyTempField) {
-                         @if(bodyTempField.hasError('min')){
-                         <div class="error-field">
-                              Enter a valid body temperature
-                         </div>     
-                         }
-                         @else if (bodyTempField.invalid && (bodyTempField.touched ||
-                         bodyTempField.dirty)) {
-                         <div class="error-field">
-                              Enter a value
-                         </div>
-                         }}
+                    @if(healthMeasurementsFormGroup.controls.bodyTemp; as bodyTempField) {
+                    @if(bodyTempField.hasError('min')){
+                    <div class="error-field">
+                         Enter a valid body temperature
+                    </div>
+                    }
+                    @else if (bodyTempField.invalid && (bodyTempField.touched ||
+                    bodyTempField.dirty)) {
+                    <div class="error-field">
+                         Enter a value
+                    </div>
+                    }}
                </div>
           </div>
 
@@ -281,17 +283,18 @@
                     <div class="error-field">
                          @if(healthMeasurementsFormGroup.controls.heartRate; as heartRateField) {
                          @if(heartRateField.hasError('min') || heartRateField.hasError('max')){
-                              <span>Enter a valid heartRate</span>
+                         <span>Enter a valid heartRate</span>
                          }
                          @else if (heartRateField.invalid && (heartRateField.touched ||
                          heartRateField.dirty)) {
-                              <span>Enter a value</span>
+                         <span>Enter a value</span>
                          }}
                     </div>
                </div>
           </div>
 
-          <button type="submit" class="nata-btn primary mt-10" (click)="openDialog()" [disabled]="!isValidForSubmission()">Access my pregnancy</button>
+          <button type="submit" class="nata-btn primary mt-10" (click)="openDialog()"
+               [disabled]="!isValidForSubmission()">Access my pregnancy</button>
      </form>
      }
 </div>

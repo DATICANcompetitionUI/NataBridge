@@ -2,6 +2,9 @@ import { Component, inject } from '@angular/core';
 import { RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { hugeLogout01 } from '@ng-icons/huge-icons';
+import { AuthService } from '../../../services/auth/auth-service';
+import { MatDialog } from '@angular/material/dialog';
+import { Logout } from '../../modals/logout/logout';
 
 @Component({
   selector: 'nata-dashboard-nav-bar',
@@ -14,5 +17,15 @@ import { hugeLogout01 } from '@ng-icons/huge-icons';
 })
 export class DashboardNavBar {
   router = inject(RouterModule);
+  authService = inject(AuthService);
+  readonly dialog = inject(MatDialog);
   
+  logout() {
+    const dialogRef = this.dialog.open(Logout);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result)
+        this.authService.logout();
+    })
+  }
 }

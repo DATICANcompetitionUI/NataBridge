@@ -7,9 +7,16 @@ interface AssessmentResultApi {
     "High Risk": number;
   },
   topFactors: {
-      feature: string;
-      impact: number;
-    }[];
+    feature: string;
+    impact: number;
+  }[];
+  recommendations: {
+    feature: string;
+    patientValue: number;
+    condition: string;
+    actions: string[];
+    counselling: string[];
+  }[];
   modelVersion: string;
 }
 

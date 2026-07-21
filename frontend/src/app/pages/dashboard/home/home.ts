@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 
 @Component({
   selector: 'nata-home',
@@ -6,4 +6,17 @@ import { Component } from '@angular/core';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {}
+export class Home {
+  name = "jane"
+
+  assessmentDetails = computed(() => ({
+    high: 10,
+    mid: 12,
+    low: 5
+  }));
+  totalAssessments = computed(() => {
+    const total = this.assessmentDetails().high + this.assessmentDetails().mid + this.assessmentDetails().low
+
+    return total;
+  });
+}

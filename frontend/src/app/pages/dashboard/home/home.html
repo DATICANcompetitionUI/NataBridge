@@ -1,1 +1,36 @@
-<h1 nata-h1>Hello!</h1>
+<div class="px-8 5 py-5 min-w-full">
+<article>
+<h1 nata-h1>
+     Good morning, Dr <span class="capitalize">{{ name }}</span>
+</h1>
+<p class="mt-3 mb-1.5">Here's your maternal risk overview for today</p>
+</article>
+<span class="separator"></span>
+
+<div class="mt-4 nata-grid-container">
+     <div class="rounded-sm py-2 px-4 bg-(--nata-warning)/5 hover:bg-(--nata-warning)/10">
+          <p class="capitalize" nata-lead>high risk</p>
+          <p class="text-3xl mt-1">
+          {{ assessmentDetails().high }}</p>
+     </div>
+     <div class="rounded-sm py-2 px-4 bg-(--nata-secondary)/5 hover:bg-(--nata-secondary)/10">
+          <p class="capitalize" nata-lead>mid risk</p>
+          <p class="text-3xl mt-1">
+          {{ assessmentDetails().mid }}</p>
+     </div>
+     <div class="rounded-sm py-2 px-4 bg-(--nata-primary)/5 hover:bg-(--nata-primary)/10">
+          <p class="capitalize" nata-lead>low risk</p>
+          <p class="text-3xl mt-1">
+          {{ assessmentDetails().low }}</p>
+     </div>
+</div>
+
+<div class="mt-5">
+     <p nata-lead class="capitalize font-medium">priority attention</p>
+     <table></table>
+</div>
+
+<div class="mt-5">
+     <p nata-lead class="capitalize font-medium">recent assessments</p>
+     <table></table>
+</div>

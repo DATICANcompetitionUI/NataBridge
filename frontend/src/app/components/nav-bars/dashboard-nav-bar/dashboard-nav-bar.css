@@ -5,22 +5,26 @@
      & button {
           text-transform: capitalize;
           font-weight: 500;
-          display: block;
+          display: flex;
+          align-items: center;
           width: 100%;
           text-align: left;
           padding: 8px 10px;
           cursor: pointer;
+          border-left: 1.5px solid transparent;
+          transition: 200ms ease;
 
-          &:focus,
+          /* &:focus, */
           &:focus-visible {
                outline: 1px solid oklch(0.708 0 0);
           }
 
-          &:hover {
-               background-color: rgb(from #050505 r g b /0.02);
+          &:not(:where(.logout)):hover {
+               background-color: rgb(from #050505 r g b /0.05);
           }
 
           &:where(.active) {
+               border-color: var(--nata-primary);
                background-color: rgb(from #050505 r g b /0.02);
           }
      }

@@ -29,9 +29,9 @@
                          </div>
                     }
 
-                    <button type="button" class="nata-btn primary w-full py-2.5 mt-8.5 justify-center" (click)="login()">
+                    <button type="button" class="nata-btn primary w-full py-2.5 mt-8.5 justify-center" [class.loading]="loading()" (click)="login()">
                          @if(loading()) {
-                              <mat-progress-spinner diameter="20" />
+                              <mat-progress-spinner diameter="20" mode="indeterminate" />
                          } @else {
                               Get in
                               <ng-icon name="heroArrowLongRight" />

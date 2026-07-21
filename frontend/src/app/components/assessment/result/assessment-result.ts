@@ -1,4 +1,4 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, inject, input, Signal } from '@angular/core';
 import { H3 } from "../../../core/typography/h3/h3";
 import { AssessmentResultApi } from '../../../models/assessment/Assessment-result.api';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -7,6 +7,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgStyle } from '@angular/common';
 import { AssessmentApi } from '../../../models/assessment/Assessment.api';
 import { DecimalPipe } from '@angular/common';
+import { AssessmentService } from '../../../services/assessment/assessment-service';
 
 interface FactorRow {
   vital: string;

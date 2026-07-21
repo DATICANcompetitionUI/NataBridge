@@ -38,6 +38,10 @@ body {
 }
 
 :root {
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: #3B6E6A,
+  ));
+
   @include mat.table-overrides((
     background-color: transparent,
     header-headline-color: inherit,
@@ -45,5 +49,14 @@ body {
 
   @include mat.dialog-overrides((
     container-shape: 5px,
+  ));
+
+  @include mat.stepper-overrides((
+    header-selected-state-icon-background-color: var(--nata-primary),
+    header-edit-state-icon-background-color: var(--nata-primary),
+    header-hover-state-layer-color: rgb(from var(--nata-primary) r g b /0.02),
+    header-hover-state-layer-shape: 4px,
+    header-focus-state-layer-shape: 4px,
+    header-height: 56px,
   ));
 }
