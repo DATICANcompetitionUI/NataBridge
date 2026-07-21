@@ -201,23 +201,25 @@ This dataset served as the baseline for developing and validating the NataBridge
 
 
 # How the AI Works (AI Workflow)
-Input
-
-↓
-
-Prediction
-
-↓
-
-Explainability
-
-↓
-
-Recommendation
-
-↓
-
-Clinical Decision
+Input (Patient Clinical Data)
+        │
+        ▼
+Feature Engineering
+        │
+        ▼
+XGBoost Prediction Model
+        │
+        ▼
+SHAP Explainability
+        │
+        ▼
+Recommendation Engine
+        │
+        ▼
+Emergency Alert Engine
+        │
+        ▼
+Healthcare Worker Dashboard
 
 1. Input: Healthcare worker enters maternal clinical information.
 2. Prediction: AI model predicts maternal risk level.
@@ -255,12 +257,12 @@ Healthcare workers can see the most influential clinical features contributing t
 # Clinical Decision Support
 Following every prediction, NataBridge generates structured recommendations including:
 
-- Clinical urgency
-- Recommended facility
-- Referral requirement
-- Patient education
-- Danger signs
-- Immediate next steps
+- Clinical Urgency Assessment
+- Referral Recommendation
+- Evidence-informed Clinical Guidance
+- Maternal Danger Signs
+- Recommended Next Actions
+- Emergency Alerts
 
 The system is designed to support-not replace-clinical judgment.
 
@@ -563,6 +565,13 @@ The NataBridge solutions will incorporate future features such as:
 
 
 ## Team
+| Name             | Discipline                          | Primary Responsibilities                                                                            |
+| ---------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Ojibo Victor     | Electrical & Electronic Engineering | Project Lead • Systems Architecture • Product Strategy • Clinical Research • Stakeholder Validation |
+| James Samuel     | Computer Science                    | AI Engineer • Backend Development • Frontend Development • Model Integration                        |
+| Oluwadamito Iyun | Biomedical Engineering              | Clinical Research • Literature Review • Data Analysis • Clinical Validation                         |
+
+
 | Name | Discipline | Role |
 |---|---|---|
 | Ojibo Victor | Electrical & Electronic Engineering | Project Lead, Systems Architecture, Product Strategy | Research & CLincal Validation|
