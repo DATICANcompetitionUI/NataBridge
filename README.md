@@ -282,9 +282,26 @@ Patient Record Store (SQLite)
 
 ---
 
-## Project Structure
+## Repository Structure
 The repository is organized into modular components to separate data processing, machine learning, backend services, frontend visualization, and testing. This structure improves maintainability, scalability, and ease of collaboration.
 
+### Repository Overview
+
+| Directory/File | Description |
+|---------------|-------------|
+| `data/` | Raw, processed, and sample maternal health datasets |
+| `notebooks/` | Exploratory data analysis, model training, and evaluation notebooks |
+| `src/api/` | FastAPI backend for AI prediction services |
+| `src/ml/` | Machine learning pipeline, XGBoost model, prediction engine, and SHAP explainability |
+| `src/dashboard/` | Streamlit dashboard for healthcare professionals |
+| `src/database/` | Database models and CRUD operations |
+| `tests/` | Unit and integration tests |
+| `docker-compose.yml` | Docker Compose configuration |
+| `Dockerfile` | Docker container configuration |
+| `requirements.txt` | Python project dependencies |
+| `README.md` | Project documentation |
+
+### Directory Tree
 ```text
 natabridge/
 │
@@ -311,22 +328,6 @@ natabridge/
 ├── requirements.txt                 # Python dependencies
 └── README.md                        # Project documentation
 ```
-
-## Project Structure
-
-| Directory/File | Description |
-|---------------|-------------|
-| `data/` | Raw, processed, and sample maternal health datasets |
-| `notebooks/` | Exploratory data analysis, model training, and evaluation notebooks |
-| `src/api/` | FastAPI backend for AI prediction services |
-| `src/ml/` | Machine learning pipeline, XGBoost model, prediction engine, and SHAP explainability |
-| `src/dashboard/` | Streamlit dashboard for healthcare professionals |
-| `src/database/` | Database models and CRUD operations |
-| `tests/` | Unit and integration tests |
-| `docker-compose.yml` | Docker Compose configuration |
-| `Dockerfile` | Docker container configuration |
-| `requirements.txt` | Python project dependencies |
-| `README.md` | Project documentation |
 
 
 ## Installation & Setup
