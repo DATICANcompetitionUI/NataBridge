@@ -331,6 +331,21 @@ Patient Record Store (SQLite)
 
 ---
 
+
+## Competition Deliverables
+
+✔ AI-powered maternal risk prediction model
+✔ Explainable AI using SHAP
+✔ Streamlit Clinical Dashboard
+✔ FastAPI Backend
+✔ Clinical Recommendation Engine
+✔ Hybrid Rule-based Alert Engine
+✔ Documentation
+✔ Stakeholder Validation
+✔ Clinical Rationale
+✔ GitHub Repository
+
+
 ## Repository Structure
 The repository is organized into modular components to separate data processing, machine learning, backend services, frontend visualization, and testing. This structure improves maintainability, scalability, and ease of collaboration.
 
@@ -377,6 +392,28 @@ natabridge/
 ├── requirements.txt                 # Python dependencies
 └── README.md                        # Project documentation
 ```
+
+
+## Quick Start
+Follow the steps below to launch NataBridge locally.
+
+### Option 1 - Run with Docker (Recommended)
+```bash
+git clone https://github.com/ojibovictor111-cpu/natabridge.git
+cd natabridge
+docker-compose up --build
+```
+
+### Option 2 - Run without Docker
+```bash
+pip install -r requirements.txt
+# Start API
+uvicorn src.api.main:app --reload
+# Start Dashboard (new terminal)
+streamlit run src/dashboard/app.py
+#The dashboard will open automatically in your browser.
+```
+
 
 
 ## Installation & Setup
@@ -456,26 +493,6 @@ http://localhost:5173
 
 *(Update the ports if your project uses different ones.)*
 
-
-## Quick Start
-Follow the steps below to launch NataBridge locally.
-
-### Option 1 - Run with Docker (Recommended)
-```bash
-git clone https://github.com/ojibovictor111-cpu/natabridge.git
-cd natabridge
-docker-compose up --build
-```
-
-### Option 2 - Run without Docker
-```bash
-pip install -r requirements.txt
-# Start API
-uvicorn src.api.main:app --reload
-# Start Dashboard (new terminal)
-streamlit run src/dashboard/app.py
-#The dashboard will open automatically in your browser.
-```
 
 
 ## Usage
@@ -571,16 +588,18 @@ The NataBridge solutions will incorporate future features such as:
 | James Samuel     | Computer Science                    | AI Engineer • Backend Development • Frontend Development • Model Integration                        |
 | Oluwadamito Iyun | Biomedical Engineering              | Clinical Research • Literature Review • Data Analysis • Clinical Validation                         |
 
-
-| Name | Discipline | Role |
-|---|---|---|
-| Ojibo Victor | Electrical & Electronic Engineering | Project Lead, Systems Architecture, Product Strategy | Research & CLincal Validation|
-| James Samuel | Computer Science | Lead AI Engineer, Frontend & Backend Development |
-| Oluwadamito Iyun | Biomedical Engineering | Clinical Research & Validation, Data Analysis |
-
 University of Ibadan, Nigeria - 2026
 
 ---
+
+
+## Key Innovation
+
+NataBridge combines Explainable Artificial Intelligence (XAI), evidence-informed clinical decision support, stakeholder-validated design, and offline-first deployment into a single maternal health platform tailored for Community Health Workers and Primary Health Centres in low-resource settings.
+
+Unlike conventional maternal risk prediction tools, NataBridge not only predicts maternal risk but also explains every prediction, generates evidence-informed clinical recommendations, and supports timely referral decisions while ensuring that qualified healthcare professionals remain central to patient care.
+
+
 
 ## License
 
