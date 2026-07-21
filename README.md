@@ -476,7 +476,6 @@ or
 uvicorn app:app --reload
 ```
 
-*(Use whichever command matches your project.)*
 
 ### Run the Frontend
 
