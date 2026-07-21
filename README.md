@@ -4,6 +4,16 @@ AI-powered maternal health risk stratification system for low-resource settings
 **NataBridge is an AI-powered Hypertensive Disorder of Pregnancy Risk Stratification System**  
 *Designed for low-resource healthcare settings in Nigeria and Sub-Saharan Africa*
 
+## Project Highlights
+
+- AI-powered Clinical Decision Support System (CDSS) for maternal healthcare.
+- Explainable AI using SHAP to improve transparency and clinician trust.
+- Machine learning-powered maternal risk prediction using XGBoost.
+- Clinically validated through stakeholder engagement with healthcare professionals.
+- Designed specifically for low-resource communities in Nigeria and Sub-Saharan Africa.
+- Offline-first architecture for Primary Health Centres and Community Health Workers.
+- Hybrid AI + rule-based emergency alert system for severe hypertension.
+
 
 ## Problem Statement
 Maternal mortality remains one of the most pressing public health challenges in Africa, particularly in low-resource communities where access to timely and quality maternal healthcare is limited. According to the World Health Organization, hypertensive disorders of pregnancy-including pre-eclampsia and eclampsia—are among the leading causes of maternal and neonatal deaths, many of which are preventable through early detection and timely intervention.
@@ -33,7 +43,7 @@ Through continuous monitoring, explainable AI, and structured referral recommend
 By combining artificial intelligence with human clinical expertise, NataBridge transforms maternal healthcare from reactive treatment to proactive prevention.
 
 
-## Our Solution
+## Our Solution - NataBridge
 NataBridge is an AI-powered Clinical Decision Support System (CDSS) developed to assist healthcare workers in identifying pregnant women at risk of developing hypertensive disorders of pregnancy and other maternal complications.
 
 Using maternal clinical information—including blood pressure and other risk factors-the system predicts maternal risk levels using machine learning models and explains each prediction using SHAP (SHapley Additive Explanations).
@@ -49,7 +59,7 @@ Rather than replacing healthcare professionals, NataBridge augments clinical dec
 - Offline-first accessibility for low-resource settings.
 
 
-## The Overview
+## How NataBridge Works
 NataBridge is a clinical decision support system that uses machine learning to stratify
 the risk of hypertensive disorders of pregnancy (HDP) - including preeclampsia - among
 pregnant women attending antenatal care in low-resource settings.
@@ -65,7 +75,7 @@ at the University of Ibadan, Nigeria.
 
 
 ## Stakeholder Validation
-To ensure that NataBridge addresses real healthcare needs and is acceptable to intended users, we conducted stakeholder validation through community surveys and engagements with healthcare professionals, some of who are key advisers to NataBridge Team on the NataBridge solution.
+To ensure that NataBridge addresses real healthcare needs and is acceptable to intended users, we conducted stakeholder validation through community surveys and engagements with healthcare professionals, several of whom now serve as clinical advisers to the NataBridge team on the NataBridge solution.
 
 # Community Needs Assessment
 A structured survey was conducted among potential users across urban, peri-urban, and rural communities. Respondents included students and healthcare workers. The findings revealed strong demand for affordable digital health solutions that support early detection and monitoring of maternal and chronic health conditions.
@@ -93,8 +103,9 @@ During these visits, nurses and physicians reviewed the proposed solution and va
 
 Additional expert feedback was obtained from:
 
-A Nurse and Midwife in the Faculty of Nursing, University of Ibadan, who provided guidance on maternal health workflows, antenatal care practices, patient safety, and appropriate clinical recommendations.
-A nurse-researcher from University College Hospital (UCH), Ibadan, who reviewed the innovation from a clinical research perspective and offered recommendations that strengthened the medical relevance, explainability, and practical applicability of the AI-assisted decision support system.
+- Nurse and Midwife in the Faculty of Nursing, University of Ibadan, who provided guidance on maternal health workflows, antenatal care practices, patient safety, and appropriate clinical recommendations.
+- Nurse-researcher from University College Hospital (UCH), Ibadan, who reviewed the innovation from a clinical research perspective and offered recommendations that strengthened the medical relevance, explainability, and practical applicability of the AI-assisted decision support system.
+
 
 # Impact of Stakeholder Feedback
 Insights gathered from community members and healthcare professionals directly informed the refinement of NataBridge by:
@@ -125,11 +136,29 @@ Hypertensive disorders of pregnancy are among the leading causes of maternal mor
 - User-friendly dashboard for healthcare workers.
 
 # AI Workflow
-1. Healthcare worker enters maternal clinical information.
-2. AI model predicts maternal risk level.
-3. SHAP explains why the prediction was made.
-4. Clinical recommendation engine generates evidence-informed recommendations.
-5. Dashboard presents:
+Input
+
+↓
+
+Prediction
+
+↓
+
+Explainability
+
+↓
+
+Recommendation
+
+↓
+
+Clinical Decision
+
+1. Input: Healthcare worker enters maternal clinical information.
+2. Prediction: AI model predicts maternal risk level.
+3. Explainability: SHAP explains why the prediction was made.
+4. Recommendation: Clinical recommendation engine generates evidence-informed recommendations.
+5. Clinical Decision: Here, the dashboard presents:
 - Risk level
 - Confidence score
 - SHAP explanation
@@ -152,7 +181,7 @@ Following every prediction, NataBridge generates structured recommendations incl
 - Danger signs
 - Immediate next steps
 
-The system is designed to support—not replace—clinical judgment.
+The system is designed to support-not replace-clinical judgment.
 
 
 ## The System Architecture
@@ -177,6 +206,26 @@ CHW / Clinician Dashboard (Streamlit)
 Patient Record Store (SQLite)
 
 ---
+
+
+```text
+Data Input
+    │
+    ▼
+Preprocessing
+    │
+    ▼
+XGBoost
+    │
+    ▼
+SHAP
+    │
+    ▼
+Recommendation Engine
+    │
+    ▼
+Dashboard
+```
 
 ## The Technology Stack
 
