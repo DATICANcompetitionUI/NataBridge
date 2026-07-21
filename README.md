@@ -6,7 +6,7 @@ AI-powered maternal health risk stratification system for low-resource settings
 
 
 ## Problem Statement
-Maternal mortality remains one of the most pressing public health challenges in Africa, particularly in low-resource communities where access to timely and quality maternal healthcare is limited. According to the World Health Organization, hypertensive disorders of pregnancy—including pre-eclampsia and eclampsia—are among the leading causes of maternal and neonatal deaths, many of which are preventable through early detection and timely intervention.
+Maternal mortality remains one of the most pressing public health challenges in Africa, particularly in low-resource communities where access to timely and quality maternal healthcare is limited. According to the World Health Organization, hypertensive disorders of pregnancy-including pre-eclampsia and eclampsia—are among the leading causes of maternal and neonatal deaths, many of which are preventable through early detection and timely intervention.
 
 Unfortunately, many pregnant women attend antenatal clinics infrequently, live far from healthcare facilities, or are identified only after complications have become severe. Primary Health Centres (PHCs) and Community Health Workers (CHWs), who serve as the first point of care for many women, often have limited decision-support tools for identifying high-risk pregnancies early.
 
@@ -36,7 +36,7 @@ By combining artificial intelligence with human clinical expertise, NataBridge t
 ## Our Solution
 NataBridge is an AI-powered Clinical Decision Support System (CDSS) developed to assist healthcare workers in identifying pregnant women at risk of developing hypertensive disorders of pregnancy and other maternal complications.
 
-Using maternal clinical information—including blood pressure and other risk factors—the system predicts maternal risk levels using machine learning models and explains each prediction using SHAP (SHapley Additive Explanations).
+Using maternal clinical information—including blood pressure and other risk factors-the system predicts maternal risk levels using machine learning models and explains each prediction using SHAP (SHapley Additive Explanations).
 
 Rather than replacing healthcare professionals, NataBridge augments clinical decision-making by providing:
 
