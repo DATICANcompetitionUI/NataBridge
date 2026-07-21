@@ -295,7 +295,8 @@ Clinical safety is reinforced through rule-based thresholds aligned with interna
 
 The design of NataBridge is informed by WHO recommendations, peer-reviewed literature, and stakeholder consultations with clinicians, nurses, midwives, and maternal health experts.
 
-> **For the complete clinical rationale, literature review, feature engineering justification, clinical thresholds, ethical considerations, and development roadmap, please see [`docs/Clinical_Rationale.md`](docs/Clinical_Rationale.md).**
+> **For the complete clinical rationale, literature review, feature engineering justification, clinical thresholds, ethical considerations, and development roadmap, please see [`docs/clinical_rationale.md`](docs/clinical_rationale.md).**
+
 
 
 ## The System Architecture
