@@ -1,22 +1,15 @@
-FROM node:22-slim AS build
+FROM node:22-slim
 
 WORKDIR /app
 
 RUN corepack enable
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install
 
 COPY . .
 
-RUN pnpm exec ng build --configuration production
+EXPOSE 4200
 
-
-FROM nginx:alpine
-
-COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["pnpm", "start", "--", "--host", "0.0.0.0"]
