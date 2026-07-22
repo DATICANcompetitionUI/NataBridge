@@ -1,5 +1,5 @@
 import { uuidv7 } from "uuidv7";
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { InitAssessmentRequest } from "../../models/assessment/dto/assessment.dto";
 import { AiFeatures } from "../../models/assessment/assessmentFeatures.model";
 import { AiApiResponse } from "../../models/ai/aiApiResponse.model";
@@ -32,7 +32,7 @@ const getAiPrediction = async (aiFeatures: AiFeatures) => {
           convertCelsiusTempToFahrenheit(aiFeatures.bodyTemp);
 
      const response = await fetch(
-          `${process.env.AI_ORIGIN}/predict`,
+          `${process.env.ai_origin}/predict`,
           {
                method: "POST",
                headers: {
@@ -66,7 +66,7 @@ const saveAssessment = async (
      prediction: AiApiResponse
 ) => {
      const client = await server.pg.connect();
-     const uid = uuidv7();
+     const patId = `pat-${uuidv7()}`, assId = `ass-${uuidv7()}`, predictionId = `pred-res-${uuidv7()}`, predFactorId = `pred-fac-${uuidv7()}`;
 
      try {
           await client.query("BEGIN");
@@ -74,43 +74,45 @@ const saveAssessment = async (
           const patient = await client.query(`
                INSERT INTO patients(id, firstname, middlename, lastname, dob, email, phone) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id
                `, [
-                    uid,
-                    personalInformation.firstname,
-                    personalInformation.middlename,
-                    personalInformation.lastname,
-                    personalInformation.dob,
-                    personalInformation.email,
-                    personalInformation.phone
-               ]);
+               patId,
+               personalInformation.firstname,
+               personalInformation.middlename,
+               personalInformation.lastname,
+               personalInformation.dob,
+               personalInformation.email,
+               personalInformation.phone
+          ]);
 
           const patientId = patient.rows[0].id;
 
           const assessmentResult = await client.query(
                `
             INSERT INTO assessments (
-                patient_id,
+               id,
+               patient_id,
 
-                gestational_age,
-                first_pregnancy,
-                previous_complications,
+               gestational_age,
+               first_pregnancy,
+               previous_complications,
 
-                age,
-                systolic_bp,
-                diastolic_bp,
-                blood_sugar,
-                body_temperature_celsius,
-                heart_rate
+               age,
+               systolic_bp,
+               diastolic_bp,
+               blood_sugar,
+               body_temperature_celsius,
+               heart_rate
             )
             VALUES (
                 $1,
                 $2, $3, $4, $5, $6, $7,
-                $8, $9, $10
+                $8, $9, $10, $11
             )
             RETURNING id
             `,
                [
+                    assId,
                     patientId,
-               
+
                     secondaryInformation.gestationalAge,
                     secondaryInformation.firstPregnancy,
                     secondaryInformation.previousComplications,
@@ -131,18 +133,20 @@ const saveAssessment = async (
           const predictionResult = await client.query(
                `
             INSERT INTO prediction_results (
-                assessment_id,
-                prediction,
-                confidence,
-                low_risk_probability,
-                mid_risk_probability,
-                high_risk_probability,
-                model_version
+               id,
+               assessment_id,
+               prediction,
+               confidence,
+               low_risk_probability,
+               mid_risk_probability,
+               high_risk_probability,
+               model_version
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING id
             `,
                [
+                    predictionId,
                     assessmentId,
                     prediction.prediction,
                     prediction.confidence,
@@ -153,20 +157,17 @@ const saveAssessment = async (
                ]
           );
 
-          const predictionId =
-               predictionResult.rows[0].id;
-
-
           for (const factor of prediction.topFactors) {
                await client.query(
                     `
                 INSERT INTO prediction_factors (
+                    id,
                     prediction_result_id,
                     feature,
                     impact
                 )
-                VALUES ($1, $2, $3)
-                `, [predictionId, factor.feature, factor.impact]
+                VALUES ($1, $2, $3, $4)
+                `, [predFactorId, predictionId, factor.feature, factor.impact]
                );
           }
 

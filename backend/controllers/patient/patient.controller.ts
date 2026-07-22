@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { fetchPatientsWithLatestAssessment, registerPatient } from "../../services/patient/patient.service";
 import { CreatePatientRequest } from "../../models/patient/dto/patient.dto";
 
@@ -27,7 +27,7 @@ const getPatients = async (
      request: FastifyRequest,
      reply: FastifyReply
 ) => {
-     try {
+     try {          
           if (!request.user) return reply.code(403).send("Unauthenticated");
 
           const patients = await fetchPatientsWithLatestAssessment(request.server);

@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { InitAssessmentRequest } from "../../models/assessment/dto/assessment.dto";
 import { processAssessment } from "../../services/assessment/assessment.service";
 

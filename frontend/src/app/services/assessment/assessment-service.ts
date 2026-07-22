@@ -18,36 +18,71 @@ export class AssessmentService {
      readonly errorMessage = signal<string | null>(null);
 
      readonly result = signal<AssessmentResultApi | null>(
-          JSON.parse(localStorage.getItem('assessment_result') || 'null')
+          this.getStoredData<AssessmentResultApi>('assessment_result')
      );
+
      readonly userInput = signal<AssessmentApi | null>(
-          JSON.parse(localStorage.getItem('assessment_input') || 'null')
+          this.getStoredData<AssessmentApi>('assessment_input')
      );
 
      submitAssessment(assessmentData: AssessmentApi) {
           this.utilService.showLoader();
+
           this.userInput.set(assessmentData);
-          localStorage.setItem('assessment_input', JSON.stringify(assessmentData));
+          localStorage.setItem(
+               'assessment_input',
+               JSON.stringify(assessmentData)
+          );
 
           this.http
-               .post<ApiResponse<AssessmentResultApi>>(`${environment.api}/assessments`, assessmentData)
-               .pipe(finalize(() => this.utilService.hideLoader()))
+               .post<ApiResponse<AssessmentResultApi>>(
+                    `${environment.api}/assessments`,
+                    assessmentData,
+                    { withCredentials: true }
+               )
+               .pipe(
+                    finalize(() => this.utilService.hideLoader())
+               )
                .subscribe({
                     next: (resp) => {
                          this.result.set(resp.data);
 
-                         localStorage.setItem('assessment_result', JSON.stringify(resp.data));
+                         localStorage.setItem(
+                              'assessment_result',
+                              JSON.stringify(resp.data)
+                         );
 
-                         this.router.navigateByUrl('assessment/result')
+                         this.router.navigateByUrl('assessment/result');
                     },
-                    error: (err) => this.errorMessage.set(err),
+
+                    error: (err) => {
+                         this.errorMessage.set(
+                              err?.error?.message ?? 'Assessment failed'
+                         );
+                    },
                });
      }
 
      clearAssessmentStorage() {
           localStorage.removeItem('assessment_result');
           localStorage.removeItem('assessment_input');
+
           this.result.set(null);
           this.userInput.set(null);
+     }
+
+     private getStoredData<T>(key: string): T | null {
+          const value = localStorage.getItem(key);
+
+          if (!value || value === 'undefined') {
+               return null;
+          }
+
+          try {
+               return JSON.parse(value) as T;
+          } catch {
+               localStorage.removeItem(key);
+               return null;
+          }
      }
 }

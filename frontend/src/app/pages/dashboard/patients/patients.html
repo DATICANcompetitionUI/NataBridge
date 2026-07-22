@@ -122,7 +122,13 @@
 
                     <tr class="mat-row" *matNoDataRow>
                          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-                              No patients found.
+                              @if(loading()){
+                                   <mat-spinner diameter="20"></mat-spinner>
+                              } @else {
+                                   <span>
+                                        No patients found.
+                                   </span>
+                              }
                          </td>
                     </tr>
 

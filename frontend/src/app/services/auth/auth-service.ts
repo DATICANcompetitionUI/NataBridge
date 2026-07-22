@@ -9,56 +9,71 @@ import { AuthCredentials } from '../../models/auth/Auth.ui';
 
 @Service()
 export class AuthService {
-     private router = inject(Router);
      private http = inject(HttpClient);
+     private router = inject(Router);
+
+     private readonly AUTH_KEY = 'userAuthenticated';
 
      readonly loading = signal<boolean>(false);
      readonly errorMessage = signal<string | null>(null);
      readonly user = signal<UserApi | null>(null);
-     readonly isUserAuthenticated = signal<boolean>(true);
 
-     isUserCredentialsCorrect(id: string, password: string) {
-          return id == "jane@natabridge.com" && password == "12345";
+     readonly isUserAuthenticated = signal<boolean>(
+          localStorage.getItem(this.AUTH_KEY) === 'true'
+     );
+
+     constructor() {
+          if (!this.isUserAuthenticated()) {
+               this.router.navigateByUrl('/auth');
+          }
      }
 
      async login(authCredentials: AuthCredentials) {
           this.loading.set(true);
+          this.errorMessage.set(null);
 
-          // await fetch(`${environment.api}/users/login`, {
-          //      method: 'post'
-          // })
-          
-          // simple delay
-          setTimeout(() => {
-               // demo call
-               if (this.isUserCredentialsCorrect(authCredentials.id, authCredentials.password)) {
-                    this.isUserAuthenticated.set(true);
-
-                    this.router.navigateByUrl('/dashboard');
-               } else this.errorMessage.set("Wrong Credentials")
-
-               this.loading.set(false)
-          }, 2500);
-
-          // api call 
           this.http
-               .post<ApiResponse<UserApi>>(`${environment.api}/login`, authCredentials)
+               .post<ApiResponse<UserApi>>(
+                    `${environment.api}/users/login`,
+                    authCredentials,
+                    { withCredentials: true }
+               )
                .pipe(finalize(() => this.loading.set(false)))
                .subscribe({
                     next: (resp) => {
-                         console.log(resp.data);
+                         this.user.set(resp.data);
+                         this.setAuthenticated(true);
+
+                         this.router.navigateByUrl('/dashboard');
                     },
-                    error: (err) => this.errorMessage.set(err),
+
+                    error: (err) => {
+                         this.setAuthenticated(false);
+
+                         this.errorMessage.set(
+                              err?.error?.message ?? 'Login failed'
+                         );
+                    },
                });
      }
 
      async logout() {
-          // await this.auth.signOut();
-          this.isUserAuthenticated.set(false)
+          this.setAuthenticated(false);
+          this.user.set(null);
 
           this.router.navigateByUrl('/auth');
 
           this.resetContext();
+     }
+
+     private setAuthenticated(value: boolean) {
+          this.isUserAuthenticated.set(value);
+
+          if (value) {
+               localStorage.setItem(this.AUTH_KEY, 'true');
+          } else {
+               localStorage.removeItem(this.AUTH_KEY);
+          }
      }
 
      resetContext() {

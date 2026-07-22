@@ -7,10 +7,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Sort, MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'nata-patients',
-  imports: [NgIcon, MatPaginatorModule, MatSortModule, MatTableModule, DatePipe],
+  imports: [NgIcon, MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule, DatePipe],
   templateUrl: './patients.html',
   styleUrl: './patients.css',
   providers: [provideIcons({
@@ -19,6 +20,7 @@ import { DatePipe } from '@angular/common';
 })
 export class Patients implements OnInit {
   private patientService = inject(PatientService);
+  readonly loading = this.patientService.loading;
 
   ngOnInit(): void {
     this.patientService.getPatients();

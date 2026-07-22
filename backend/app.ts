@@ -1,4 +1,5 @@
 import fastifyCors from "@fastify/cors";
+import fastifyCookies from "@fastify/cookie";
 import { fastifyPostgres } from "@fastify/postgres";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { fastify, FastifyInstance } from 'fastify'
@@ -13,19 +14,34 @@ const server: FastifyInstance = fastify({
 
 // load plugins (from the Fastify ecosystem) next
 server.register(fastifyCors, {
-	origin: process.env.FRONTEND_ORIGIN!,
+	origin: process.env.frontend_origin!,
 	methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization"],
+	credentials: true
 });
 server.register(fastifyPostgres, dbConfig);
-server.register(userRoutes, {prefix: '/api/users'});
-server.register(patientRoutes, {prefix: '/api/patients'});
-server.register(assessmentRoutes, {prefix: '/api/assessments'});
+server.register(fastifyCookies);
+server.register(userRoutes, { prefix: '/api/users' });
+server.register(patientRoutes, { prefix: '/api/patients' });
+server.register(assessmentRoutes, { prefix: '/api/assessments' });
 
 server.decorateRequest("user", null);
 
+server.addHook('preHandler', async (request, reply) => {
+	const sessionId = request.cookies.session_id;
+
+	if (!sessionId) {
+		request.user = null;
+		return;
+	}
+
+	request.user = {
+		id: sessionId
+	};
+});
+
 server.listen(
-	{ port: Number(process.env?.PORT) || 4200, host: "0.0.0.0" },
+	{ port: Number(process.env?.PORT) || 4500, host: "0.0.0.0" },
 	(err, address) => {
 		if (err) {
 			server.log.error(err);

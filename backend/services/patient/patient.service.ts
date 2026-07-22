@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { CreatePatientRequest } from "../../models/patient/dto/patient.dto";
 import { createPatient, getPatientsWithLatestAssessment } from "../../repositories/patient/patient.repo";
 import { uuidv7 } from "uuidv7";
@@ -28,8 +28,9 @@ const registerPatient = async (
      }
 };
 
-const fetchPatientsWithLatestAssessment = async (server: FastifyInstance) => {
+const fetchPatientsWithLatestAssessment = async (server: FastifyInstance) => {    
      const client = await server.pg.connect();
+     
      const result = await getPatientsWithLatestAssessment(client);
 
      return result;

@@ -20,7 +20,9 @@ export class PatientService {
           this.loading.set(true);
 
           this.http
-               .get<ApiResponse<PatientApi[]>>(`${environment.api}/patients`)
+               .get<ApiResponse<PatientApi[]>>(`${environment.api}/patients`, {
+                    withCredentials: true
+               })
                .pipe(finalize(() => this.loading.set(false)))
                .subscribe({
                     next: (resp) => {
