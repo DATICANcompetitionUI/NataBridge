@@ -18,11 +18,11 @@ export class AssessmentService {
      readonly errorMessage = signal<string | null>(null);
 
      readonly result = signal<AssessmentResultApi | null>(
-          this.getStoredData<AssessmentResultApi>('assessment_result')
+          this.utilService.getStoredData<AssessmentResultApi>('assessment_result')
      );
 
      readonly userInput = signal<AssessmentApi | null>(
-          this.getStoredData<AssessmentApi>('assessment_input')
+          this.utilService.getStoredData<AssessmentApi>('assessment_input')
      );
 
      submitAssessment(assessmentData: AssessmentApi) {
@@ -47,11 +47,14 @@ export class AssessmentService {
                     next: (resp) => {
                          this.result.set(resp.data);
 
+                         console.log(resp.data);
+                         
+                         
                          localStorage.setItem(
                               'assessment_result',
                               JSON.stringify(resp.data)
                          );
-
+                    
                          this.router.navigateByUrl('assessment/result');
                     },
 
@@ -71,18 +74,5 @@ export class AssessmentService {
           this.userInput.set(null);
      }
 
-     private getStoredData<T>(key: string): T | null {
-          const value = localStorage.getItem(key);
-
-          if (!value || value === 'undefined') {
-               return null;
-          }
-
-          try {
-               return JSON.parse(value) as T;
-          } catch {
-               localStorage.removeItem(key);
-               return null;
-          }
-     }
+     
 }

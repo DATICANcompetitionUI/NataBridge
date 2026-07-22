@@ -121,12 +121,8 @@ export class AssessmentTest {
 
     const dialogRef = this.dialog.open(AcknowledgementDialog);
 
-    console.log(this.prepareDataForSubmission());
-
     dialogRef.afterClosed().subscribe(result => {
       const agreed = result;
-
-      console.log(agreed);
 
       if (agreed)
         this.assessmentService.submitAssessment(this.prepareDataForSubmission());

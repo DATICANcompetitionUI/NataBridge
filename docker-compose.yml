@@ -1,47 +1,27 @@
 services:
-
   ai:
     build:
       context: ./ai
-      dockerfile: Dockerfile
-    container_name: natabridge_ai
+    container_name: natabridge-ai
     ports:
       - "8000:8000"
 
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
-    container_name: natabridge_backend
+    container_name: natabridge-backend
     ports:
       - "3000:3000"
     env_file:
       - ./backend/.env
     depends_on:
       - ai
-      - db
 
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
-    container_name: natabridge_frontend
+    container_name: natabridge-frontend
     ports:
-      - "4200:80"
+      - "4200:4200"
     depends_on:
       - backend
-
-  db:
-    image: postgres:18
-    container_name: natabridge_db
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: natabridge
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:

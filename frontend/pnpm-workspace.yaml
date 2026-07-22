@@ -2,6 +2,6 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   less: false
-  lmdb: false
-  msgpackr-extract: false
+  lmdb: true
+  msgpackr-extract: true
   nx: false

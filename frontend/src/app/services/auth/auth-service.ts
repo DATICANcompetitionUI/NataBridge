@@ -22,12 +22,6 @@ export class AuthService {
           localStorage.getItem(this.AUTH_KEY) === 'true'
      );
 
-     constructor() {
-          if (!this.isUserAuthenticated()) {
-               this.router.navigateByUrl('/auth');
-          }
-     }
-
      async login(authCredentials: AuthCredentials) {
           this.loading.set(true);
           this.errorMessage.set(null);

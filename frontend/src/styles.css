@@ -164,6 +164,11 @@ textarea {
      }
 }
 
+.header-box-shadow{
+     background-color: inherit;
+     box-shadow: rgba(67, 71, 85, 0.27) 0px 3px 4px -2px;
+}
+
 p[nata-p] {
      @apply leading-6 not-first:mt-4;
 }

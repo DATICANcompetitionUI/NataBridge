@@ -1,5 +1,9 @@
-<nata-test-nav-bar />
+<section class="header-box-shadow">
+     <nata-test-nav-bar />
+</section>
 
-<div class="px-30">
-<nata-assessment-test [userAuthenticated]="isUserAuthenticated()" />
+<div class="px-30 py-8.5">
+     <nata-assessment-test [userAuthenticated]="isUserAuthenticated()" />
 </div>
+
+<nata-page-loader />

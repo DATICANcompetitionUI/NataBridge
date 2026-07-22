@@ -3,11 +3,13 @@ import { H3 } from "../../../core/typography/h3/h3";
 import { AssessmentResultApi } from '../../../models/assessment/Assessment-result.api';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgStyle } from '@angular/common';
 import { AssessmentApi } from '../../../models/assessment/Assessment.api';
 import { DecimalPipe } from '@angular/common';
-import { AssessmentService } from '../../../services/assessment/assessment-service';
+import { AuthService } from '../../../services/auth/auth-service';
+import { heroArrowLongLeft } from '@ng-icons/heroicons/outline';
+import { provideIcons, NgIcon } from '@ng-icons/core';
 
 interface FactorRow {
   vital: string;
@@ -19,11 +21,15 @@ interface FactorRow {
 
 @Component({
   selector: 'nata-assessment-result',
-  imports: [H3, NgStyle, MatProgressSpinnerModule, MatTableModule, MatProgressBarModule, DecimalPipe],
+  imports: [H3, NgStyle, MatProgressSpinnerModule, MatTableModule, MatProgressBarModule, DecimalPipe, NgIcon],
   templateUrl: './assessment-result.html',
   styleUrl: './assessment-result.css',
+  viewProviders: [
+    provideIcons({ heroArrowLongLeft })
+  ]
 })
 export class AssessmentResult {
+  private authService = inject(AuthService);
   userInput = input<AssessmentApi | null>(null);
   result = input<AssessmentResultApi | null>(null);
   styles = input<{
@@ -38,7 +44,7 @@ export class AssessmentResult {
 
     if (!result) return '--';
 
-    return (result.confidence * 100).toFixed(1)
+    return (result.prediction.confidence * 100).toFixed(1)
   })
 
   displayedColumns: string[] = [
@@ -50,12 +56,9 @@ export class AssessmentResult {
 
   dataSource = new MatTableDataSource<FactorRow>();
   ngOnInit() {
-    const result = this.result();
+    const result = this.result()?.prediction;
     const userInput = this.userInput();
 
-    console.log(userInput);
-    console.log(result);
-    
     if (!userInput || !result) return;
     const input = {
       Age: userInput.age,
@@ -91,5 +94,25 @@ export class AssessmentResult {
     };
 
     return map[feature] ?? feature;
+  }
+
+  conditions = computed(() => {
+    const result = this.result()?.prediction,
+      recommendations = result?.recommendations
+
+    return recommendations
+    ?.filter(factor => factor.actions.length > 0)
+    .map(factor => factor.condition);
+  })
+
+  recommendations = computed(() => {
+    const result = this.result()?.prediction,
+      recommendations = result?.recommendations
+
+    return recommendations?.flatMap(factor => factor.counselling)
+  })
+
+  goBack() {
+    history.back()
   }
 }

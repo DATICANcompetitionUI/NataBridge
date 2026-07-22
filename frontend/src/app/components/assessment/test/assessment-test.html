@@ -1,4 +1,4 @@
-<h2 nata-h2 class="capitalize">
+<h2 nata-h2 class="capitalize px-5">
      @if(!userAuthenticated()) {
           <span>maternal health risk assessment</span>
      } @else {
@@ -6,9 +6,9 @@
      }
 </h2>
 
-<div class="mt-5">
+<div class="mt-1">
      @if(userAuthenticated()) {
-     <p class="text-sm text-balance mb-3.5">Capture current vitals and symptom manifestations. Data will be analyzed
+     <p class="text-sm text-balance mb-5">Capture current vitals and symptom manifestations. Data will be analyzed
           against
           historical baselines.
      </p>
@@ -163,7 +163,7 @@
      </mat-stepper>
      } @else {
      <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
-          <p class="text-sm text-balance mb-3.5">Complete the assessment below to receive an instant Ai-powered
+          <p class="text-sm text-balance mb-8">Complete the assessment below to receive an instant Ai-powered
                prediction of your pregnancy risk level along with your personalized recommendations.
                <span class="italic font-medium">This assessment is designed to support *not replace* professional
                     medical advice.</span>

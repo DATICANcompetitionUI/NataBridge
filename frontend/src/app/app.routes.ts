@@ -39,10 +39,6 @@ export const routes: Routes = [
                     path: 'assessment',
                     loadComponent: () => import('./pages/dashboard/assessment/test/user-assessment').then(page => page.UserAssessment)
                },
-               {
-                    path: 'assessment/result',
-                    loadComponent: () => import('./pages/dashboard/assessment/result/user-result/user-result').then(page => page.UserResult)
-               },
           ]
      }
 ];

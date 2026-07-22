@@ -11,7 +11,7 @@
           text-align: left;
           padding: 8px 10px;
           cursor: pointer;
-          border-left: 1.5px solid transparent;
+          border-left: 1.85px solid transparent;
           transition: 200ms ease;
 
           /* &:focus, */
