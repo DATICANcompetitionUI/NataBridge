@@ -78,7 +78,7 @@ def predict(request: PredictionRequest) -> Dict:
     )
 
     return {
-        "prediction": RISK_LABELS[prediction],
+        "risk": RISK_LABELS[prediction],
         "confidence": round(confidence, 4),
         "probabilities": {
             "Low Risk": round(float(probabilities[0]), 4),

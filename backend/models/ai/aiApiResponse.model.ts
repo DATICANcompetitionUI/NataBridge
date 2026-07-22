@@ -14,7 +14,7 @@ const recommendations = Type.Object({
 })
 
 const aiResultSchema = Type.Object({
-  prediction: Type.String(),
+  risk: Type.String(),
   confidence: Type.Number(),
   probabilities: Type.Object({
     "Low Risk": Type.Number(),

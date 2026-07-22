@@ -66,7 +66,7 @@ const saveAssessment = async (
      prediction: AiApiResponse
 ) => {
      const client = await server.pg.connect();
-     const patId = `pat-${uuidv7()}`, assId = `ass-${uuidv7()}`, predictionId = `pred-res-${uuidv7()}`, predFactorId = `pred-fac-${uuidv7()}`;
+     const patId = `pat-${uuidv7()}`, assId = `ass-${uuidv7()}`, predictionId = `pred-res-${uuidv7()}`;
 
      try {
           await client.query("BEGIN");
@@ -148,7 +148,7 @@ const saveAssessment = async (
                [
                     predictionId,
                     assessmentId,
-                    prediction.prediction,
+                    prediction.risk,
                     prediction.confidence,
                     prediction.probabilities["Low Risk"],
                     prediction.probabilities["Mid Risk"],
@@ -167,7 +167,7 @@ const saveAssessment = async (
                     impact
                 )
                 VALUES ($1, $2, $3, $4)
-                `, [predFactorId, predictionId, factor.feature, factor.impact]
+                `, [`pred-fac-${uuidv7()}`, predictionId, factor.feature, factor.impact]
                );
           }
 
@@ -196,7 +196,8 @@ const processAssessment = async (
      } = separateFeatures(assessmentRequest);
 
      const prediction = await getAiPrediction(aiFeatures);
-
+     console.log(prediction);
+     
      let persistenceResult;
      if (userId) {
           persistenceResult = await saveAssessment(
@@ -209,8 +210,10 @@ const processAssessment = async (
      }
 
      return {
-          prediction,
-          ...(persistenceResult ?? {})
+          data: {
+               prediction,
+               ...(persistenceResult ?? {})
+          }
      };
 }
 

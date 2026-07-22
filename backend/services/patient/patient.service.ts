@@ -28,7 +28,7 @@ const registerPatient = async (
      }
 };
 
-const fetchPatientsWithLatestAssessment = async (server: FastifyInstance) => {    
+const fetchPatientsWithLatestAssessment = async (server: FastifyInstance) => {        
      const client = await server.pg.connect();
      
      const result = await getPatientsWithLatestAssessment(client);

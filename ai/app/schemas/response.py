@@ -13,7 +13,7 @@ class Recommendation(BaseModel):
 
 
 class PredictionResponse(BaseModel):
-    prediction: str
+    risk: str
     confidence: float
     probabilities: dict[str, float]
     topFactors: list[TopFactor]
