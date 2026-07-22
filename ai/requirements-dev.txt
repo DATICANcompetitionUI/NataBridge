@@ -1,9 +1,8 @@
-matplotlib>=3.11
-seaborn>=0.13
-
-ipykernel>=7.3
-ipython>=9.15
-jupyter_client>=8.9
-jupyter_core>=5.9
-
-pytest>=8.2
+ipykernel==7.3.0
+ipython==9.15.0
+jupyter_client==8.9.1
+jupyter_core==5.9.1
+matplotlib==3.11.0
+seaborn==0.13.2
+shap==0.52.0
+pytest==8.2.0
