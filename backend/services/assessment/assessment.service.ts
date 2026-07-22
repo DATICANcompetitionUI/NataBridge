@@ -196,7 +196,6 @@ const processAssessment = async (
      } = separateFeatures(assessmentRequest);
 
      const prediction = await getAiPrediction(aiFeatures);
-     console.log(prediction);
      
      let persistenceResult;
      if (userId) {

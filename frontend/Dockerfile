@@ -8,8 +8,7 @@ COPY package.json pnpm-lock.yaml ./
 
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
-RUN pnpm install --no-optional --ignore-scripts
-RUN pnpm exec esbuild --version 2>/dev/null || echo 'esbuild option
+RUN pnpm install --frozen-lockfile --prod=false --ignore-scripts
 
 RUN apt-get purge -y python3 make g++ && apt-get autoremove -y
 

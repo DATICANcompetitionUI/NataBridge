@@ -108,11 +108,17 @@ export class AssessmentTest {
     if (!this.userAuthenticated())
       return this.healthMeasurementsFormGroup.valid;
 
+    console.log(this.personalInformationFormGroup.valid);
+    console.log(this.pregnancyInformationFormGroup.valid);
+    console.log(this.healthMeasurementsFormGroup.valid);
+    
 
     return this.personalInformationFormGroup.valid && this.pregnancyInformationFormGroup.valid && this.healthMeasurementsFormGroup.valid
   }
 
   openDialog() {
+    console.log(this.isValidForSubmission());
+    
     if (!this.isValidForSubmission()) return;
     if(this.isEmergency()) {
       this.dialog.open(EmergencyOverrideDialog);

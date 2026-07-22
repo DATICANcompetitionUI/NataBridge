@@ -108,8 +108,11 @@ export class AssessmentResult {
   recommendations = computed(() => {
     const result = this.result()?.prediction,
       recommendations = result?.recommendations
+    
+    const isUser = this.authService.isUserAuthenticated();
 
-    return recommendations?.flatMap(factor => factor.counselling)
+    
+    return isUser ? recommendations?.flatMap(factor => factor.actions) : recommendations?.flatMap(factor => factor.counselling)
   })
 
   goBack() {
