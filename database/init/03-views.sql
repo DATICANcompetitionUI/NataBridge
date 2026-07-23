@@ -48,17 +48,13 @@ WITH latest_assessments AS (
         pr.low_risk_probability,
         pr.mid_risk_probability,
         pr.high_risk_probability
-
     FROM assessments a
-
     INNER JOIN prediction_results pr
         ON pr.assessment_id = a.id
-
     ORDER BY
         a.patient_id,
         a.created_at DESC
 )
-
 SELECT
     la.assessment_id,
     la.patient_id,
@@ -99,15 +95,11 @@ SELECT
         ),
         '[]'
     ) AS factors
-
 FROM latest_assessments la
-
 INNER JOIN patients p
     ON p.id = la.patient_id
-
 LEFT JOIN prediction_factors pf
     ON pf.prediction_result_id = la.prediction_result_id
-
 GROUP BY
     la.assessment_id,
     la.patient_id,
@@ -127,5 +119,4 @@ GROUP BY
     la.body_temperature_celsius,
     la.heart_rate,
     la.created_at
-
 ORDER BY la.created_at DESC;
