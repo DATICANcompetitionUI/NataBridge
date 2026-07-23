@@ -1,3 +1,3 @@
 export const Environment = {
-     api: 'http://localhost:3000/api',
+     api: 'https://backend-service-pf3t.onrender.com/api',
 }
