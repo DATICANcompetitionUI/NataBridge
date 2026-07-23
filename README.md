@@ -671,7 +671,7 @@ Follow the steps below to launch NataBridge locally.
 
 ### Option 1 - Run with Docker (Recommended)
 ```bash
-git clone https://github.com/ojibovictor111-cpu/natabridge.git
+git clone https://github.com/DATICANcompetitionUI/NataBridge.git
 cd natabridge
 docker-compose up --build
 ```
