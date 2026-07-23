@@ -25,7 +25,10 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/material-theme.scss", "src/styles.css"]
+            "styles": [
+              "src/material-theme.scss",
+              "src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
@@ -41,12 +44,24 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environment/environment.development.ts",
+                  "with": "src/environment/environment.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                  {
+                  "replace": "src/environment/environment.ts",
+                  "with": "src/environment/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
