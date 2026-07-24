@@ -5,6 +5,7 @@ import { hugeLogout01 } from '@ng-icons/huge-icons';
 import { AuthService } from '../../../services/auth/auth-service';
 import { MatDialog } from '@angular/material/dialog';
 import { Logout } from '../../modals/logout/logout';
+import {lucideClipboardCheck, lucideHouse, lucideUsersRound} from '@ng-icons/lucide'
 
 @Component({
   selector: 'nata-dashboard-nav-bar',
@@ -12,7 +13,7 @@ import { Logout } from '../../modals/logout/logout';
   templateUrl: './dashboard-nav-bar.html',
   styleUrl: './dashboard-nav-bar.css',
   providers: [provideIcons({
-    hugeLogout01
+    hugeLogout01, lucideClipboardCheck, lucideUsersRound, lucideHouse
   })]
 })
 export class DashboardNavBar {
