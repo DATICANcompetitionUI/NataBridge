@@ -666,95 +666,58 @@ natabridge/
 ```
 
 
+## Live Publish
+Click <a href="https://natabridge-om17.onrender.com">Here</a>
+
 ## Quick Start
-Follow the steps below to launch NataBridge locally.
-
-### Option 1 - Run with Docker (Recommended)
-```bash
-git clone https://github.com/DATICANcompetitionUI/NataBridge.git
-cd natabridge
-docker-compose up --build
-```
-
-### Option 2 - Run without Docker
-```bash
-pip install -r requirements.txt
-# Start Ai Service
-uvicorn ai.app.main:app --reload
-
-# Start Backend Service
-cd backend
-pnpm run dev or npm run dev
-
-# Start Frontend 
-pnpm exec ng build
-```
-
-
-
-## Installation & Setup
-
-Follow the steps below to set up and run NataBridge locally.
+Follow the steps below to launch NataBridge locally from the terminal.
 
 ### Prerequisites
 
 Ensure the following software is installed:
 - Python 3.10 or later
 - Git
-- Node.js (if running the frontend)
-- pip (Python package manager)
+- Node.js
+- Docker Desktop (if you intend to start up with Docker)
 
 ### Clone the Repository
 ```bash
 git clone https://github.com/DATICANcompetitionUI/NataBridge.git
-cd NataBridge
+
+cd natabridge
 ```
 
-### Create a Virtual Environment
+### Option 1 - Run with Docker (Recommended)
+
 ```bash
-python -m venv venv
+docker-compose up --build
 ```
 
-Activate the virtual environment.
-
-**Windows**
+### Option 2 - Run without Docker
 ```bash
-venv\Scripts\activate
-```
-
-**macOS/Linux**
-```bash
-source venv/bin/activate
-```
-
-### Install Dependencies
-```bash
+# Install Ai requirements
 pip install -r requirements.txt
-```
 
-### Run the Frontend
+# Start Ai Service
+cd ai
+uvicorn ai.app.main:app --reload
 
-If applicable:
+# Start Backend Service
+cd ..
+cd backend
+pnpm install
+pnpm run dev
 
-```bash
+# Start Frontend 
+cd ..
 cd frontend
-npm install
-npm run dev
+pnpm install
+pnpm exec ng build
 ```
 
-The application will be available locally in your browser.
 
-Backend:
-```
-http://localhost:3000
-```
+The application will be available locally in your browser at http://localhost:4200
 
-Frontend:
-```
-http://localhost:4200
-```
-
-*(Update the ports if your project uses different ones.)*
 
 
 
