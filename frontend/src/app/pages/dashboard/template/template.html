@@ -2,8 +2,20 @@
      <div class="s">
           <nata-dashboard-nav-bar />
      </div>
+
      <div class="content">
+          <header class="py-3 px-10 flex-center justify-between">
+               <button class="p-1 border rounded-full flex items-center justify-center min-[426px]:hidden " type="button">
+                    <ng-icon name="hugeMenu02" />
+               </button>
+               
+               <button class="p-1 border border-(--sidebar-border) rounded-full flex items-center justify-center ml-auto cursor-pointer hover:bg-(--sidebar-accent)" type="button">
+                    <ng-icon name="hugeNotification01" />
+               </button>
+          </header>
+          <div class="overflow-auto">
           <router-outlet></router-outlet>
+          </div>
      </div>
 </div>
 

@@ -3,6 +3,7 @@ import { H1 } from "../../../core/typography/h1/h1";
 import { Muted } from "../../../core/typography/muted/muted";
 import { Footer } from "../../footer/footer";
 import { RouterModule } from '@angular/router';
+import Splitting from 'splitting';
 
 @Component({
   selector: 'nata-heros',
@@ -11,5 +12,11 @@ import { RouterModule } from '@angular/router';
   styleUrl: './heros.css',
 })
 export class Heros {
-
+  constructor() {
+    Splitting({
+      target: "[data-splitting]",
+      by: "words",
+      key: null
+    })
+  }
 }

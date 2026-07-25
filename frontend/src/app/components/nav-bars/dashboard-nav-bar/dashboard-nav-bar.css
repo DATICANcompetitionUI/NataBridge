@@ -1,6 +1,9 @@
 .sidebar {
-     border-right: 1px solid oklch(0.922 0 0);
-     background-color: whitesmoke;
+     box-shadow: var(--sidebar-border) 2px 0px 2px -2px;
+
+     & > div {
+          box-shadow: var(--sidebar-border) 0px 2px 2px -2px;
+     }
 
      & button {
           text-transform: capitalize;
@@ -11,21 +14,24 @@
           text-align: left;
           padding: 8px 10px;
           cursor: pointer;
-          border-left: 1.85px solid transparent;
           transition: 200ms ease;
+          border-radius: 4px;
+          column-gap: 5px;
 
           /* &:focus, */
           &:focus-visible {
-               outline: 1px solid oklch(0.708 0 0);
+               outline: 1px solid var(--sidebar-accent);
           }
 
           &:not(:where(.logout)):hover {
-               background-color: rgb(from #050505 r g b /0.05);
+               /* background-color: rgb(from #050505 r g b /0.05); */
+               background-color: var(--sidebar-accent);
           }
 
           &:where(.active) {
-               border-color: var(--nata-primary);
-               background-color: rgb(from #050505 r g b /0.02);
+               color: var(--nata-primary);
+               background-color: var(--sidebar-accent);
+               scale: 102%;
           }
      }
 }

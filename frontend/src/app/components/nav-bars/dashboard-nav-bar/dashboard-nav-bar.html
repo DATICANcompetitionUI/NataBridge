@@ -1,22 +1,32 @@
 <section class="h-dvh w-full sidebar relative">
-     <div class="top max-h-12 flex-center py-5 px-1.5  cursor-pointer" routerLink="">
-          <img src="./logo.webp" alt="Natabridge logo" class="h-8.5">
-          <span class="capitalize">nataBridge</span>
+     <div class="max-h-12 flex-center py-5 px-1.5 cursor-pointer" routerLink="">
+          <a href="/" class="flex-center gap-1.5 py-3.5 pl-1.5">
+               <img src="./logo.webp" alt="NataBridge logo" class="h-8.5">
+               <span class="max-sm:hidden text-[#44b7ed] text-xs font-semibold">NataBridge</span>
+          </a>
      </div>
-     <span class="separator"></span>
-     <main class="px-1.5 py-3 flex flex-col gap-y-1.5">
-          <button type="button" routerLink="" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}">home</button>
+     <main class="px-1.5 py-5 flex flex-col gap-y-1.5">
+          <button type="button" routerLink="." routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">
+               <ng-icon name="lucideHouse" />
+          home
+          </button>
           <button type="button" routerLink="patients" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}">patients</button>
+               [routerLinkActiveOptions]="{exact: true}">
+               <ng-icon name="lucideUsersRound" />
+          patients
+          </button>
           <button type="button" routerLink="assessment" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}">assessments</button>
+               [routerLinkActiveOptions]="{exact: true}">
+               <ng-icon name="lucideClipboardCheck" />
+          assessments
+          </button>
      </main>
      <div class="absolute bottom-0 w-full p-1.5 pt-0">
           <span class="separator mb-1.5"></span>
           <div class="px-1.5">
                <button type="button">profile</button>
-               <button type="button" class="mt-1.5 gap-x-1.5 hover:bg-(--nata-warning)/15 logout" (click)="logout()">
+               <button type="button" class="mt-1.5 gap-x-1.5 hover:bg-(--nata-warning)/15 logout text-(--nata-warning)" (click)="logout()">
                     <ng-icon name="hugeLogout01" />
                     <span>logout</span>
                </button>

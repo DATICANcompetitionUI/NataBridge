@@ -8,15 +8,15 @@
 
 <div class="mt-1">
      @if(userAuthenticated()) {
-     <p class="text-sm text-balance mb-5">Capture current vitals and symptom manifestations. Data will be analyzed
+     <p class="text-sm max-sm:text-justify mb-8 px-5">Capture current vitals and symptom manifestations. Data will be analyzed
           against
           historical baselines.
      </p>
      <mat-stepper linear="true" #stepper>
           <mat-step [stepControl]="personalInformationFormGroup">
-               <form [formGroup]="personalInformationFormGroup" class="px-5">
-                    <ng-template matStepLabel class="text-sm">Personal Information</ng-template>
-
+               <form [formGroup]="personalInformationFormGroup" class="px-5 max-sm:px-0">
+                    <ng-template matStepLabel class="text-sm max-sm:hidden">Personal Information</ng-template>
+                         
                     <div class="row">
                          <div class="field">
                               <label for="lastname">last name</label>
@@ -63,7 +63,7 @@
           </mat-step>
 
           <mat-step [stepControl]="pregnancyInformationFormGroup">
-               <form [formGroup]="pregnancyInformationFormGroup" class="px-5">
+               <form [formGroup]="pregnancyInformationFormGroup" class="px-5 max-sm:px-0">
                     <ng-template matStepLabel class="text-sm">Pregnancy Information</ng-template>
 
                     <div class="row">
@@ -108,7 +108,7 @@
           </mat-step>
 
           <mat-step [stepControl]="healthMeasurementsFormGroup">
-               <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
+               <form [formGroup]="healthMeasurementsFormGroup" class="px-5 max-sm:px-0">
                     <ng-template matStepLabel class="text-sm">Health Measurements</ng-template>
 
                     <div class="row">
@@ -118,7 +118,7 @@
                               <div class="flex-center gap-x-0.5">
                                    <input type="number" id="systolicBP" placeholder="120" min="60"
                                         formControlName="systolicBP">
-                                   <span class="mx-2">/</span>
+                                   <span class="mx-2 max-sm:mx-1"><ng-icon name="heroSlash" /></span>
                                    <input type="number" id="diastolicBP" placeholder="80" min="30"
                                         formControlName="diastolicBP">
                               </div>
@@ -163,9 +163,9 @@
      </mat-stepper>
      } @else {
      <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
-          <p class="text-sm text-balance mb-8">Complete the assessment below to receive an instant Ai-powered
+          <p class="text-sm max-sm:text-justify mb-8">Complete the assessment below to receive an instant Ai-powered
                prediction of your pregnancy risk level along with your personalized recommendations.
-               <span class="font-medium">This assessment is designed to support *not replace* professional
+               <span class="font-medium text-(--nata-warning)">This assessment is designed to support *not replace* professional
                     medical advice.</span>
           </p>
 
@@ -192,7 +192,7 @@
                               }}
                          </div>
 
-                         <span class="mx-2">
+                         <span class="mx-2 max-sm:mx-1">
                               <ng-icon name="heroSlash" />
                          </span>
 
