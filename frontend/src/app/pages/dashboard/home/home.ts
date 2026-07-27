@@ -4,12 +4,18 @@ import { DashboardAssessment } from '../../../models/dashboard/dashboard.api';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { NgIcon, provideIcons } from "@ng-icons/core";
 
 @Component({
   selector: 'nata-home',
-  imports: [RouterModule, DatePipe, MatTableModule],
+  imports: [RouterModule, DatePipe, MatTableModule, NgIcon],
   templateUrl: './home.html',
   styleUrl: './home.css',
+  viewProviders: [
+    provideIcons({
+      
+    })
+  ]
 })
 export class Home {
   dashboardService = inject(DashboardService);

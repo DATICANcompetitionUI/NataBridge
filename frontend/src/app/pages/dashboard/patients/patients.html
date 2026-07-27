@@ -1,5 +1,5 @@
-<section class="px-8.5 py-5 min-w-full">
-     <header class="flex-center justify-between">
+<section class="px-8.5 max-md:px-5 py-5 min-w-full">
+     <header class="flex items-center justify-between max-sm:flex-col max-sm:gap-2.5 max-sm:items-start">
           <article>
                <h2 nata-h2 class="capitalize">patients under care</h2>
                <p>Manage and monitor health records. Review recent assessments and track gestational periods</p>
@@ -9,15 +9,17 @@
                <span class="capitalize">register new mother</span>
           </button>
      </header>
-     <div class="mt-5">
+     <div class="mt-5 max-sm:mt-10">
           <div class="row">
+               <div class="field">
                <label for="searchbar">Search patients</label>
 
                <input matInput type="search" placeholder="Search by name or ID" (keyup)="applyFilter($event)"
                     id="searchbar" class="nata-input" />
+                    </div>
           </div>
 
-          <div class="table-container">
+          <div class="table-container overflow-x-auto">
                <table mat-table [dataSource]="dataSource()" matSort>
 
                     <!-- Patient Name -->
@@ -133,7 +135,6 @@
                     </tr>
 
                </table>
-
           </div>
 
           <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>

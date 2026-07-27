@@ -4,12 +4,19 @@ import { Muted } from "../../../core/typography/muted/muted";
 import { Footer } from "../../footer/footer";
 import { RouterModule } from '@angular/router';
 import Splitting from 'splitting';
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import { fluentTextQuoteOpening } from '@ng-icons/fluent-ui';
 
 @Component({
   selector: 'nata-heros',
-  imports: [H1, Muted, Footer, RouterModule],
+  imports: [H1, Muted, Footer, RouterModule, NgIcon],
   templateUrl: './heros.html',
   styleUrl: './heros.css',
+  viewProviders: [
+    provideIcons({
+      fluentTextQuoteOpening
+    })
+  ]
 })
 export class Heros {
   constructor() {

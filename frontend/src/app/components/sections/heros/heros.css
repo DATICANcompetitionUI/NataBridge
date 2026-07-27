@@ -1,15 +1,30 @@
 .card {
      padding: 200px 24px 34px;
      border-radius: 20px;
-     background-color: rgba(from var(--nata-primary-hover) r g b /0.2);
+     /* background-color: rgba(from var(--nata-primary) r g b /0.2); */
+     background-color: var(--color-white);
      transition: all 200ms ease;
+     position: relative;
+
+     &::after {
+          content: '';
+          position: absolute;
+          top: 24px;
+          right: 24px;
+          width: 35px;
+          aspect-ratio: 1;
+          border-radius: 50%;
+          background-color: rgba(from var(--nata-primary-hover) r g b/0.5);
+     }
 
      &:hover {
-          background-color: rgba(from var(--nata-primary-hover) r g b /0.8);
-          color: var(--primary-foreground);
+          scale: 102%;
+
+          &::after {
+               background-color: var(--nata-primary-hover);
+          }
      }
 }
-
 
 .step-container {
      counter-reset: step-counter;
@@ -37,3 +52,4 @@
           border-bottom: 1px solid #666;
      }
 }
+

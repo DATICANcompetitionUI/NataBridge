@@ -1,11 +1,17 @@
 <div class="container">
-     <div class="s">
-          <nata-dashboard-nav-bar />
+     <div class="s" [class.active]="isNavBarOpened()">
+          <nata-dashboard-nav-bar (navClicked)="closeSideBar($event)" />
+
+          @if (isNavBarOpened()) {
+               <button type="button" class="p-1 border rounded-full flex items-center justify-center border-(--sidebar-border) hover:bg-(--sidebar-accent) absolute top-3 right-4" (click)="closeNavBar()">
+                    <ng-icon name="hugeMinusSign" />
+               </button>
+          }
      </div>
 
      <div class="content">
-          <header class="py-3 px-10 flex-center justify-between">
-               <button class="p-1 border rounded-full flex items-center justify-center min-[426px]:hidden " type="button">
+          <header class="py-3 px-10 max-[426px]:px-5 flex-center justify-between">
+               <button class="p-1 border rounded-full flex items-center justify-center min-[426px]:hidden border-(--sidebar-border) hover:bg-(--sidebar-accent)" type="button" (click)="openNavBar()">
                     <ng-icon name="hugeMenu02" />
                </button>
                

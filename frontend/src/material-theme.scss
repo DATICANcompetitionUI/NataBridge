@@ -45,6 +45,7 @@ body {
   @include mat.table-overrides((
     background-color: transparent,
     header-headline-color: inherit,
+    header-headline-tracking: -0.25px,
   ));
 
   @include mat.dialog-overrides((

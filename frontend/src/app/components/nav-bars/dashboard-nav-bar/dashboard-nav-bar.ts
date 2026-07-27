@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { hugeLogout01 } from '@ng-icons/huge-icons';
@@ -28,5 +28,11 @@ export class DashboardNavBar {
       if(result)
         this.authService.logout();
     })
+  }
+
+  @Output() navClicked = new EventEmitter<boolean>();
+
+  toggleSidebar() {
+    this.navClicked.emit(true);
   }
 }
