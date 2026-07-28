@@ -19,7 +19,7 @@ export class AuthService {
      readonly user = signal<UserApi | null>(null);
 
      readonly isUserAuthenticated = signal<boolean>(
-          localStorage.getItem(this.AUTH_KEY) === 'true'
+          sessionStorage.getItem(this.AUTH_KEY) === 'true'
      );
 
      async login(authCredentials: AuthCredentials) {
@@ -63,11 +63,8 @@ export class AuthService {
      private setAuthenticated(value: boolean) {
           this.isUserAuthenticated.set(value);
 
-          if (value) {
-               localStorage.setItem(this.AUTH_KEY, 'true');
-          } else {
-               localStorage.removeItem(this.AUTH_KEY);
-          }
+          if (value) sessionStorage.setItem(this.AUTH_KEY, 'true');
+          else sessionStorage.removeItem(this.AUTH_KEY);
      }
 
      resetContext() {

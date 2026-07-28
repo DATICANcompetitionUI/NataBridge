@@ -1,0 +1,28 @@
+<header class="flex-center capitalize">
+     <span>patients</span>
+     <ng-icon name="" />
+     <span>{{ user().name }}</span>
+</header>
+
+<section class="flex-center">
+     <section>
+          <ng-icon name="" />
+
+          <article class="flex-center gap-x-2.5">
+               <img src="user-profile.webp" alt="profile picture" class="max-h-10 aspect-square rounded-full object-cover">
+
+               <div>
+                    <p nata-lead class="capitalize">john doe</p>
+                    <p>
+                         {{ user().age }} years
+                    </p>
+               </div>
+          </article>
+     </section>
+     <div class="flex-center">
+          <button type="button" class="capitalize">
+               <ng-icon name="lucideEdit3" />
+               <span>edit profile</span>
+          </button>
+     </div>
+</section>

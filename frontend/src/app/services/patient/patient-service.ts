@@ -8,7 +8,6 @@ import { finalize } from 'rxjs';
 
 @Service()
 export class PatientService {
-     private router = inject(Router);
      private http = inject(HttpClient);
 
      readonly loading = signal<boolean>(false);
@@ -27,6 +26,22 @@ export class PatientService {
                .subscribe({
                     next: (resp) => {
                          this.patients.set(resp.data)
+                    },
+                    error: (err) => this.errorMessage.set(err),
+               });
+     }
+
+     async getPatient(patientId: string) {
+          this.loading.set(true);
+
+          this.http
+               .get<ApiResponse<PatientApi>>(`${environment.api}/patients/${patientId}`, {
+                    withCredentials: true
+               })
+               .pipe(finalize(() => this.loading.set(false)))
+               .subscribe({
+                    next: (resp) => {
+                         this.patient.set(resp.data)
                     },
                     error: (err) => this.errorMessage.set(err),
                });
