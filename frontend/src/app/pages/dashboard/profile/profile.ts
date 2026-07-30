@@ -26,9 +26,11 @@ export class Profile implements OnInit {
   }
 
   async ngOnInit() {
-    if(this.isPatient() && this.id() === null)
-      return this.router.navigateByUrl('dashboard')
-      
+    if(this.isPatient() && this.id() === null){
+      this.router.navigateByUrl('dashboard')
+      return
+    }
+
     const patientId = this.id()! 
     if(patientId)
       this.patientService.getPatient(patientId);
