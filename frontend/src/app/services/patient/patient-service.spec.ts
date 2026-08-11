@@ -56,7 +56,7 @@ describe('PatientService', () => {
     expect(request.request.method).toBe('GET');
     expect(request.request.withCredentials).toBe(true);
 
-    request.flush({ success: true, data: patients });
+    request.flush({ data: patients });
 
     expect(service.patients()).toEqual(patients);
     expect(service.loading()).toBe(false);
@@ -86,7 +86,7 @@ describe('PatientService', () => {
     expect(request.request.method).toBe('GET');
     expect(request.request.withCredentials).toBe(true);
 
-    request.flush({ success: true, data: patients });
+    request.flush({ data: patients });
 
     expect(service.patients()).toEqual(patients);
     expect(service.patient()).toEqual(patients[1]);
@@ -98,7 +98,7 @@ describe('PatientService', () => {
     service.getPatient('patient-missing');
 
     const request = httpTesting.expectOne(`${environment.api}/patients`);
-    request.flush({ success: true, data: patients });
+    request.flush({ data: patients });
 
     expect(service.patient()).toBeNull();
     expect(service.patients()).toEqual(patients);

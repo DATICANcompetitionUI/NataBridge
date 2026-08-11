@@ -12,4 +12,5 @@ export class UserAssessment {
   private authService = inject(AuthService);
 
   userAuthenticated = this.authService.isUserAuthenticated;
+  readonly patientId = input<string | null>(null);
 }

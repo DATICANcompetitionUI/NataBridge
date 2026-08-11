@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssessmentResultApi } from '../../../models/assessment/Assessment-result.api';
-import { AssessmentApi } from '../../../models/assessment/Assessment.api';
+import { AssessmentFormData } from '../../../models/assessment/Assessment.api';
 import { AuthService } from '../../../services/auth/auth-service';
 
 type RiskTone = 'high' | 'mid' | 'low';
@@ -30,7 +30,7 @@ export class AssessmentResult {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  readonly userInput = input<AssessmentApi | null>(null);
+  readonly userInput = input<AssessmentFormData | null>(null);
   readonly result = input<AssessmentResultApi | null>(null);
   readonly isAuthenticated = this.authService.isUserAuthenticated;
 

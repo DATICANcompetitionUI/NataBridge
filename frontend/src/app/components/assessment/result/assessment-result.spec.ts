@@ -13,6 +13,9 @@ describe('AssessmentResult', () => {
 
   const result: AssessmentResultApi = {
     assessmentId: 'assessment-1',
+    patientId: 'patient-1',
+    predictionRunId: 'run-1',
+    predictionResultId: 'result-1',
     prediction: {
       confidence: 0.91,
       modelVersion: 'test-model',

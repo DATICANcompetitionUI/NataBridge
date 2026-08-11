@@ -19,7 +19,13 @@
         </p>
       </div>
       <span class="assessment-duration">
-        {{ userAuthenticated() ? '3 steps · About 3 minutes' : '1 step · About 1 minute' }}
+        {{
+          userAuthenticated()
+            ? patientId()
+              ? '2 steps · About 2 minutes'
+              : '3 steps · About 3 minutes'
+            : '1 step · About 1 minute'
+        }}
       </span>
     </div>
   </header>
@@ -33,6 +39,7 @@
 
   @if (userAuthenticated()) {
     <mat-stepper class="assessment-stepper" [linear]="true" #stepper>
+      @if (!patientId()) {
       <mat-step [stepControl]="personalInformationFormGroup">
         <ng-template matStepLabel>Patient details</ng-template>
 
@@ -213,6 +220,7 @@
           </footer>
         </form>
       </mat-step>
+      }
 
       <mat-step [stepControl]="pregnancyInformationFormGroup">
         <ng-template matStepLabel>Pregnancy</ng-template>
@@ -463,11 +471,12 @@
       <input
         id="age"
         type="number"
-        min="18"
+        min="10"
+        max="70"
         [formControl]="healthMeasurementsFormGroup.controls.age"
         placeholder="e.g. 28"
-        [readOnly]="userAuthenticated()"
-        [class.form-control--readonly]="userAuthenticated()"
+        [readOnly]="userAuthenticated() && !patientId()"
+        [class.form-control--readonly]="userAuthenticated() && !patientId()"
         required
         aria-required="true"
         aria-describedby="age-hint age-error"
@@ -476,7 +485,7 @@
           healthMeasurementsFormGroup.controls.age.touched
         "
       />
-      @if (userAuthenticated()) {
+      @if (userAuthenticated() && !patientId()) {
         <p class="field-hint" id="age-hint">Calculated automatically from the date of birth.</p>
       }
       @if (
@@ -484,7 +493,7 @@
         (healthMeasurementsFormGroup.controls.age.touched ||
           healthMeasurementsFormGroup.controls.age.dirty)
       ) {
-        <p class="field-error" id="age-error">Enter an age of 18 years or older.</p>
+        <p class="field-error" id="age-error">Enter an age between 10 and 70 years.</p>
       }
     </div>
 

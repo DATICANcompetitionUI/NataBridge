@@ -14,14 +14,18 @@ describe('AssessmentTest', () => {
   let dialog: { open: ReturnType<typeof vi.fn> };
   let assessmentService: {
     errorMessage: ReturnType<typeof signal<string | null>>;
-    submitAssessment: ReturnType<typeof vi.fn>;
+    submitPublicPrediction: ReturnType<typeof vi.fn>;
+    submitPatientAssessment: ReturnType<typeof vi.fn>;
+    createPatientAndSubmitAssessment: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
     dialog = { open: vi.fn() };
     assessmentService = {
       errorMessage: signal<string | null>(null),
-      submitAssessment: vi.fn(),
+      submitPublicPrediction: vi.fn(),
+      submitPatientAssessment: vi.fn(),
+      createPatientAndSubmitAssessment: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -141,8 +145,8 @@ describe('AssessmentTest', () => {
       AcknowledgementDialog,
       expect.objectContaining({ panelClass: 'assessment-dialog-panel' }),
     );
-    expect(assessmentService.submitAssessment).toHaveBeenCalledOnce();
-    expect(assessmentService.submitAssessment).toHaveBeenCalledWith(
+    expect(assessmentService.submitPublicPrediction).toHaveBeenCalledOnce();
+    expect(assessmentService.submitPublicPrediction).toHaveBeenCalledWith(
       component.prepareDataForSubmission(),
     );
   });
@@ -154,7 +158,7 @@ describe('AssessmentTest', () => {
     component.openDialog();
 
     expect(dialog.open).toHaveBeenCalledWith(AcknowledgementDialog, expect.any(Object));
-    expect(assessmentService.submitAssessment).not.toHaveBeenCalled();
+    expect(assessmentService.submitPublicPrediction).not.toHaveBeenCalled();
   });
 
   it.each([
@@ -172,7 +176,7 @@ describe('AssessmentTest', () => {
         EmergencyOverrideDialog,
         expect.objectContaining({ data: { systolicBP, diastolicBP } }),
       );
-      expect(assessmentService.submitAssessment).not.toHaveBeenCalled();
+      expect(assessmentService.submitPublicPrediction).not.toHaveBeenCalled();
     },
   );
 

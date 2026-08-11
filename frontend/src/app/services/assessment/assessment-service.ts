@@ -1,8 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { AssessmentApi } from '../../models/assessment/Assessment.api';
+import {
+  AssessmentFormData,
+  CreatePatientInput,
+  PatientAssessmentInput,
+  PredictionInput,
+} from '../../models/assessment/Assessment.api';
 import { Environment as environment } from '../../environment/environment';
-import { finalize } from 'rxjs';
+import { finalize, Observable, switchMap } from 'rxjs';
 import { ApiResponse } from '../../models/api/ApiResponse';
 import { AssessmentResultApi } from '../../models/assessment/Assessment-result.api';
 import { UtilService } from '../util/util-service';
@@ -21,21 +26,73 @@ export class AssessmentService {
     this.utilService.getStoredData<AssessmentResultApi>('assessment_result'),
   );
 
-  readonly userInput = signal<AssessmentApi | null>(
-    this.utilService.getStoredData<AssessmentApi>('assessment_input'),
+  readonly userInput = signal<AssessmentFormData | null>(
+    this.utilService.getStoredData<AssessmentFormData>('assessment_input'),
   );
 
-  submitAssessment(assessmentData: AssessmentApi) {
+  submitPublicPrediction(formData: AssessmentFormData) {
+    const predictionInput = this.toPredictionInput(formData);
+    this.submit(
+      this.http.post<ApiResponse<AssessmentResultApi>>(
+        `${environment.api}/predictions`,
+        predictionInput,
+        { withCredentials: true },
+      ),
+      formData,
+    );
+  }
+
+  submitPatientAssessment(patientId: string, formData: AssessmentFormData) {
+    const assessmentInput = this.toPatientAssessmentInput(formData);
+    this.submit(
+      this.http.post<ApiResponse<AssessmentResultApi>>(
+        `${environment.api}/patients/${encodeURIComponent(patientId)}/assessments`,
+        assessmentInput,
+        { withCredentials: true },
+      ),
+      formData,
+    );
+  }
+
+  createPatientAndSubmitAssessment(formData: AssessmentFormData) {
+    const patientInput: CreatePatientInput = {
+      firstName: formData.firstname!.trim(),
+      middleName: formData.middlename?.trim() || null,
+      lastName: formData.lastname!.trim(),
+      dob: formData.dob!,
+      email: formData.email?.trim() || null,
+      phone: formData.phone?.trim() || null,
+    };
+
+    this.submit(
+      this.http
+        .post<ApiResponse<{ id: string }>>(`${environment.api}/patients`, patientInput, {
+          withCredentials: true,
+        })
+        .pipe(
+          switchMap(({ data: patient }) =>
+            this.http.post<ApiResponse<AssessmentResultApi>>(
+              `${environment.api}/patients/${encodeURIComponent(patient.id)}/assessments`,
+              this.toPatientAssessmentInput(formData),
+              { withCredentials: true },
+            ),
+          ),
+        ),
+      formData,
+    );
+  }
+
+  private submit(
+    request: Observable<ApiResponse<AssessmentResultApi>>,
+    formData: AssessmentFormData,
+  ) {
     this.errorMessage.set(null);
     this.utilService.showLoader();
 
-    this.userInput.set(assessmentData);
-    localStorage.setItem('assessment_input', JSON.stringify(assessmentData));
+    this.userInput.set(formData);
+    localStorage.setItem('assessment_input', JSON.stringify(formData));
 
-    this.http
-      .post<ApiResponse<AssessmentResultApi>>(`${environment.api}/predictions`, assessmentData, {
-        withCredentials: true,
-      })
+    request
       .pipe(finalize(() => this.utilService.hideLoader()))
       .subscribe({
         next: (resp) => {
@@ -43,13 +100,28 @@ export class AssessmentService {
 
           localStorage.setItem('assessment_result', JSON.stringify(resp.data));
 
-          this.router.navigateByUrl('assessment/result');
+          this.router.navigateByUrl('/assessment/result');
         },
 
         error: (err) => {
           this.errorMessage.set(err?.error?.message ?? 'Assessment failed');
         },
       });
+  }
+
+  private toPredictionInput(data: AssessmentFormData): PredictionInput {
+    const { age, systolicBP, diastolicBP, bloodSugar, bodyTemp, heartRate } = data;
+    return { age, systolicBP, diastolicBP, bloodSugar, bodyTemp, heartRate };
+  }
+
+  private toPatientAssessmentInput(data: AssessmentFormData): PatientAssessmentInput {
+    const { gestationalAge, firstPregnancy, previousComplications } = data;
+    return {
+      ...this.toPredictionInput(data),
+      gestationalAge,
+      firstPregnancy,
+      previousComplications,
+    };
   }
 
   clearAssessmentStorage() {

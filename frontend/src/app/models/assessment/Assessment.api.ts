@@ -1,19 +1,39 @@
-interface AssessmentApi {
-     age: number;
-     bloodSugar: number;
-     bodyTemp: number;
-     diastolicBP: number;
-     heartRate: number;
-     dob: string | null;
-     systolicBP: number;
-     email: string | null;
-     firstPregnancy: boolean | null;
-     firstname: string | null;
-     gestationalAge: number | null
-     lastname: string | null;
-     middlename: string | null;
-     phone: string | null;
-     previousComplications: string | null;
+interface PredictionInput {
+  age: number;
+  systolicBP: number;
+  diastolicBP: number;
+  bloodSugar: number;
+  bodyTemp: number;
+  heartRate: number;
 }
 
-export type { AssessmentApi };
+interface PatientAssessmentInput extends PredictionInput {
+  gestationalAge: number | null;
+  firstPregnancy: boolean | null;
+  previousComplications: string | null;
+}
+
+interface AssessmentFormData extends PatientAssessmentInput {
+  dob: string | null;
+  email: string | null;
+  firstname: string | null;
+  lastname: string | null;
+  middlename: string | null;
+  phone: string | null;
+}
+
+interface CreatePatientInput {
+  firstName: string;
+  middleName?: string | null;
+  lastName: string;
+  dob: string;
+  email?: string | null;
+  phone?: string | null;
+}
+
+export type {
+  AssessmentFormData,
+  CreatePatientInput,
+  PatientAssessmentInput,
+  PredictionInput,
+};

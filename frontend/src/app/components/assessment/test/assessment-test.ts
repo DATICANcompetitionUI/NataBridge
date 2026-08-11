@@ -14,7 +14,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroArrowLongRight, heroSlash } from '@ng-icons/heroicons/outline';
-import { AssessmentApi } from '../../../models/assessment/Assessment.api';
+import { AssessmentFormData } from '../../../models/assessment/Assessment.api';
 import { AssessmentService } from '../../../services/assessment/assessment-service';
 import { AcknowledgementDialog } from '../../modals/acknowledgement-dialog/acknowledgement-dialog';
 import { EmergencyOverrideDialog } from '../../modals/emergency-override-dialog/emergency-override-dialog';
@@ -67,6 +67,7 @@ export class AssessmentTest {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly userAuthenticated = input(false);
+  readonly patientId = input<string | null>(null);
   readonly maximumDateOfBirth = this.formatDateForInput(new Date());
   readonly submissionError = this.assessmentService.errorMessage.asReadonly();
 
@@ -100,8 +101,16 @@ export class AssessmentTest {
       Validators.min(30),
       Validators.max(150),
     ]),
-    age: new FormControl<number | null>(null, [Validators.required, Validators.min(18)]),
-    bloodSugar: new FormControl<number | null>(null, [Validators.required, Validators.min(2)]),
+    age: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(10),
+      Validators.max(70),
+    ]),
+    bloodSugar: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(2),
+      Validators.max(9999.99),
+    ]),
     bodyTemp: new FormControl<number | null>(null, [
       Validators.required,
       Validators.min(36),
@@ -123,7 +132,7 @@ export class AssessmentTest {
       .subscribe((dateOfBirth) => this.updateAgeFromDateOfBirth(dateOfBirth));
   }
 
-  prepareDataForSubmission(): AssessmentApi {
+  prepareDataForSubmission(): AssessmentFormData {
     const personal = this.personalInformationFormGroup.getRawValue();
     const pregnancy = this.pregnancyInformationFormGroup.getRawValue();
     const health = this.healthMeasurementsFormGroup.getRawValue();
@@ -144,7 +153,7 @@ export class AssessmentTest {
     if (!this.userAuthenticated()) return this.healthMeasurementsFormGroup.valid;
 
     return (
-      this.personalInformationFormGroup.valid &&
+      (Boolean(this.patientId()) || this.personalInformationFormGroup.valid) &&
       this.pregnancyInformationFormGroup.valid &&
       this.healthMeasurementsFormGroup.valid
     );
@@ -154,7 +163,7 @@ export class AssessmentTest {
     if (!this.isValidForSubmission()) {
       this.healthMeasurementsFormGroup.markAllAsTouched();
 
-      if (this.userAuthenticated()) {
+      if (this.userAuthenticated() && !this.patientId()) {
         this.personalInformationFormGroup.markAllAsTouched();
         this.pregnancyInformationFormGroup.markAllAsTouched();
       }
@@ -192,7 +201,16 @@ export class AssessmentTest {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((agreed) => {
         if (agreed === true) {
-          this.assessmentService.submitAssessment(this.prepareDataForSubmission());
+          const formData = this.prepareDataForSubmission();
+          const patientId = this.patientId();
+
+          if (!this.userAuthenticated()) {
+            this.assessmentService.submitPublicPrediction(formData);
+          } else if (patientId) {
+            this.assessmentService.submitPatientAssessment(patientId, formData);
+          } else {
+            this.assessmentService.createPatientAndSubmitAssessment(formData);
+          }
         }
       });
   }

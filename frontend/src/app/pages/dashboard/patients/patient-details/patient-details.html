@@ -27,15 +27,13 @@
           <ng-icon name="lucidePrinter" aria-hidden="true" />
           Print summary
         </button>
-        <button
-          class="patient-record-button patient-record-button--unavailable"
-          type="button"
-          disabled
-          aria-label="Start follow-up assessment, coming soon"
+        <a
+          class="patient-record-button"
+          [routerLink]="['/dashboard/patients', patient.id, 'assessment']"
+          aria-label="Start follow-up assessment"
         >
           <span>Start follow-up</span>
-          <small>Coming soon</small>
-        </button>
+        </a>
       </div>
     </header>
 
