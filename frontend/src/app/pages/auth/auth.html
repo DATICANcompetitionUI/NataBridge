@@ -1,56 +1,82 @@
 <section class="h-vh grid grid-cols-2 max-sm:grid-cols-1">
-     <div class="left">
-          <header class="px-2.5">
-               <a href="/" class="flex-center gap-1.5 py-3.5 pl-1.5">
-                    <img src="./logo.webp" alt="NataBridge logo" class="h-8.5">
-               </a>
-          </header>
-          <article class="mx-auto mt-10 max-w-md px-7.5">
-               <h2 nata-h2>Login</h2>
-               <p>Please enter your clinician's credentials</p>
-               <form [formGroup]="authFormGroup" class="mt-5">
-                    <div class="row">
-                         <div class="field">
-                              <label for="id">Clinician ID</label>
-                              <input type="text" name="clinician id field" id="id" placeholder="Enter your ID"
-                                   formControlName="id">
-                         </div>
-                    </div>
-                    <div class="row">
-                         <div class="field">
-                              <label for="password">Password</label>
-                              <input type="password" name="password field" id="password"
-                                   placeholder="Enter your password" formControlName="password">
-                         </div>
-                    </div>
+  <div class="left">
+    <header class="px-2.5">
+      <a href="/" class="flex-center gap-1.5 py-3.5 pl-1.5">
+        <img src="./logo.webp" alt="NataBridge logo" class="h-8.5" />
+      </a>
+    </header>
+    <article class="mx-auto mt-10 max-w-md px-7.5">
+      <h2 nata-h2>Login</h2>
+      <p>Please enter your clinician's credentials</p>
+      <form [formGroup]="authFormGroup" class="mt-5">
+        <div class="row">
+          <div class="field">
+            <label for="id">Clinician ID</label>
+            <input
+              type="text"
+              name="clinician id field"
+              id="id"
+              placeholder="Enter your ID"
+              formControlName="id"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password field"
+              id="password"
+              placeholder="Enter your password"
+              formControlName="password"
+            />
+          </div>
+        </div>
 
-                    @if (errorMessage()) {
-                    <div class="flex-center gap-x-2.5 text-(--nata-warning)">
-                         <ng-icon name="fluentWarning" />
-                         <span>{{ errorMessage() }}</span>
-                    </div>
-                    }
+        @if (errorMessage()) {
+          <div class="flex-center gap-x-2.5 text-(--nata-warning)">
+            <ng-icon name="fluentWarning" />
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
 
-                    <button type="button" class="nata-btn primary w-full py-2.5 mt-8.5 justify-center"
-                         [class.loading]="loading()" (click)="login()">
-                         @if(loading()) {
-                         <mat-progress-spinner diameter="20" mode="indeterminate" />
-                         } @else {
-                         Get in
-                         <ng-icon name="heroArrowLongRight" />
-                         }
-                    </button>
-               </form>
-               
-               <span class="separator my-3.5 mt-5"></span>
-               
-               <div class="text-xs text-center">
-               <p class="mb-1.5">This system is for authorised clinical personnel only. Unauthorised access is prohibited and monitored.</p>
-               <p>Not registered? <span class="text-(--nata-accent) hover:underline cursor-pointer">Contact your facility administrator</span></p>
-               </div>
-          </article>
-     </div>
-     <div class="right h-dvh max-sm:hidden">
-          <img src="./auth.webp" alt="image showing a mother holding her baby" class="w-full h-full object-cover">
-     </div>
+        <button
+          type="button"
+          class="nata-btn primary w-full py-2.5 mt-8.5 justify-center"
+          [class.loading]="loading()"
+          (click)="login()"
+        >
+          @if (loading()) {
+            <mat-progress-spinner diameter="20" mode="indeterminate" />
+          } @else {
+            Get in
+            <ng-icon name="heroArrowLongRight" />
+          }
+        </button>
+      </form>
+
+      <span class="separator my-3.5 mt-5"></span>
+
+      <div class="text-sm text-center">
+        <p class="mb-1.5">
+          This system is for authorised clinical personnel only. Unauthorised access is prohibited
+          and monitored.
+        </p>
+        <p>
+          Not registered?
+          <span class="text-(--nata-accent) hover:underline cursor-pointer"
+            >Contact your facility administrator</span
+          >
+        </p>
+      </div>
+    </article>
+  </div>
+  <div class="right h-dvh max-sm:hidden">
+    <img
+      src="./auth.webp"
+      alt="image showing a mother holding her baby"
+      class="w-full h-full object-cover"
+    />
+  </div>
 </section>

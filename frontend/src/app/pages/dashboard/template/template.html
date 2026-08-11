@@ -1,28 +1,54 @@
-<div class="container">
-     <div class="s" [class.active]="isNavBarOpened()">
-          <nata-dashboard-nav-bar (navClicked)="closeSideBar($event)" />
+<div class="dashboard-shell" [class.sidebar-open]="isNavBarOpened()">
+  <aside class="dashboard-sidebar" id="dashboard-navigation" [class.open]="isNavBarOpened()">
+    <nata-dashboard-nav-bar (navClicked)="closeSideBar($event)" />
 
-          @if (isNavBarOpened()) {
-               <button type="button" class="p-1 border rounded-full flex items-center justify-center border-(--sidebar-border) hover:bg-(--sidebar-accent) absolute top-3 right-4" (click)="closeNavBar()">
-                    <ng-icon name="hugeMinusSign" />
-               </button>
-          }
-     </div>
+    <button
+      class="sidebar-close"
+      type="button"
+      aria-label="Close dashboard navigation"
+      (click)="closeNavBar()"
+    >
+      <ng-icon name="hugeMinusSign" aria-hidden="true" />
+    </button>
+  </aside>
 
-     <div class="content">
-          <header class="py-3 px-10 max-[426px]:px-5 flex-center justify-between">
-               <button class="p-1 border rounded-full flex items-center justify-center min-[426px]:hidden border-(--sidebar-border) hover:bg-(--sidebar-accent)" type="button" (click)="openNavBar()">
-                    <ng-icon name="hugeMenu02" />
-               </button>
-               
-               <button class="p-1 border border-(--sidebar-border) rounded-full flex items-center justify-center ml-auto cursor-pointer hover:bg-(--sidebar-accent)" type="button">
-                    <ng-icon name="hugeNotification01" />
-               </button>
-          </header>
-          <div class="overflow-auto">
-          <router-outlet></router-outlet>
-          </div>
-     </div>
+  @if (isNavBarOpened()) {
+    <button
+      class="sidebar-backdrop"
+      type="button"
+      aria-label="Close dashboard navigation"
+      (click)="closeNavBar()"
+    ></button>
+  }
+
+  <div class="dashboard-workspace">
+    <header class="dashboard-topbar">
+      <div class="topbar-context">
+        <button
+          class="menu-button"
+          type="button"
+          aria-label="Open dashboard navigation"
+          aria-controls="dashboard-navigation"
+          [attr.aria-expanded]="isNavBarOpened()"
+          (click)="openNavBar()"
+        >
+          <ng-icon name="hugeMenu02" aria-hidden="true" />
+        </button>
+        <p>{{ pageTitle() }}</p>
+      </div>
+
+      <label class="patient-search">
+        <span class="sr-only">Search patients and alerts</span>
+        <input type="search" placeholder="Search patients, alerts…" />
+      </label>
+
+      <a class="topbar-avatar" routerLink="profile" aria-label="Open profile settings">JS</a>
+    </header>
+
+    <main class="dashboard-content">
+      <router-outlet />
+    </main>
+  </div>
 </div>
 
 <nata-page-loader />

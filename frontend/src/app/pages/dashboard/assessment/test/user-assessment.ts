@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { AssessmentTest } from "../../../../components/assessment/test/assessment-test";
+import { AssessmentTest } from '../../../../components/assessment/test/assessment-test';
 import { AuthService } from '../../../../services/auth/auth-service';
 
 @Component({

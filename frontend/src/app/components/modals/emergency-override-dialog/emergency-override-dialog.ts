@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
-import { NgIcon, provideIcons } from "@ng-icons/core";
-import { fluentWarning } from '@ng-icons/fluent-ui';
+import { Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+
+interface EmergencyDialogData {
+  systolicBP: number | null;
+  diastolicBP: number | null;
+}
 
 @Component({
   selector: 'nata-emergency-override-dialog',
-  imports: [NgIcon],
+  imports: [MatDialogModule],
   templateUrl: './emergency-override-dialog.html',
   styleUrl: './emergency-override-dialog.css',
-  viewProviders: [provideIcons({
-    fluentWarning
-  })]
 })
-export class EmergencyOverrideDialog {}
+export class EmergencyOverrideDialog {
+  private readonly dialogRef = inject(MatDialogRef<EmergencyOverrideDialog>);
+  readonly data = inject<EmergencyDialogData>(MAT_DIALOG_DATA);
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+}

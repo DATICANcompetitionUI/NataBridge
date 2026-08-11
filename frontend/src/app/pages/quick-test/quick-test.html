@@ -1,9 +1,11 @@
-<section class="header-box-shadow">
-     <nata-test-nav-bar />
-</section>
+<div class="quick-assessment-page">
+  <header class="quick-assessment-header">
+    <nata-test-nav-bar />
+  </header>
 
-<div class="px-30 max-md:px-15 max-sm:px-0 py-8.5">
-     <nata-assessment-test [userAuthenticated]="isUserAuthenticated()" />
+  <main class="quick-assessment-content">
+    <nata-assessment-test [userAuthenticated]="isUserAuthenticated()" />
+  </main>
+
+  <nata-page-loader />
 </div>
-
-<nata-page-loader />

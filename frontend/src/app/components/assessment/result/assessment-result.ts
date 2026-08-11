@@ -1,121 +1,227 @@
-import { Component, computed, inject, input, Signal } from '@angular/core';
-import { H3 } from "../../../core/typography/h3/h3";
+import { Component, computed, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 import { AssessmentResultApi } from '../../../models/assessment/Assessment-result.api';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgStyle } from '@angular/common';
 import { AssessmentApi } from '../../../models/assessment/Assessment.api';
-import { DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../services/auth/auth-service';
-import { heroArrowLongLeft } from '@ng-icons/heroicons/outline';
-import { provideIcons, NgIcon } from '@ng-icons/core';
+
+type RiskTone = 'high' | 'mid' | 'low';
 
 interface FactorRow {
   vital: string;
-  currentValue: string | number;
-  influence: number;
+  currentValue: string;
+  influence: string;
+  positive: boolean;
   progress: number;
 }
 
+interface VitalCard {
+  label: string;
+  value: string;
+  alert: boolean;
+}
 
 @Component({
   selector: 'nata-assessment-result',
-  imports: [H3, NgStyle, MatProgressSpinnerModule, MatTableModule, MatProgressBarModule, DecimalPipe, NgIcon],
+  imports: [],
   templateUrl: './assessment-result.html',
   styleUrl: './assessment-result.css',
-  viewProviders: [
-    provideIcons({ heroArrowLongLeft })
-  ]
 })
 export class AssessmentResult {
-  private authService = inject(AuthService);
-  userInput = input<AssessmentApi | null>(null);
-  result = input<AssessmentResultApi | null>(null);
-  styles = input<{
-    background: string;
-    border: string;
-    text: string;
-    badge: string;
-  } | null>(null);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  confidencePercent = computed(() => {
-    const result = this.result();
+  readonly userInput = input<AssessmentApi | null>(null);
+  readonly result = input<AssessmentResultApi | null>(null);
+  readonly isAuthenticated = this.authService.isUserAuthenticated;
 
-    if (!result) return '--';
+  readonly riskLabel = computed(() => {
+    const risk = this.result()?.prediction.risk.trim();
 
-    return (result.prediction.confidence * 100).toFixed(1)
-  })
+    if (!risk) return 'Risk unavailable';
 
-  displayedColumns: string[] = [
-    'vital',
-    'currentValue',
-    'influence',
-    'progress'
-  ];
+    return risk.charAt(0).toUpperCase() + risk.slice(1).toLowerCase();
+  });
 
-  dataSource = new MatTableDataSource<FactorRow>();
-  ngOnInit() {
-    const result = this.result()?.prediction;
-    const userInput = this.userInput();
+  readonly riskTone = computed<RiskTone>(() => {
+    const risk = this.result()?.prediction.risk.toLowerCase() ?? '';
 
-    if (!userInput || !result) return;
-    const input = {
-      Age: userInput.age,
-      SystolicBP: userInput.systolicBP,
-      DiastolicBP: userInput.diastolicBP,
-      BS: userInput.bloodSugar,
-      BodyTemp: userInput.bodyTemp,
-      HeartRate: userInput.heartRate
+    if (risk.includes('high')) return 'high';
+    if (risk.includes('mid') || risk.includes('medium')) return 'mid';
+
+    return 'low';
+  });
+
+  readonly confidencePercent = computed<number | null>(() => {
+    const confidence = this.result()?.prediction.confidence;
+
+    if (confidence === undefined || !Number.isFinite(confidence)) return null;
+
+    return Math.round(Math.min(1, Math.max(0, confidence)) * 100);
+  });
+
+  readonly patientName = computed(() => {
+    const patient = this.userInput();
+    const name = [patient?.firstname, patient?.lastname]
+      .filter((part): part is string => Boolean(part?.trim()))
+      .join(' ');
+
+    return name || 'Patient';
+  });
+
+  readonly patientMeta = computed(() => {
+    const patient = this.userInput();
+    const details = [this.patientName()];
+
+    if (patient?.age !== null && patient?.age !== undefined) {
+      details.push(`${patient.age} years`);
     }
 
-    const maxImpact = Math.max(
-      ...result.topFactors.map(f => Math.abs(f.impact))
-    );
+    details.push('Assessment complete');
 
-    this.dataSource.data = result.topFactors.map(factor => ({
-      vital: this.formatFeatureName(factor.feature),
-      currentValue: input[
-        factor.feature as keyof typeof input
-      ],
-      influence: factor.impact,
-      progress: (Math.abs(factor.impact) / maxImpact) * 100
-    }));
-  }
+    return details.join('  ·  ');
+  });
 
-  formatFeatureName(feature: string): string {
-    const map: Record<string, string> = {
-      Age: 'Age',
-      SystolicBP: 'Systolic Blood Pressure',
-      DiastolicBP: 'Diastolic Blood Pressure',
-      BS: 'Blood Sugar',
-      BodyTemp: 'Body Temperature',
-      HeartRate: 'Heart Rate'
+  readonly riskGuidance = computed(() => {
+    switch (this.riskTone()) {
+      case 'high':
+        return 'Immediate clinical review recommended';
+      case 'mid':
+        return 'Timely clinical follow-up recommended';
+      default:
+        return 'Continue routine monitoring';
+    }
+  });
+
+  readonly factorRows = computed<FactorRow[]>(() => {
+    const factors = this.result()?.prediction.topFactors ?? [];
+    const patient = this.userInput();
+    const values: Record<string, number | null | undefined> = {
+      Age: patient?.age,
+      SystolicBP: patient?.systolicBP,
+      DiastolicBP: patient?.diastolicBP,
+      BS: patient?.bloodSugar,
+      BodyTemp: patient?.bodyTemp,
+      HeartRate: patient?.heartRate,
     };
+    const maxImpact = Math.max(0, ...factors.map((factor) => Math.abs(factor.impact)));
 
-    return map[feature] ?? feature;
-  }
+    return factors.map((factor) => ({
+      vital: this.formatFeatureName(factor.feature),
+      currentValue: this.formatFeatureValue(factor.feature, values[factor.feature]),
+      influence: `${factor.impact > 0 ? '+' : ''}${factor.impact.toFixed(3)}`,
+      positive: factor.impact > 0,
+      progress: maxImpact > 0 ? (Math.abs(factor.impact) / maxImpact) * 100 : 0,
+    }));
+  });
 
-  conditions = computed(() => {
-    const result = this.result()?.prediction,
-      recommendations = result?.recommendations
+  readonly recommendations = computed(() => {
+    const recommendations = this.result()?.prediction.recommendations ?? [];
+    const entries = this.authService.isUserAuthenticated()
+      ? recommendations.flatMap((item) => item.actions)
+      : recommendations.flatMap((item) => item.counselling);
 
-    return recommendations
-    ?.filter(factor => factor.actions.length > 0)
-    .map(factor => factor.condition);
-  })
+    return [...new Set(entries.filter((entry) => entry.trim()))];
+  });
 
-  recommendations = computed(() => {
-    const result = this.result()?.prediction,
-      recommendations = result?.recommendations
-    
-    const isUser = this.authService.isUserAuthenticated();
+  readonly clinicalInterpretations = computed<string[]>(() => {
+    const conditions =
+      this.result()
+        ?.prediction.recommendations.map((item) => item.condition.trim())
+        .filter(Boolean) ?? [];
+    const uniqueConditions = [...new Set(conditions)];
 
-    
-    return isUser ? recommendations?.flatMap(factor => factor.actions) : recommendations?.flatMap(factor => factor.counselling)
-  })
+    if (uniqueConditions.length) return uniqueConditions;
+
+    return [
+      'The model did not return a detailed clinical interpretation. Review the patient’s measurements and recommendations with a qualified healthcare professional.',
+    ];
+  });
+
+  readonly patientVitals = computed<VitalCard[]>(() => {
+    const patient = this.userInput();
+
+    return [
+      {
+        label: 'Systolic',
+        value: this.formatNumber(patient?.systolicBP),
+        alert: this.riskTone() === 'high',
+      },
+      {
+        label: 'Diastolic',
+        value: this.formatNumber(patient?.diastolicBP),
+        alert: this.riskTone() === 'high',
+      },
+      {
+        label: 'Heart rate',
+        value: this.formatNumber(patient?.heartRate),
+        alert: false,
+      },
+      {
+        label: 'Temperature',
+        value:
+          patient?.bodyTemp === null || patient?.bodyTemp === undefined
+            ? '—'
+            : `${patient.bodyTemp}°`,
+        alert: false,
+      },
+    ];
+  });
+
+  readonly escalationMessage = computed(() => {
+    if (this.riskTone() !== 'high') return null;
+
+    const patient = this.userInput();
+    if ((patient?.systolicBP ?? 0) >= 140 || (patient?.diastolicBP ?? 0) >= 90) {
+      return 'Near-emergency blood pressure detected. Confirm manually and prepare referral.';
+    }
+
+    return 'High-risk assessment detected. Confirm measurements manually and follow the recommended clinical pathway.';
+  });
 
   goBack() {
-    history.back()
+    if (history.length > 1) {
+      history.back();
+      return;
+    }
+
+    const fallback = this.authService.isUserAuthenticated() ? '/dashboard/patients' : '/assessment';
+
+    this.router.navigateByUrl(fallback);
+  }
+
+  printReport() {
+    window.print();
+  }
+
+  private formatFeatureName(feature: string): string {
+    const names: Record<string, string> = {
+      Age: 'Age',
+      SystolicBP: 'Systolic blood pressure',
+      DiastolicBP: 'Diastolic blood pressure',
+      BS: 'Blood sugar',
+      BodyTemp: 'Body temperature',
+      HeartRate: 'Heart rate',
+    };
+
+    return names[feature] ?? feature;
+  }
+
+  private formatFeatureValue(feature: string, value: number | null | undefined): string {
+    if (value === null || value === undefined) return '—';
+
+    const units: Record<string, string> = {
+      Age: ' years',
+      SystolicBP: ' mmHg',
+      DiastolicBP: ' mmHg',
+      BS: ' mmol/L',
+      BodyTemp: ' °C',
+      HeartRate: ' bpm',
+    };
+
+    return `${value}${units[feature] ?? ''}`;
+  }
+
+  private formatNumber(value: number | null | undefined): string {
+    return value === null || value === undefined ? '—' : `${value}`;
   }
 }

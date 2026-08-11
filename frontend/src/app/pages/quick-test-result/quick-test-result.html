@@ -1,13 +1,7 @@
-<div [ngStyle]="{
-     'background-color': riskColor().background,
-     'border': '1px solid ' + riskColor().border,
-     'color': riskColor().text
-}">
-     <div class="sticky z-10 top-0 header-box-shadow">
-          <nata-test-nav-bar />
-     </div>
+<div class="quick-result-page">
+  <header class="quick-result-header">
+    <nata-test-nav-bar />
+  </header>
 
-     <section class="px-10 max-sm:px-0 pt-8.5">
-          <nata-assessment-result [result]="result()" [styles]="riskColor()" [userInput]="input()" />
-     </section>
+  <nata-assessment-result [result]="result()" [userInput]="input()" />
 </div>

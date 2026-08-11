@@ -1,15 +1,38 @@
-<section class="p-5">
-<h2 class="capitalize" nata-h2>Assessment Consent</h2>
+<section class="consent-dialog" aria-labelledby="consent-dialog-title">
+  <header class="dialog-heading">
+    <span class="dialog-symbol" aria-hidden="true">◆</span>
+    <div>
+      <span class="dialog-kicker">Before you continue</span>
+      <h2 id="consent-dialog-title">Assessment consent</h2>
+    </div>
+  </header>
 
-     <p>I understand this assessment provides an Ai-generated prediction and does not replace diagnosis or treatment by
-          a qualified healthcare professional.</p>
+  <div class="dialog-body">
+    <p>
+      I understand that this assessment provides an AI-generated risk prediction and does not
+      replace diagnosis or treatment by a qualified healthcare professional.
+    </p>
 
-     <div class="mt-5 flex-center gap-x-2.5 justify-end">
-          <button class="nata-btn secondary capitalize" (click)="closeDialog(false)">
-               No, I do not agree
-          </button>
-          <button class="nata-btn primary capitalize" (click)="closeDialog(true)">
-               I Agree
-          </button>
-     </div>
+    <aside class="dialog-note">
+      <span aria-hidden="true">i</span>
+      <p>Your submitted measurements will be used to generate this assessment result.</p>
+    </aside>
+  </div>
+
+  <footer class="dialog-actions">
+    <button
+      class="assessment-button assessment-button--secondary"
+      type="button"
+      (click)="closeDialog(false)"
+    >
+      Cancel
+    </button>
+    <button
+      class="assessment-button assessment-button--primary"
+      type="button"
+      (click)="closeDialog(true)"
+    >
+      I understand, continue
+    </button>
+  </footer>
 </section>

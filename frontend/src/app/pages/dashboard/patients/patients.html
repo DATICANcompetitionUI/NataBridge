@@ -1,143 +1,273 @@
-<section class="px-8.5 max-md:px-5 py-5 min-w-full">
-     <header class="flex items-center justify-between max-sm:flex-col max-sm:gap-2.5 max-sm:items-start">
-          <article>
-               <h2 nata-h2 class="capitalize">patients under care</h2>
-               <p>Manage and monitor health records. Review recent assessments and track gestational periods</p>
-          </article>
-          <button type="button" class="flex-center gap-x-1.5 nata-btn primary py-3">
-               <ng-icon name="hugePlusSign" />
-               <span class="capitalize">register new mother</span>
+<section class="patients-page" data-node-id="25:27">
+  <header class="patients-heading">
+    <div>
+      <p class="page-kicker">Patient management</p>
+      <h1>Patients under care</h1>
+      <p>Review maternal health records, recent assessments, and current risk status.</p>
+    </div>
+
+    <a class="register-patient" routerLink="/dashboard/assessment">
+      <ng-icon name="lucideUserPlus" aria-hidden="true" />
+      Register new patient
+    </a>
+  </header>
+
+  <section class="patient-stat-grid" aria-label="Patient overview">
+    <article class="patient-stat">
+      <span class="stat-icon"><ng-icon name="lucideUsersRound" aria-hidden="true" /></span>
+      <div>
+        <span>Total patients</span>
+        <strong>{{
+          (loading() && !patients().length) || initialLoadUnavailable() ? '—' : patients().length
+        }}</strong>
+      </div>
+    </article>
+
+    <article class="patient-stat">
+      <span class="stat-icon stat-icon--green">
+        <ng-icon name="lucideActivity" aria-hidden="true" />
+      </span>
+      <div>
+        <span>Assessed patients</span>
+        <strong>{{
+          (loading() && !patients().length) || initialLoadUnavailable() ? '—' : assessedPatients()
+        }}</strong>
+      </div>
+    </article>
+
+    <article class="patient-stat">
+      <span class="stat-icon stat-icon--danger">
+        <ng-icon name="lucideActivity" aria-hidden="true" />
+      </span>
+      <div>
+        <span>High-risk patients</span>
+        <strong>{{
+          (loading() && !patients().length) || initialLoadUnavailable() ? '—' : highRiskPatients()
+        }}</strong>
+      </div>
+    </article>
+  </section>
+
+  <section class="patient-directory" aria-labelledby="patient-directory-title">
+    <header class="directory-heading">
+      <div>
+        <h2 id="patient-directory-title">Patient directory</h2>
+        <p>Search and open a patient record for a complete summary.</p>
+      </div>
+
+      <button
+        class="refresh-button"
+        type="button"
+        [disabled]="loading()"
+        (click)="refreshPatients()"
+      >
+        <ng-icon name="lucideRefreshCw" aria-hidden="true" />
+        Refresh
+      </button>
+    </header>
+
+    <div class="directory-toolbar">
+      <label class="patient-search-field">
+        <span class="sr-only">Search patients by name or record ID</span>
+        <ng-icon name="lucideSearch" aria-hidden="true" />
+        <input
+          type="search"
+          placeholder="Search by name or patient ID"
+          [value]="searchTerm()"
+          (input)="updateSearch($event)"
+        />
+      </label>
+
+      <label class="risk-filter-field">
+        <span class="sr-only">Filter patients by risk level</span>
+        <select [value]="riskFilter()" (change)="updateRiskFilter($event)">
+          <option value="all">All risk levels</option>
+          <option value="high">High risk</option>
+          <option value="mid">Mid risk</option>
+          <option value="low">Low risk</option>
+          <option value="none">Not assessed</option>
+        </select>
+      </label>
+
+      <label class="mobile-sort-field">
+        <span class="sr-only">Sort patients</span>
+        <select (change)="updateMobileSort($event)">
+          <option value="name:asc">Sort: Patient name</option>
+          <option value="lastAssessment:desc">Sort: Latest assessment</option>
+          <option value="currentRiskLevel:asc">Sort: Risk level</option>
+        </select>
+      </label>
+    </div>
+
+    @if (errorMessage(); as error) {
+      @if (patients().length) {
+        <div class="directory-message directory-message--error" role="alert">
+          <span>{{ error }}</span>
+          <button type="button" (click)="refreshPatients()">Try again</button>
+        </div>
+      }
+    }
+
+    @if (initialLoadUnavailable()) {
+      <div class="directory-empty directory-empty--error" role="alert">
+        <span><ng-icon name="lucideRefreshCw" aria-hidden="true" /></span>
+        <h3>Patient records unavailable</h3>
+        <p>{{ errorMessage() }}</p>
+        <button type="button" (click)="refreshPatients()">Try again</button>
+      </div>
+    } @else if (loading() && !patients().length) {
+      <div class="patient-table-skeleton" aria-label="Loading patient records" role="status">
+        @for (row of [1, 2, 3, 4, 5]; track row) {
+          <span></span>
+        }
+      </div>
+    } @else if (visiblePatients().length) {
+      <div class="patient-table-wrap">
+        <table class="patient-table" aria-labelledby="patient-directory-title">
+          <thead>
+            <tr>
+              <th scope="col" [attr.aria-sort]="sortAria('name')">
+                <button type="button" (click)="toggleSort('name')">
+                  Patient
+                  <span aria-hidden="true">{{ sortIndicator('name') }}</span>
+                </button>
+              </th>
+              <th scope="col" [attr.aria-sort]="sortAria('age')">
+                <button type="button" (click)="toggleSort('age')">
+                  Age
+                  <span aria-hidden="true">{{ sortIndicator('age') }}</span>
+                </button>
+              </th>
+              <th scope="col" [attr.aria-sort]="sortAria('gestationalAge')">
+                <button type="button" (click)="toggleSort('gestationalAge')">
+                  Gestational age
+                  <span aria-hidden="true">{{ sortIndicator('gestationalAge') }}</span>
+                </button>
+              </th>
+              <th scope="col" [attr.aria-sort]="sortAria('lastAssessment')">
+                <button type="button" (click)="toggleSort('lastAssessment')">
+                  Last assessment
+                  <span aria-hidden="true">{{ sortIndicator('lastAssessment') }}</span>
+                </button>
+              </th>
+              <th scope="col" [attr.aria-sort]="sortAria('currentRiskLevel')">
+                <button type="button" (click)="toggleSort('currentRiskLevel')">
+                  Current risk
+                  <span aria-hidden="true">{{ sortIndicator('currentRiskLevel') }}</span>
+                </button>
+              </th>
+              <th scope="col"><span class="sr-only">Patient actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (patient of visiblePatients(); track trackPatient($index, patient)) {
+              <tr>
+                <td data-label="Patient">
+                  <div class="patient-identity-cell">
+                    <span class="patient-avatar">{{ patientInitials(patient.name) }}</span>
+                    <span class="patient-identity">
+                      <strong>{{ patient.name }}</strong>
+                      <small [title]="patient.id">ID {{ patient.id }}</small>
+                    </span>
+                  </div>
+                </td>
+                <td data-label="Age">
+                  {{ patient.age !== null ? patient.age + ' years' : '—' }}
+                </td>
+                <td data-label="Gestational age">
+                  {{
+                    patient.gestationalAge !== null
+                      ? patient.gestationalAge + ' weeks'
+                      : 'Not recorded'
+                  }}
+                </td>
+                <td data-label="Last assessment">
+                  @if (patient.lastAssessment) {
+                    <time [attr.datetime]="dateTimeValue(patient.lastAssessment)">
+                      {{ patient.lastAssessment | date: 'MMM d, y' }}
+                    </time>
+                  } @else {
+                    <span class="muted-value">No assessment</span>
+                  }
+                </td>
+                <td data-label="Current risk">
+                  <span
+                    class="patient-risk"
+                    [class.patient-risk--high]="riskTone(patient.currentRiskLevel) === 'high'"
+                    [class.patient-risk--mid]="riskTone(patient.currentRiskLevel) === 'mid'"
+                    [class.patient-risk--low]="riskTone(patient.currentRiskLevel) === 'low'"
+                  >
+                    <span aria-hidden="true"></span>
+                    {{ riskLabel(patient.currentRiskLevel) }}
+                  </span>
+                </td>
+                <td class="patient-action-cell">
+                  <a
+                    [routerLink]="['/dashboard/patients', patient.id]"
+                    [attr.aria-label]="'View ' + patient.name + ' patient record'"
+                  >
+                    View
+                    <ng-icon name="lucideChevronRight" aria-hidden="true" />
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="directory-empty">
+        <span><ng-icon name="lucideUsersRound" aria-hidden="true" /></span>
+        <h3>{{ hasActiveFilters() ? 'No matching patients' : 'No patient records yet' }}</h3>
+        <p>
+          {{
+            hasActiveFilters()
+              ? 'Try a different name, patient ID, or risk filter.'
+              : 'Patient records will appear here after registration.'
+          }}
+        </p>
+        @if (hasActiveFilters()) {
+          <button type="button" (click)="clearFilters()">Clear filters</button>
+        }
+      </div>
+    }
+
+    @if (!initialLoadUnavailable() && !(loading() && !patients().length)) {
+      <footer class="directory-pagination">
+        <p>
+          Showing <strong>{{ pageStart() }}–{{ pageEnd() }}</strong> of
+          <strong>{{ filteredPatients().length }}</strong> patients
+        </p>
+
+        <label class="page-size-control">
+          <span>Rows per page</span>
+          <select [value]="pageSize()" (change)="updatePageSize($event)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+        </label>
+
+        <nav class="pagination-controls" aria-label="Patient directory pagination">
+          <button
+            type="button"
+            aria-label="Previous patient page"
+            [disabled]="activePage() === 1"
+            (click)="previousPage()"
+          >
+            <ng-icon name="lucideArrowLeft" aria-hidden="true" />
           </button>
-     </header>
-     <div class="mt-5 max-sm:mt-10">
-          <div class="row">
-               <div class="field">
-               <label for="searchbar">Search patients</label>
-
-               <input matInput type="search" placeholder="Search by name or ID" (keyup)="applyFilter($event)"
-                    id="searchbar" class="nata-input" />
-                    </div>
-          </div>
-
-          <div class="table-container overflow-x-auto">
-               <table mat-table [dataSource]="dataSource()" matSort>
-
-                    <!-- Patient Name -->
-                    <ng-container matColumnDef="name">
-
-                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                              Patient Name
-                         </th>
-
-                         <td mat-cell *matCellDef="let patient">
-                              {{ patient.name }}
-                         </td>
-
-                    </ng-container>
-
-
-                    <!-- Patient ID -->
-                    <ng-container matColumnDef="id">
-
-                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                              Patient ID
-                         </th>
-
-                         <td mat-cell *matCellDef="let patient">
-                              {{ patient.id }}
-                         </td>
-
-                    </ng-container>
-
-
-                    <!-- Age -->
-                    <ng-container matColumnDef="age">
-
-                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                              Age
-                         </th>
-
-                         <td mat-cell *matCellDef="let patient">
-                              {{ patient.age ?? '—' }}
-                         </td>
-
-                    </ng-container>
-
-
-                    <!-- Gestational Age -->
-                    <ng-container matColumnDef="gestationalAge">
-
-                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                              Gestational Age
-                         </th>
-
-                         <td mat-cell *matCellDef="let patient">
-                              {{
-                              patient.gestationalAge !== null
-                              ? patient.gestationalAge + ' weeks'
-                              : '—'
-                              }}
-                         </td>
-
-                    </ng-container>
-
-
-                    <!-- Last Assessment -->
-                    <ng-container matColumnDef="lastAssessment">
-
-                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                              Last Assessment
-                         </th>
-
-                         <td mat-cell *matCellDef="let patient">
-                              {{
-                              patient.lastAssessment
-                              ? (patient.lastAssessment | date:'MMM d, y')
-                              : 'No assessment'
-                              }}
-                         </td>
-
-                    </ng-container>
-
-
-                    <!-- Current Risk Level -->
-                    <ng-container matColumnDef="currentRiskLevel">
-
-                         <th mat-header-cell *matHeaderCellDef>
-                              Current Risk
-                         </th>
-
-                         <td mat-cell *matCellDef="let patient">
-                              <span class="risk-badge" [class.low-risk]="patient.currentRiskLevel === 'low'"
-                                   [class.mid-risk]="patient.currentRiskLevel === 'mid'"
-                                   [class.high-risk]="patient.currentRiskLevel === 'high'">
-                                   {{ patient.currentRiskLevel ?? 'No assessment' }}
-                              </span>
-                         </td>
-
-                    </ng-container>
-
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-
-                    <tr class="mat-row" *matNoDataRow>
-                         <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-                              @if(loading()){
-                                   <mat-spinner diameter="20"></mat-spinner>
-                              } @else {
-                                   <span>
-                                        No patients found.
-                                   </span>
-                              }
-                         </td>
-                    </tr>
-
-               </table>
-          </div>
-
-          <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
-
-     </div>
+          <span>Page {{ activePage() }} of {{ totalPages() }}</span>
+          <button
+            type="button"
+            aria-label="Next patient page"
+            [disabled]="activePage() === totalPages()"
+            (click)="nextPage()"
+          >
+            <ng-icon name="lucideChevronRight" aria-hidden="true" />
+          </button>
+        </nav>
+      </footer>
+    }
+  </section>
 </section>

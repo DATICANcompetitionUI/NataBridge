@@ -10,69 +10,53 @@ import { Router } from '@angular/router';
 
 @Service()
 export class AssessmentService {
-     private http = inject(HttpClient);
-     private router = inject(Router);
-     private utilService = inject(UtilService);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private utilService = inject(UtilService);
 
-     readonly loading = signal<boolean>(false);
-     readonly errorMessage = signal<string | null>(null);
+  readonly loading = signal<boolean>(false);
+  readonly errorMessage = signal<string | null>(null);
 
-     readonly result = signal<AssessmentResultApi | null>(
-          this.utilService.getStoredData<AssessmentResultApi>('assessment_result')
-     );
+  readonly result = signal<AssessmentResultApi | null>(
+    this.utilService.getStoredData<AssessmentResultApi>('assessment_result'),
+  );
 
-     readonly userInput = signal<AssessmentApi | null>(
-          this.utilService.getStoredData<AssessmentApi>('assessment_input')
-     );
+  readonly userInput = signal<AssessmentApi | null>(
+    this.utilService.getStoredData<AssessmentApi>('assessment_input'),
+  );
 
-     submitAssessment(assessmentData: AssessmentApi) {
-          this.utilService.showLoader();
+  submitAssessment(assessmentData: AssessmentApi) {
+    this.errorMessage.set(null);
+    this.utilService.showLoader();
 
-          this.userInput.set(assessmentData);
-          localStorage.setItem(
-               'assessment_input',
-               JSON.stringify(assessmentData)
-          );
+    this.userInput.set(assessmentData);
+    localStorage.setItem('assessment_input', JSON.stringify(assessmentData));
 
-          this.http
-               .post<ApiResponse<AssessmentResultApi>>(
-                    `${environment.api}/assessments`,
-                    assessmentData,
-                    { withCredentials: true }
-               )
-               .pipe(
-                    finalize(() => this.utilService.hideLoader())
-               )
-               .subscribe({
-                    next: (resp) => {
-                         this.result.set(resp.data);
+    this.http
+      .post<ApiResponse<AssessmentResultApi>>(`${environment.api}/predictions`, assessmentData, {
+        withCredentials: true,
+      })
+      .pipe(finalize(() => this.utilService.hideLoader()))
+      .subscribe({
+        next: (resp) => {
+          this.result.set(resp.data);
 
-                         console.log(resp.data);
-                         
-                         
-                         localStorage.setItem(
-                              'assessment_result',
-                              JSON.stringify(resp.data)
-                         );
-                    
-                         this.router.navigateByUrl('assessment/result');
-                    },
+          localStorage.setItem('assessment_result', JSON.stringify(resp.data));
 
-                    error: (err) => {
-                         this.errorMessage.set(
-                              err?.error?.message ?? 'Assessment failed'
-                         );
-                    },
-               });
-     }
+          this.router.navigateByUrl('assessment/result');
+        },
 
-     clearAssessmentStorage() {
-          localStorage.removeItem('assessment_result');
-          localStorage.removeItem('assessment_input');
+        error: (err) => {
+          this.errorMessage.set(err?.error?.message ?? 'Assessment failed');
+        },
+      });
+  }
 
-          this.result.set(null);
-          this.userInput.set(null);
-     }
+  clearAssessmentStorage() {
+    localStorage.removeItem('assessment_result');
+    localStorage.removeItem('assessment_input');
 
-     
+    this.result.set(null);
+    this.userInput.set(null);
+  }
 }

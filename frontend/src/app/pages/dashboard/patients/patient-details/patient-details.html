@@ -1,0 +1,185 @@
+<section class="patient-detail-page">
+  <a class="patient-detail-back" routerLink="/dashboard/patients">
+    <ng-icon name="lucideArrowLeft" aria-hidden="true" />
+    Back to patients
+  </a>
+
+  @if (loading()) {
+    <div class="patient-detail-skeleton" aria-label="Loading patient record" role="status">
+      <span class="detail-skeleton-hero"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  } @else if (patient(); as patient) {
+    <header class="patient-profile-card">
+      <div class="patient-profile-identity">
+        <span class="patient-profile-avatar">{{ patientInitials(patient.name) }}</span>
+        <div>
+          <p>Patient record</p>
+          <h1>{{ patient.name }}</h1>
+          <span class="patient-record-id">ID {{ patient.id }}</span>
+        </div>
+      </div>
+
+      <div class="patient-profile-actions" aria-label="Patient record actions">
+        <button class="patient-record-button" type="button" (click)="printSummary()">
+          <ng-icon name="lucidePrinter" aria-hidden="true" />
+          Print summary
+        </button>
+        <button
+          class="patient-record-button patient-record-button--unavailable"
+          type="button"
+          disabled
+          aria-label="Start follow-up assessment, coming soon"
+        >
+          <span>Start follow-up</span>
+          <small>Coming soon</small>
+        </button>
+      </div>
+    </header>
+
+    <section
+      class="patient-risk-summary"
+      [class.patient-risk-summary--high]="riskTone(patient.currentRiskLevel) === 'high'"
+      [class.patient-risk-summary--mid]="riskTone(patient.currentRiskLevel) === 'mid'"
+      [class.patient-risk-summary--low]="riskTone(patient.currentRiskLevel) === 'low'"
+      aria-labelledby="patient-risk-heading"
+    >
+      <span class="patient-risk-summary__icon">
+        <ng-icon name="lucideActivity" aria-hidden="true" />
+      </span>
+      <div>
+        <p>Latest assessment risk</p>
+        <h2 id="patient-risk-heading">{{ riskLabel(patient.currentRiskLevel) }}</h2>
+        <span>{{ riskMessage(patient.currentRiskLevel) }}</span>
+      </div>
+      <span
+        class="patient-risk patient-risk-summary__badge"
+        [class.patient-risk--high]="riskTone(patient.currentRiskLevel) === 'high'"
+        [class.patient-risk--mid]="riskTone(patient.currentRiskLevel) === 'mid'"
+        [class.patient-risk--low]="riskTone(patient.currentRiskLevel) === 'low'"
+      >
+        <span aria-hidden="true"></span>
+        {{ riskLabel(patient.currentRiskLevel) }}
+      </span>
+    </section>
+
+    <section class="patient-detail-stat-grid" aria-label="Patient record summary">
+      <article>
+        <span><ng-icon name="lucideUserRound" aria-hidden="true" /></span>
+        <div>
+          <small>Age</small>
+          <strong>{{ patient.age !== null ? patient.age + ' years' : 'Not recorded' }}</strong>
+        </div>
+      </article>
+      <article>
+        <span><ng-icon name="lucideCalendarDays" aria-hidden="true" /></span>
+        <div>
+          <small>Gestational age</small>
+          <strong>
+            {{
+              patient.gestationalAge !== null ? patient.gestationalAge + ' weeks' : 'Not recorded'
+            }}
+          </strong>
+        </div>
+      </article>
+      <article>
+        <span><ng-icon name="lucideClipboardCheck" aria-hidden="true" /></span>
+        <div>
+          <small>Risk classification</small>
+          <strong>{{ riskLabel(patient.currentRiskLevel) }}</strong>
+        </div>
+      </article>
+      <article>
+        <span><ng-icon name="lucideClock3" aria-hidden="true" /></span>
+        <div>
+          <small>Last assessment</small>
+          <strong>{{ formatAssessmentDate(patient.lastAssessment) }}</strong>
+        </div>
+      </article>
+    </section>
+
+    <div class="patient-detail-content-grid">
+      <section class="patient-detail-card" aria-labelledby="patient-information-heading">
+        <header>
+          <span><ng-icon name="lucideUserRound" aria-hidden="true" /></span>
+          <div>
+            <h2 id="patient-information-heading">Patient information</h2>
+            <p>Core details available in this clinical record.</p>
+          </div>
+        </header>
+
+        <dl class="patient-information-list">
+          <div>
+            <dt>Full name</dt>
+            <dd>{{ patient.name }}</dd>
+          </div>
+          <div>
+            <dt>Patient record ID</dt>
+            <dd class="record-id-value">{{ patient.id }}</dd>
+          </div>
+          <div>
+            <dt>Age</dt>
+            <dd>{{ patient.age !== null ? patient.age + ' years' : 'Not recorded' }}</dd>
+          </div>
+          <div>
+            <dt>Gestational age</dt>
+            <dd>
+              {{
+                patient.gestationalAge !== null ? patient.gestationalAge + ' weeks' : 'Not recorded'
+              }}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="patient-detail-card" aria-labelledby="latest-assessment-heading">
+        <header>
+          <span><ng-icon name="lucideFileText" aria-hidden="true" /></span>
+          <div>
+            <h2 id="latest-assessment-heading">Latest assessment</h2>
+            <p>The most recent assessment summary on this record.</p>
+          </div>
+        </header>
+
+        @if (patient.lastAssessment) {
+          <article class="latest-assessment-entry">
+            <span class="assessment-timeline-marker" aria-hidden="true"></span>
+            <div>
+              <span>Maternal health risk assessment</span>
+              <strong>{{ riskLabel(patient.currentRiskLevel) }}</strong>
+              <time [attr.datetime]="dateTimeValue(patient.lastAssessment)">
+                {{ formatAssessmentDate(patient.lastAssessment) }}
+              </time>
+            </div>
+          </article>
+
+          <p class="assessment-availability-note">
+            Full clinical measurements and assessment history are not yet available in this patient
+            record view.
+          </p>
+        } @else {
+          <div class="latest-assessment-empty">
+            <span><ng-icon name="lucideFileText" aria-hidden="true" /></span>
+            <h3>No assessment recorded</h3>
+            <p>This patient does not have an assessment summary available yet.</p>
+          </div>
+        }
+      </section>
+    </div>
+  } @else {
+    <section class="patient-record-state">
+      <span><ng-icon name="lucideUserRound" aria-hidden="true" /></span>
+      <h1>Patient record unavailable</h1>
+      <p>{{ errorMessage() ?? 'We could not find a patient record for this link.' }}</p>
+      <div>
+        <button type="button" (click)="retry()">
+          <ng-icon name="lucideRefreshCw" aria-hidden="true" />
+          Try again
+        </button>
+        <a routerLink="/dashboard/patients">Return to patients</a>
+      </div>
+    </section>
+  }
+</section>

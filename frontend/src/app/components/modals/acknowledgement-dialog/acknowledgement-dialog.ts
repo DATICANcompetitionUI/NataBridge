@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { UtilService } from '../../../services/util/util-service';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'nata-acknowledgement-dialog',
@@ -9,9 +8,9 @@ import { UtilService } from '../../../services/util/util-service';
   styleUrl: './acknowledgement-dialog.css',
 })
 export class AcknowledgementDialog {
-  readonly dialogRef = inject(MatDialogRef<AcknowledgementDialog>);
-  
-  closeDialog(value: boolean) {
+  private readonly dialogRef = inject(MatDialogRef<AcknowledgementDialog>);
+
+  closeDialog(value: boolean): void {
     this.dialogRef.close(value);
   }
 }

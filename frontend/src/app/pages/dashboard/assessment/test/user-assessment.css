@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.dashboard-assessment-page {
+  min-height: 100%;
+  padding: 28px 32px 44px;
+}
+
+@media (max-width: 760px) {
+  .dashboard-assessment-page {
+    padding: 24px 20px 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-assessment-page {
+    padding: 20px 14px 30px;
+  }
+}

@@ -1,300 +1,583 @@
-<h2 nata-h2 class="capitalize px-5">
-     @if(!userAuthenticated()) {
-          <span>maternal health risk assessment</span>
-     } @else {
-          <span>New Maternal Assessment</span>
-     }
-</h2>
+<section
+  class="assessment-form-shell"
+  [class.assessment-form-shell--guest]="!userAuthenticated()"
+  aria-labelledby="assessment-page-title"
+>
+  <header class="assessment-page-heading">
+    <span class="assessment-kicker">AI-assisted maternal care</span>
+    <div class="assessment-heading-row">
+      <div>
+        <h1 id="assessment-page-title">
+          {{ userAuthenticated() ? 'New maternal assessment' : 'Maternal health risk assessment' }}
+        </h1>
+        <p>
+          @if (userAuthenticated()) {
+            Capture the patient’s details and current measurements for a structured risk review.
+          } @else {
+            Enter your current measurements to receive an instant maternal-health risk estimate.
+          }
+        </p>
+      </div>
+      <span class="assessment-duration">
+        {{ userAuthenticated() ? '3 steps · About 3 minutes' : '1 step · About 1 minute' }}
+      </span>
+    </div>
+  </header>
 
-<div class="mt-1">
-     @if(userAuthenticated()) {
-     <p class="text-sm max-sm:text-justify mb-8 px-5">Capture current vitals and symptom manifestations. Data will be analyzed
-          against
-          historical baselines.
-     </p>
-     <mat-stepper linear="true" #stepper>
-          <mat-step [stepControl]="personalInformationFormGroup">
-               <form [formGroup]="personalInformationFormGroup" class="px-5 max-sm:px-0">
-                    <ng-template matStepLabel class="text-sm max-sm:hidden">Personal Information</ng-template>
-                         
-                    <div class="row">
-                         <div class="field">
-                              <label for="lastname">last name</label>
-                              <input type="text" id="lastname" placeholder="e.g. John" formControlName="lastname">
-                         </div>
-                         <div class="field">
-                              <label for="firstname">first name</label>
-                              <input type="text" id="firstname" placeholder="e.g. Doe" formControlName="firstname">
-                         </div>
-                         <div class="field">
-                              <label for="middlename">middle name</label>
-                              <input type="text" id="middlename" placeholder="e.g. Jane" formControlName="middlename">
-                         </div>
-                    </div>
+  @if (submissionError(); as errorMessage) {
+    <div class="assessment-error-banner" role="alert">
+      <span aria-hidden="true">!</span>
+      <p>{{ errorMessage }}</p>
+    </div>
+  }
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="email">email address</label>
-                              <input type="email" id="email" placeholder="e.g. test@gmail.com" formControlName="email">
-                         </div>
-                         <div class="field">
-                              <label for="phone">
-                                   phone number
-                              </label>
-                              <input type="text" id="phone" placeholder="e.g. +(234)XXX-XXXX" formControlName="phone">
-                         </div>
-                    </div>
+  @if (userAuthenticated()) {
+    <mat-stepper class="assessment-stepper" [linear]="true" #stepper>
+      <mat-step [stepControl]="personalInformationFormGroup">
+        <ng-template matStepLabel>Patient details</ng-template>
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="dob">date of birth</label>
-                              <input type="date" id="dob" formControlName="dob">
-                         </div>
-                    </div>
+        <form class="assessment-step-form" [formGroup]="personalInformationFormGroup">
+          <section class="assessment-card">
+            <header class="form-section-heading">
+              <span class="section-number">01</span>
+              <div>
+                <h2>Personal information</h2>
+                <p>Basic identifying and contact information for this assessment.</p>
+              </div>
+            </header>
 
-                    <div class="flex-center mt-10 justify-end">
-                         <button matStepperNext class="nata-btn primary"
-                              [disabled]="!userAuthenticated() || personalInformationFormGroup.invalid">
-                              Next
-                              <ng-icon name="heroArrowLongRight" />
-                         </button>
-                    </div>
-               </form>
-          </mat-step>
+            <div class="form-grid form-grid--three">
+              <div class="form-field">
+                <label for="firstname">First name <span class="required-marker">*</span></label>
+                <input
+                  id="firstname"
+                  type="text"
+                  formControlName="firstname"
+                  placeholder="e.g. Amina"
+                  autocomplete="given-name"
+                  required
+                  aria-required="true"
+                  aria-describedby="firstname-error"
+                  [attr.aria-invalid]="
+                    personalInformationFormGroup.controls.firstname.invalid &&
+                    personalInformationFormGroup.controls.firstname.touched
+                  "
+                />
+                @if (
+                  personalInformationFormGroup.controls.firstname.invalid &&
+                  (personalInformationFormGroup.controls.firstname.touched ||
+                    personalInformationFormGroup.controls.firstname.dirty)
+                ) {
+                  <p class="field-error" id="firstname-error">Enter the patient’s first name.</p>
+                }
+              </div>
 
-          <mat-step [stepControl]="pregnancyInformationFormGroup">
-               <form [formGroup]="pregnancyInformationFormGroup" class="px-5 max-sm:px-0">
-                    <ng-template matStepLabel class="text-sm">Pregnancy Information</ng-template>
+              <div class="form-field">
+                <label for="lastname">Last name <span class="required-marker">*</span></label>
+                <input
+                  id="lastname"
+                  type="text"
+                  formControlName="lastname"
+                  placeholder="e.g. Bello"
+                  autocomplete="family-name"
+                  required
+                  aria-required="true"
+                  aria-describedby="lastname-error"
+                  [attr.aria-invalid]="
+                    personalInformationFormGroup.controls.lastname.invalid &&
+                    personalInformationFormGroup.controls.lastname.touched
+                  "
+                />
+                @if (
+                  personalInformationFormGroup.controls.lastname.invalid &&
+                  (personalInformationFormGroup.controls.lastname.touched ||
+                    personalInformationFormGroup.controls.lastname.dirty)
+                ) {
+                  <p class="field-error" id="lastname-error">Enter the patient’s last name.</p>
+                }
+              </div>
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="gestationalAge">current gestational age (weeks)</label>
-                              <input type="number" id="gestationalAge"
-                              min="0" placeholder="e.g. 24 weeks"
-                                   formControlName="gestationalAge">
-                         </div>
+              <div class="form-field">
+                <label for="middlename"
+                  >Middle name <span class="optional-label">Optional</span></label
+                >
+                <input
+                  id="middlename"
+                  type="text"
+                  formControlName="middlename"
+                  placeholder="e.g. Zainab"
+                  autocomplete="additional-name"
+                />
+              </div>
 
-                         <div class="field">
-                              <label for="firstPregnancy">
-                                   is this the first pregnancy?
-                                   <span class="lowercase">(optional)</span>
-                              </label>
+              <div class="form-field">
+                <label for="email">Email address <span class="required-marker">*</span></label>
+                <input
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="amina@example.com"
+                  autocomplete="email"
+                  required
+                  aria-required="true"
+                  aria-describedby="email-error"
+                  [attr.aria-invalid]="
+                    personalInformationFormGroup.controls.email.invalid &&
+                    personalInformationFormGroup.controls.email.touched
+                  "
+                />
+                @if (
+                  personalInformationFormGroup.controls.email.invalid &&
+                  (personalInformationFormGroup.controls.email.touched ||
+                    personalInformationFormGroup.controls.email.dirty)
+                ) {
+                  <p class="field-error" id="email-error">
+                    {{
+                      personalInformationFormGroup.controls.email.hasError('email')
+                        ? 'Enter a valid email address.'
+                        : 'Enter the patient’s email address.'
+                    }}
+                  </p>
+                }
+              </div>
 
-                              <select id="firstPregnancy" formControlName="firstPregnancy">
-                                   <option value="true">Yes</option>
-                                   <option value="false">No</option>
-                              </select>
-                         </div>
-                    </div>
+              <div class="form-field">
+                <label for="phone">Phone number <span class="required-marker">*</span></label>
+                <input
+                  id="phone"
+                  type="tel"
+                  formControlName="phone"
+                  placeholder="e.g. +234 800 000 0000"
+                  autocomplete="tel"
+                  required
+                  aria-required="true"
+                  aria-describedby="phone-error"
+                  [attr.aria-invalid]="
+                    personalInformationFormGroup.controls.phone.invalid &&
+                    personalInformationFormGroup.controls.phone.touched
+                  "
+                />
+                @if (
+                  personalInformationFormGroup.controls.phone.invalid &&
+                  (personalInformationFormGroup.controls.phone.touched ||
+                    personalInformationFormGroup.controls.phone.dirty)
+                ) {
+                  <p class="field-error" id="phone-error">Enter the patient’s phone number.</p>
+                }
+              </div>
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="previousComplications">previous pregnancy complications
-                                   <span class="lowercase">(optional)</span>
-                              </label>
-                              <textarea id="previousComplications"
-                                   placeholder="please specify any previous pregnancy complications"></textarea>
-                         </div>
-                    </div>
+              <div class="form-field">
+                <label for="dob">Date of birth <span class="required-marker">*</span></label>
+                <input
+                  id="dob"
+                  type="date"
+                  formControlName="dob"
+                  [max]="maximumDateOfBirth"
+                  autocomplete="bday"
+                  required
+                  aria-required="true"
+                  aria-describedby="dob-hint dob-error"
+                  [attr.aria-invalid]="
+                    personalInformationFormGroup.controls.dob.invalid &&
+                    personalInformationFormGroup.controls.dob.touched
+                  "
+                />
+                <p class="field-hint" id="dob-hint">Age will be calculated automatically.</p>
+                @if (
+                  personalInformationFormGroup.controls.dob.invalid &&
+                  personalInformationFormGroup.controls.dob.touched
+                ) {
+                  <p class="field-error" id="dob-error">
+                    {{
+                      personalInformationFormGroup.controls.dob.hasError('underage')
+                        ? 'The patient must be at least 18 years old.'
+                        : 'Select a valid date of birth.'
+                    }}
+                  </p>
+                }
+              </div>
+            </div>
+          </section>
 
-                    <div class="flex-center gap-x-2.5 mt-10 justify-end">
-                         <button matStepperPrevious class="nata-btn secondary">Back</button>
-                         <button matStepperNext class="nata-btn primary">
-                              Next
-                              <ng-icon name="heroArrowLongRight" />
-                         </button>
-                    </div>
-               </form>
-          </mat-step>
+          <footer class="assessment-form-actions">
+            <span>Step 1 of 3</span>
+            <button
+              class="assessment-button assessment-button--primary"
+              type="button"
+              matStepperNext
+              [disabled]="personalInformationFormGroup.invalid"
+            >
+              Continue
+              <ng-icon name="heroArrowLongRight" />
+            </button>
+          </footer>
+        </form>
+      </mat-step>
 
-          <mat-step [stepControl]="healthMeasurementsFormGroup">
-               <form [formGroup]="healthMeasurementsFormGroup" class="px-5 max-sm:px-0">
-                    <ng-template matStepLabel class="text-sm">Health Measurements</ng-template>
+      <mat-step [stepControl]="pregnancyInformationFormGroup">
+        <ng-template matStepLabel>Pregnancy</ng-template>
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="bloodPressure">blood pressure (mmHg)</label>
+        <form class="assessment-step-form" [formGroup]="pregnancyInformationFormGroup">
+          <section class="assessment-card">
+            <header class="form-section-heading">
+              <span class="section-number">02</span>
+              <div>
+                <h2>Pregnancy information</h2>
+                <p>Context that helps the model interpret the patient’s current readings.</p>
+              </div>
+            </header>
 
-                              <div class="flex-center gap-x-0.5">
-                                   <input type="number" id="systolicBP" placeholder="120" min="60"
-                                        formControlName="systolicBP">
-                                   <span class="mx-2 max-sm:mx-1"><ng-icon name="heroSlash" /></span>
-                                   <input type="number" id="diastolicBP" placeholder="80" min="30"
-                                        formControlName="diastolicBP">
-                              </div>
-                         </div>
+            <div class="form-grid form-grid--two">
+              <div class="form-field">
+                <label for="gestationalAge">
+                  Gestational age <span class="field-unit">Weeks</span>
+                  <span class="required-marker">*</span>
+                </label>
+                <input
+                  id="gestationalAge"
+                  type="number"
+                  min="1"
+                  max="45"
+                  formControlName="gestationalAge"
+                  placeholder="e.g. 24"
+                  required
+                  aria-required="true"
+                  aria-describedby="gestational-age-error"
+                  [attr.aria-invalid]="
+                    pregnancyInformationFormGroup.controls.gestationalAge.invalid &&
+                    pregnancyInformationFormGroup.controls.gestationalAge.touched
+                  "
+                />
+                @if (
+                  pregnancyInformationFormGroup.controls.gestationalAge.invalid &&
+                  (pregnancyInformationFormGroup.controls.gestationalAge.touched ||
+                    pregnancyInformationFormGroup.controls.gestationalAge.dirty)
+                ) {
+                  <p class="field-error" id="gestational-age-error">
+                    Enter a gestational age between 1 and 45 weeks.
+                  </p>
+                }
+              </div>
 
-                         <div class="field">
-                              <label for="age">age</label>
-                              <input type="number" id="age" placeholder="e.g. 18" min="18" formControlName="age">
-                         </div>
-                    </div>
+              <div class="form-field">
+                <label for="firstPregnancy">
+                  Is this the first pregnancy? <span class="optional-label">Optional</span>
+                </label>
+                <select id="firstPregnancy" formControlName="firstPregnancy">
+                  <option [ngValue]="null">Select an answer</option>
+                  <option [ngValue]="true">Yes</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+              </div>
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="bloodSugar">blood sugar <span class="uppercase">(mg/dL)</span></label>
-                              <input type="number" id="bloodSugar" placeholder="e.g. 95" min="2"
-                                   formControlName="bloodSugar">
-                         </div>
+              <div class="form-field form-field--full">
+                <label for="previousComplications">
+                  Previous pregnancy complications <span class="optional-label">Optional</span>
+                </label>
+                <textarea
+                  id="previousComplications"
+                  formControlName="previousComplications"
+                  placeholder="Describe any previous complications that may be clinically relevant"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+          </section>
 
-                         <div class="field">
-                              <label for="bodyTemp">body temperature <span class="uppercase">(°C)</span></label>
-                              <input type="number" id="bodyTemp" placeholder="e.g. 37" min="36" max="43" step="0.1"
-                                   formControlName="bodyTemp">
-                         </div>
-                    </div>
+          <footer class="assessment-form-actions">
+            <span>Step 2 of 3</span>
+            <div class="assessment-action-group">
+              <button
+                class="assessment-button assessment-button--secondary"
+                type="button"
+                matStepperPrevious
+              >
+                Back
+              </button>
+              <button
+                class="assessment-button assessment-button--primary"
+                type="button"
+                matStepperNext
+                [disabled]="pregnancyInformationFormGroup.invalid"
+              >
+                Continue
+                <ng-icon name="heroArrowLongRight" />
+              </button>
+            </div>
+          </footer>
+        </form>
+      </mat-step>
 
-                    <div class="row">
-                         <div class="field">
-                              <label for="heartRate">heart rate <span class="uppercase">(bpm)</span></label>
-                              <input type="number" id="heartRate" placeholder="e.g. 70" min="30" max="220"
-                                   formControlName="heartRate">
-                         </div>
-                    </div>
-               </form>
+      <mat-step [stepControl]="healthMeasurementsFormGroup">
+        <ng-template matStepLabel>Vitals</ng-template>
 
-               <div class="flex-center gap-x-2.5 mt-10 justify-end">
-                    <button matStepperPrevious class="nata-btn secondary">Back</button>
-                    <button class="nata-btn primary capitalize" (click)="openDialog()">
-                         submit
-                    </button>
-               </div>
-          </mat-step>
-     </mat-stepper>
-     } @else {
-     <form [formGroup]="healthMeasurementsFormGroup" class="px-5">
-          <p class="text-sm max-sm:text-justify mb-8">Complete the assessment below to receive an instant Ai-powered
-               prediction of your pregnancy risk level along with your personalized recommendations.
-               <span class="font-medium text-(--nata-warning)">This assessment is designed to support *not replace* professional
-                    medical advice.</span>
+        <form
+          class="assessment-step-form"
+          [formGroup]="healthMeasurementsFormGroup"
+          (ngSubmit)="openDialog()"
+        >
+          <section class="assessment-card">
+            <header class="form-section-heading">
+              <span class="section-number">03</span>
+              <div>
+                <h2>Health measurements</h2>
+                <p>Use the patient’s most recent clinically measured vital signs.</p>
+              </div>
+            </header>
+
+            <ng-container *ngTemplateOutlet="healthMeasurementFields" />
+          </section>
+
+          <footer class="assessment-form-actions">
+            <span>Step 3 of 3</span>
+            <div class="assessment-action-group">
+              <button
+                class="assessment-button assessment-button--secondary"
+                type="button"
+                matStepperPrevious
+              >
+                Back
+              </button>
+              <button
+                class="assessment-button assessment-button--primary"
+                type="submit"
+                [disabled]="!isValidForSubmission()"
+              >
+                Analyze assessment
+              </button>
+            </div>
+          </footer>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  } @else {
+    <form
+      class="assessment-step-form assessment-step-form--quick"
+      [formGroup]="healthMeasurementsFormGroup"
+      (ngSubmit)="openDialog()"
+    >
+      <section class="assessment-card assessment-card--quick">
+        <header class="form-section-heading form-section-heading--quick">
+          <span class="section-number">01</span>
+          <div>
+            <h2>Current health measurements</h2>
+            <p>Enter the most recent values available to you.</p>
+          </div>
+          <span class="quick-assessment-badge">Quick assessment</span>
+        </header>
+
+        <aside class="assessment-advisory">
+          <span aria-hidden="true">◆</span>
+          <p>
+            This AI-supported assessment does not replace professional medical advice, diagnosis, or
+            emergency care.
           </p>
+        </aside>
 
-          <div class="row">
-               <div class="field">
-                    <label for="bloodPressure">blood pressure (mmHg)</label>
+        <ng-container *ngTemplateOutlet="healthMeasurementFields" />
+      </section>
 
-                    <div class="flex-center gap-x-0.5">
-                         <div class="flex-1">
-                              <input type="number" id="systolicBP" placeholder="120" min="60"
-                                   formControlName="systolicBP">
+      <footer class="assessment-form-actions assessment-form-actions--quick">
+        <span>Your information is used only to calculate this assessment.</span>
+        <button
+          class="assessment-button assessment-button--primary"
+          type="submit"
+          [disabled]="!isValidForSubmission()"
+        >
+          Assess my pregnancy
+          <ng-icon name="heroArrowLongRight" />
+        </button>
+      </footer>
+    </form>
+  }
+</section>
 
-                              @if(healthMeasurementsFormGroup.controls.systolicBP; as systolicField) {
-                              @if(systolicField.hasError('min')){
-                              <div class="error-field">
-                                   Enter valid systolic BP
-                              </div>
-                              }
-                              @else if (systolicField.invalid && (systolicField.touched ||
-                              systolicField.dirty)) {
-                              <div class="error-field">
-                                   Enter a value
-                              </div>
-                              }}
-                         </div>
+<ng-template #healthMeasurementFields>
+  <div class="form-grid form-grid--two health-measurement-grid">
+    <div class="form-field">
+      <span class="field-label">
+        Blood pressure <span class="field-unit">mmHg</span>
+        <span class="required-marker">*</span>
+      </span>
 
-                         <span class="mx-2 max-sm:mx-1">
-                              <ng-icon name="heroSlash" />
-                         </span>
+      <div class="pressure-inputs">
+        <div class="measurement-input">
+          <input
+            id="systolicBP"
+            type="number"
+            min="60"
+            max="250"
+            [formControl]="healthMeasurementsFormGroup.controls.systolicBP"
+            placeholder="120"
+            aria-label="Systolic blood pressure"
+            required
+            aria-required="true"
+            aria-describedby="blood-pressure-error"
+            [attr.aria-invalid]="
+              healthMeasurementsFormGroup.controls.systolicBP.invalid &&
+              healthMeasurementsFormGroup.controls.systolicBP.touched
+            "
+          />
+          <small>Systolic</small>
+        </div>
+        <ng-icon class="pressure-divider" name="heroSlash" aria-hidden="true" />
+        <div class="measurement-input">
+          <input
+            id="diastolicBP"
+            type="number"
+            min="30"
+            max="150"
+            [formControl]="healthMeasurementsFormGroup.controls.diastolicBP"
+            placeholder="80"
+            aria-label="Diastolic blood pressure"
+            required
+            aria-required="true"
+            aria-describedby="blood-pressure-error"
+            [attr.aria-invalid]="
+              healthMeasurementsFormGroup.controls.diastolicBP.invalid &&
+              healthMeasurementsFormGroup.controls.diastolicBP.touched
+            "
+          />
+          <small>Diastolic</small>
+        </div>
+      </div>
 
-                         <div class="flex-1">
-                              <input type="number" id="diastolicBP" placeholder="80" min="30"
-                                   formControlName="diastolicBP">
+      @if (
+        (healthMeasurementsFormGroup.controls.systolicBP.invalid &&
+          (healthMeasurementsFormGroup.controls.systolicBP.touched ||
+            healthMeasurementsFormGroup.controls.systolicBP.dirty)) ||
+        (healthMeasurementsFormGroup.controls.diastolicBP.invalid &&
+          (healthMeasurementsFormGroup.controls.diastolicBP.touched ||
+            healthMeasurementsFormGroup.controls.diastolicBP.dirty))
+      ) {
+        <p class="field-error" id="blood-pressure-error">
+          Enter blood pressure between 60/30 and 250/150 mmHg.
+        </p>
+      }
+    </div>
 
-                              @if(healthMeasurementsFormGroup.controls.diastolicBP; as diastolicField) {
-                              @if(diastolicField.hasError('min')){
-                              <div class="error-field">
-                                   Enter valid diastolic BP
-                              </div>
-                              }
-                              @else if (diastolicField.invalid && (diastolicField.touched ||
-                              diastolicField.dirty)) {
-                              <div class="error-field">
-                                   Enter a value
-                              </div>
-                              }}
-                         </div>
-                    </div>
-               </div>
+    <div class="form-field">
+      <label for="age"
+        >Age <span class="field-unit">Years</span> <span class="required-marker">*</span></label
+      >
+      <input
+        id="age"
+        type="number"
+        min="18"
+        [formControl]="healthMeasurementsFormGroup.controls.age"
+        placeholder="e.g. 28"
+        [readOnly]="userAuthenticated()"
+        [class.form-control--readonly]="userAuthenticated()"
+        required
+        aria-required="true"
+        aria-describedby="age-hint age-error"
+        [attr.aria-invalid]="
+          healthMeasurementsFormGroup.controls.age.invalid &&
+          healthMeasurementsFormGroup.controls.age.touched
+        "
+      />
+      @if (userAuthenticated()) {
+        <p class="field-hint" id="age-hint">Calculated automatically from the date of birth.</p>
+      }
+      @if (
+        healthMeasurementsFormGroup.controls.age.invalid &&
+        (healthMeasurementsFormGroup.controls.age.touched ||
+          healthMeasurementsFormGroup.controls.age.dirty)
+      ) {
+        <p class="field-error" id="age-error">Enter an age of 18 years or older.</p>
+      }
+    </div>
 
-               <div class="field">
-                    <label for="age">age</label>
-                    <input type="number" id="age" placeholder="e.g. 18" min="18" formControlName="age">
+    <div class="form-field">
+      <label for="bloodSugar">
+        Blood sugar <span class="field-unit">mmol/L</span>
+        <span class="required-marker">*</span>
+      </label>
+      <input
+        id="bloodSugar"
+        type="number"
+        min="2"
+        step="0.1"
+        [formControl]="healthMeasurementsFormGroup.controls.bloodSugar"
+        placeholder="e.g. 4.5"
+        required
+        aria-required="true"
+        aria-describedby="blood-sugar-error"
+        [attr.aria-invalid]="
+          healthMeasurementsFormGroup.controls.bloodSugar.invalid &&
+          healthMeasurementsFormGroup.controls.bloodSugar.touched
+        "
+      />
+      @if (
+        healthMeasurementsFormGroup.controls.bloodSugar.invalid &&
+        (healthMeasurementsFormGroup.controls.bloodSugar.touched ||
+          healthMeasurementsFormGroup.controls.bloodSugar.dirty)
+      ) {
+        <p class="field-error" id="blood-sugar-error">
+          Enter a blood-sugar reading of 2 mmol/L or higher.
+        </p>
+      }
+    </div>
 
-                    @if(healthMeasurementsFormGroup.controls.age; as ageField) {
-                    @if(ageField.hasError('min')){
-                    <div class="error-field">
-                         Enter a valid age
-                    </div>
-                    }
-                    @else if (ageField.invalid && (ageField.touched ||
-                    ageField.dirty)) {
-                    <div class="error-field">
-                         Enter a value
-                    </div>
-                    }}
-               </div>
-          </div>
+    <div class="form-field">
+      <label for="bodyTemp">
+        Body temperature <span class="field-unit">°C</span>
+        <span class="required-marker">*</span>
+      </label>
+      <input
+        id="bodyTemp"
+        type="number"
+        min="36"
+        max="43"
+        step="0.1"
+        [formControl]="healthMeasurementsFormGroup.controls.bodyTemp"
+        placeholder="e.g. 37.0"
+        required
+        aria-required="true"
+        aria-describedby="body-temperature-error"
+        [attr.aria-invalid]="
+          healthMeasurementsFormGroup.controls.bodyTemp.invalid &&
+          healthMeasurementsFormGroup.controls.bodyTemp.touched
+        "
+      />
+      @if (
+        healthMeasurementsFormGroup.controls.bodyTemp.invalid &&
+        (healthMeasurementsFormGroup.controls.bodyTemp.touched ||
+          healthMeasurementsFormGroup.controls.bodyTemp.dirty)
+      ) {
+        <p class="field-error" id="body-temperature-error">
+          Enter a temperature between 36°C and 43°C.
+        </p>
+      }
+    </div>
 
-          <div class="row">
-               <div class="field">
-                    <label for="bloodSugar">blood sugar <span class="uppercase">(mg/dL)</span></label>
-                    <input type="number" id="bloodSugar" placeholder="e.g. 4.5" min="2" formControlName="bloodSugar">
-
-                    @if(healthMeasurementsFormGroup.controls.bloodSugar; as bsField) {
-                    @if(bsField.hasError('min')){
-                    <div class="error-field">
-                         Enter a valid bloodsugar
-                    </div>
-                    }
-                    @else if (bsField.invalid && (bsField.touched ||
-                    bsField.dirty)) {
-                    <div class="error-field">
-                         Enter a value
-                    </div>
-                    }}
-               </div>
-
-               <div class="field">
-                    <label for="bodyTemp">body temperature <span class="uppercase">(°C)</span></label>
-                    <input type="number" id="bodyTemp" placeholder="e.g. 37" min="36" max="42" step="0.1"
-                         formControlName="bodyTemp">
-
-                    @if(healthMeasurementsFormGroup.controls.bodyTemp; as bodyTempField) {
-                    @if(bodyTempField.hasError('min')){
-                    <div class="error-field">
-                         Enter a valid body temperature
-                    </div>
-                    }
-                    @else if (bodyTempField.invalid && (bodyTempField.touched ||
-                    bodyTempField.dirty)) {
-                    <div class="error-field">
-                         Enter a value
-                    </div>
-                    }}
-               </div>
-          </div>
-
-          <div class="row">
-               <div class="field">
-                    <label for="heartRate">heart rate <span class="uppercase">(bpm)</span></label>
-                    <input type="number" id="heartRate" placeholder="e.g. 70" min="40" max="180"
-                         formControlName="heartRate">
-
-                    <div class="error-field">
-                         @if(healthMeasurementsFormGroup.controls.heartRate; as heartRateField) {
-                         @if(heartRateField.hasError('min') || heartRateField.hasError('max')){
-                         <span>Enter a valid heartRate</span>
-                         }
-                         @else if (heartRateField.invalid && (heartRateField.touched ||
-                         heartRateField.dirty)) {
-                         <span>Enter a value</span>
-                         }}
-                    </div>
-               </div>
-          </div>
-
-          <button type="submit" class="nata-btn primary mt-10" (click)="openDialog()"
-               [disabled]="!isValidForSubmission()">Access my pregnancy</button>
-     </form>
-     }
-</div>
+    <div class="form-field">
+      <label for="heartRate">
+        Heart rate <span class="field-unit">bpm</span>
+        <span class="required-marker">*</span>
+      </label>
+      <input
+        id="heartRate"
+        type="number"
+        min="30"
+        max="220"
+        [formControl]="healthMeasurementsFormGroup.controls.heartRate"
+        placeholder="e.g. 78"
+        required
+        aria-required="true"
+        aria-describedby="heart-rate-error"
+        [attr.aria-invalid]="
+          healthMeasurementsFormGroup.controls.heartRate.invalid &&
+          healthMeasurementsFormGroup.controls.heartRate.touched
+        "
+      />
+      @if (
+        healthMeasurementsFormGroup.controls.heartRate.invalid &&
+        (healthMeasurementsFormGroup.controls.heartRate.touched ||
+          healthMeasurementsFormGroup.controls.heartRate.dirty)
+      ) {
+        <p class="field-error" id="heart-rate-error">Enter a heart rate between 30 and 220 bpm.</p>
+      }
+    </div>
+  </div>
+</ng-template>

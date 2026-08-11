@@ -1,35 +1,63 @@
-<section class="h-dvh w-full sidebar relative">
-     <div class="max-h-12 flex-center py-5 px-1.5 cursor-pointer" routerLink="">
-          <a href="/" class="flex-center gap-1.5 py-3.5 pl-1.5">
-               <img src="./logo.webp" alt="NataBridge logo" class="h-8.5">
-               <span class="max-sm:hidden text-[#44b7ed] text-xs font-semibold">NataBridge</span>
-          </a>
-     </div>
-     <main class="px-1.5 py-5 flex flex-col gap-y-1.5">
-          <button type="button" routerLink="." routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}" (click)="toggleSidebar()">
-               <ng-icon name="lucideHouse" />
-          home
-          </button>
-          <button type="button" routerLink="patients" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}" (click)="toggleSidebar()">
-               <ng-icon name="lucideUsersRound" />
-          patients
-          </button>
-          <button type="button" routerLink="assessment" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}" (click)="toggleSidebar()">
-               <ng-icon name="lucideClipboardCheck" />
-          assessments
-          </button>
-     </main>
-     <div class="absolute bottom-0 w-full p-1.5 pt-0">
-          <span class="separator mb-1.5"></span>
-          <div class="px-1.5">
-               <button type="button">profile</button>
-               <button type="button" class="mt-1.5 gap-x-1.5 hover:bg-(--nata-warning)/15 logout text-(--nata-warning)" (click)="logout()">
-                    <ng-icon name="hugeLogout01" />
-                    <span>logout</span>
-               </button>
-          </div>
-     </div>
-</section>
+<nav class="dashboard-nav" aria-label="Dashboard navigation">
+  <a
+    class="brand"
+    routerLink="."
+    (click)="toggleSidebar()"
+    aria-label="NataBridge dashboard overview"
+  >
+    <img src="/logo.webp" alt="natabridge's logo" class="w-[35px]" />
+    <span class="brand-copy">
+      <strong>NataBridge</strong>
+      <small>Maternal Health AI</small>
+    </span>
+  </a>
+
+  <p class="nav-label">Clinical workspace</p>
+  <div class="nav-group">
+    <a
+      class="nav-item"
+      routerLink="."
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="toggleSidebar()"
+    >
+      <ng-icon name="lucideLayoutDashboard" aria-hidden="true" />
+      <span>Overview</span>
+    </a>
+    <a
+      class="nav-item"
+      routerLink="assessment"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="toggleSidebar()"
+    >
+      <ng-icon name="lucideClipboardPlus" aria-hidden="true" />
+      <span>New assessment</span>
+    </a>
+    <a class="nav-item" routerLink="patients" routerLinkActive="active" (click)="toggleSidebar()">
+      <ng-icon name="lucideUsersRound" aria-hidden="true" />
+      <span>Patients</span>
+    </a>
+    <button class="nav-item" type="button" disabled title="Alerts are coming soon">
+      <ng-icon name="lucideBellRing" aria-hidden="true" />
+      <span>Alerts</span>
+    </button>
+  </div>
+
+  <p class="nav-label system-label">System</p>
+  <div class="nav-group">
+    <button class="nav-item" type="button" disabled title="Analytics are coming soon">
+      <ng-icon name="lucideChartNoAxesCombined" aria-hidden="true" />
+      <span>Analytics</span>
+    </button>
+    <a class="nav-item" routerLink="profile" routerLinkActive="active" (click)="toggleSidebar()">
+      <ng-icon name="lucideSettings" aria-hidden="true" />
+      <span>Settings</span>
+    </a>
+  </div>
+
+  <button class="nav-item mobile-logout" type="button" (click)="logout()">
+    <ng-icon name="hugeLogout01" aria-hidden="true" />
+    <span>Log out</span>
+  </button>
+</nav>

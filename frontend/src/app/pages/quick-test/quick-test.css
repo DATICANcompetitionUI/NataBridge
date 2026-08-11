@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.quick-assessment-page {
+  min-height: 100dvh;
+  background: var(--dashboard-canvas, #f7f8fa);
+  color: var(--dashboard-text, #111827);
+  font-family: var(--dashboard-font, 'DM Sans', sans-serif);
+}
+
+.quick-assessment-header {
+  position: sticky;
+  z-index: 40;
+  top: 0;
+  border-bottom: 1px solid var(--dashboard-border, #e5e7eb);
+  background: #fff;
+}
+
+.quick-assessment-content {
+  padding: 34px 68px 48px;
+}
+
+@media (max-width: 760px) {
+  .quick-assessment-content {
+    padding: 28px 24px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-assessment-content {
+    padding: 24px 16px 32px;
+  }
+}

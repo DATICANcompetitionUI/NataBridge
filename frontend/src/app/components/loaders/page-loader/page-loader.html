@@ -1,3 +1,11 @@
-<div class="h-dvh w-dvw flex-center justify-center absolute left-0 top-0 backdrop-blur-[2px]" [class]="pageLoading() ? 'z-10 opacity-100' : '-z-10 opacity-0'">
-     <mat-spinner></mat-spinner>
-</div>
+@if (pageLoading()) {
+  <div
+    class="fixed inset-0 z-100 flex items-center justify-center bg-white/35 backdrop-blur-[2px]"
+    role="status"
+    aria-live="polite"
+    aria-label="Processing assessment"
+  >
+    <mat-spinner diameter="44" />
+    <span class="sr-only">Processing assessment</span>
+  </div>
+}
