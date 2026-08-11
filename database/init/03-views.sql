@@ -15,108 +15,129 @@ SELECT
 FROM patients p
 LEFT JOIN LATERAL (
      SELECT
-          a.age,
-          a.gestational_age,
-          a.created_at,
-          pr.prediction
-     FROM assessments a
-     LEFT JOIN prediction_results pr
-          ON pr.assessment_id = a.id
-     WHERE a.patient_id = p.id
-     ORDER BY a.created_at DESC
+          prediction_run.age,
+          assessment.gestational_age,
+          assessment.created_at,
+          prediction_result.prediction
+     FROM assessments assessment
+     INNER JOIN prediction_runs prediction_run
+          ON prediction_run.id = assessment.prediction_run_id
+     INNER JOIN prediction_results prediction_result
+          ON prediction_result.prediction_run_id = prediction_run.id
+     WHERE assessment.patient_id = p.id
+       AND prediction_run.source = 'patient_assessment'
+       AND prediction_run.status = 'completed'
+     ORDER BY assessment.created_at DESC, assessment.id DESC
      LIMIT 1
 ) latest ON TRUE
 ORDER BY p.created_at DESC;
 
 CREATE OR REPLACE VIEW get_dashboard_details AS
 WITH latest_assessments AS (
-    SELECT DISTINCT ON (a.patient_id)
-        a.id AS assessment_id,
-        a.patient_id,
-        a.gestational_age,
-        a.age,
-        a.systolic_bp,
-        a.diastolic_bp,
-        a.blood_sugar,
-        a.body_temperature_celsius,
-        a.heart_rate,
-        a.created_at,
+    SELECT DISTINCT ON (assessment.patient_id)
+        assessment.id AS assessment_id,
+        assessment.patient_id,
+        assessment.gestational_age,
+        assessment.created_at,
 
-        pr.id AS prediction_result_id,
-        pr.prediction,
-        pr.confidence,
-        pr.low_risk_probability,
-        pr.mid_risk_probability,
-        pr.high_risk_probability
-    FROM assessments a
-    INNER JOIN prediction_results pr
-        ON pr.assessment_id = a.id
+        prediction_run.age,
+        prediction_run.systolic_bp,
+        prediction_run.diastolic_bp,
+        prediction_run.blood_sugar,
+        prediction_run.body_temperature_celsius,
+        prediction_run.heart_rate,
+
+        prediction_result.id AS prediction_result_id,
+        prediction_result.prediction,
+        prediction_result.confidence,
+        prediction_result.low_risk_probability,
+        prediction_result.mid_risk_probability,
+        prediction_result.high_risk_probability
+
+    FROM assessments assessment
+
+    INNER JOIN prediction_runs prediction_run
+        ON prediction_run.id = assessment.prediction_run_id
+       AND prediction_run.source = 'patient_assessment'
+       AND prediction_run.status = 'completed'
+
+    INNER JOIN prediction_results prediction_result
+        ON prediction_result.prediction_run_id = prediction_run.id
+
     ORDER BY
-        a.patient_id,
-        a.created_at DESC
+        assessment.patient_id,
+        assessment.created_at DESC,
+        assessment.id DESC
 )
+
 SELECT
-    la.assessment_id,
-    la.patient_id,
+    latest.assessment_id,
+    latest.patient_id,
 
     CONCAT_WS(
         ' ',
-        p.firstname,
-        p.middlename,
-        p.lastname
+        patient.firstname,
+        patient.middlename,
+        patient.lastname
     ) AS name,
 
-    la.age,
-    la.gestational_age,
+    latest.age,
+    latest.gestational_age,
 
-    la.prediction,
-    la.confidence,
+    latest.prediction,
+    latest.confidence,
 
-    la.low_risk_probability,
-    la.mid_risk_probability,
-    la.high_risk_probability,
+    latest.low_risk_probability,
+    latest.mid_risk_probability,
+    latest.high_risk_probability,
 
-    la.systolic_bp,
-    la.diastolic_bp,
-    la.blood_sugar,
-    la.body_temperature_celsius,
-    la.heart_rate,
+    latest.systolic_bp,
+    latest.diastolic_bp,
+    latest.blood_sugar,
+    latest.body_temperature_celsius,
+    latest.heart_rate,
 
-    la.created_at,
+    latest.created_at,
 
     COALESCE(
         JSON_AGG(
             JSON_BUILD_OBJECT(
-                'feature', pf.feature,
-                'impact', pf.impact
+                'feature', prediction_factor.feature,
+                'impact', prediction_factor.impact
             )
+            ORDER BY ABS(prediction_factor.impact) DESC
         ) FILTER (
-            WHERE pf.id IS NOT NULL
+            WHERE prediction_factor.id IS NOT NULL
         ),
-        '[]'
+        '[]'::JSON
     ) AS factors
-FROM latest_assessments la
-INNER JOIN patients p
-    ON p.id = la.patient_id
-LEFT JOIN prediction_factors pf
-    ON pf.prediction_result_id = la.prediction_result_id
+
+FROM latest_assessments latest
+
+INNER JOIN patients patient
+    ON patient.id = latest.patient_id
+
+LEFT JOIN prediction_factors prediction_factor
+    ON prediction_factor.prediction_result_id = latest.prediction_result_id
+
 GROUP BY
-    la.assessment_id,
-    la.patient_id,
-    p.firstname,
-    p.middlename,
-    p.lastname,
-    la.age,
-    la.gestational_age,
-    la.prediction,
-    la.confidence,
-    la.low_risk_probability,
-    la.mid_risk_probability,
-    la.high_risk_probability,
-    la.systolic_bp,
-    la.diastolic_bp,
-    la.blood_sugar,
-    la.body_temperature_celsius,
-    la.heart_rate,
-    la.created_at
-ORDER BY la.created_at DESC;
+    latest.assessment_id,
+    latest.patient_id,
+    patient.firstname,
+    patient.middlename,
+    patient.lastname,
+    latest.age,
+    latest.gestational_age,
+    latest.prediction,
+    latest.confidence,
+    latest.low_risk_probability,
+    latest.mid_risk_probability,
+    latest.high_risk_probability,
+    latest.systolic_bp,
+    latest.diastolic_bp,
+    latest.blood_sugar,
+    latest.body_temperature_celsius,
+    latest.heart_rate,
+    latest.created_at
+
+ORDER BY latest.created_at DESC;
