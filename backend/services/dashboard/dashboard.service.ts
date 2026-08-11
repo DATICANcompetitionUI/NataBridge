@@ -1,62 +1,86 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
+
+type DashboardRow = {
+     assessment_id: string;
+     patient_id: string;
+     name: string;
+     age: string | number;
+     gestational_age: string | number | null;
+     prediction: string;
+     confidence: string | number;
+     created_at: string | Date;
+     systolic_bp: string | number;
+     diastolic_bp: string | number;
+     blood_sugar: string | number;
+     body_temperature_celsius: string | number;
+     heart_rate: string | number;
+     factors: Array<{ feature: string; impact: string | number }>;
+};
 
 const getDashboard = async (
      server: FastifyInstance,
 ) => {
      const client = await server.pg.connect();
-     const rows = await client.query('SELECT * FROM get_dashboard_details');
 
-     const assessments = rows.rows.map((row) => ({
-          id: row.assessment_id,
-          patientId: row.patient_id,
+     try {
+          const rows = await client.query<DashboardRow>(
+               "SELECT * FROM get_dashboard_details"
+          );
 
-          name: row.name,
-          age: Number(row.age),
-          gestationalAge: row.gestational_age
-               ? Number(row.gestational_age)
-               : null,
+          const assessments = rows.rows.map((row) => ({
+               id: row.assessment_id,
+               patientId: row.patient_id,
 
-          currentRiskLevel: row.prediction,
-          confidence: Number(row.confidence),
+               name: row.name,
+               age: Number(row.age),
+               gestationalAge: row.gestational_age
+                    ? Number(row.gestational_age)
+                    : null,
 
-          lastAssessment: row.created_at,
+               currentRiskLevel: row.prediction,
+               confidence: Number(row.confidence),
 
-          systolicBP: Number(row.systolic_bp),
-          diastolicBP: Number(row.diastolic_bp),
-          bloodSugar: Number(row.blood_sugar),
-          bodyTemperatureCelsius: Number(
-               row.body_temperature_celsius
-          ),
-          heartRate: Number(row.heart_rate),
+               lastAssessment: row.created_at,
 
-          factors: row.factors.map((factor: any) => ({
-               feature: factor.feature,
-               impact: Number(factor.impact)
-          }))
-     }));
+               systolicBP: Number(row.systolic_bp),
+               diastolicBP: Number(row.diastolic_bp),
+               bloodSugar: Number(row.blood_sugar),
+               bodyTemperatureCelsius: Number(
+                    row.body_temperature_celsius
+               ),
+               heartRate: Number(row.heart_rate),
 
-     return {
-          summary: {
-               high: assessments.filter(
-                    (item) => item.currentRiskLevel === 'High Risk'
-               ).length,
+               factors: row.factors.map((factor) => ({
+                    feature: factor.feature,
+                    impact: Number(factor.impact)
+               }))
+          }));
 
-               mid: assessments.filter(
-                    (item) => item.currentRiskLevel === 'Mid Risk'
-               ).length,
+          return {
+               summary: {
+                    high: assessments.filter(
+                         (item) => item.currentRiskLevel === "High Risk"
+                    ).length,
 
-               low: assessments.filter(
-                    (item) => item.currentRiskLevel === 'Low Risk'
-               ).length
-          },
+                    mid: assessments.filter(
+                         (item) => item.currentRiskLevel === "Mid Risk"
+                    ).length,
 
-          priorityAssessments: assessments.filter(
-               (item) => item.currentRiskLevel === 'High Risk'
-          ),
+                    low: assessments.filter(
+                         (item) => item.currentRiskLevel === "Low Risk"
+                    ).length
+               },
 
-          recentAssessments: assessments
-     };
-}
+               priorityAssessments: assessments.filter(
+                    (item) => item.currentRiskLevel === "High Risk"
+               ),
+
+               recentAssessments: assessments
+          };
+     } finally {
+          client.release();
+     }
+};
 
 export {
      getDashboard

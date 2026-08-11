@@ -1,22 +1,33 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { InitAssessmentRequest } from "../../models/assessment/dto/assessment.dto";
-import { processAssessment } from "../../services/assessment/assessment.service";
+import type {
+    PatientAssessmentParams,
+    PatientAssessmentRequest
+} from "../../models/assessment/dto/assessment.dto";
+import { processPatientAssessment } from "../../services/assessment/assessment.service";
+import { requireAuthenticatedUserId } from "../../utils/auth";
 
-const postAssessment = async (request: FastifyRequest<{ Body: InitAssessmentRequest }>, reply: FastifyReply) => {
-    try {
-        const userId = request.user?.id;
+const postPatientAssessment = async (
+    request: FastifyRequest<{
+        Body: PatientAssessmentRequest;
+        Params: PatientAssessmentParams;
+    }>,
+    reply: FastifyReply
+) => {
+    const userId = requireAuthenticatedUserId(request);
 
-        const result = await processAssessment(request.server, request.body, userId);
+    const result = await processPatientAssessment(
+        request.server,
+        request.params.patientId,
+        request.body,
+        userId,
+        request.id
+    );
 
-        return reply.code(200).send(result);
-    } catch (error) {
-        request.log.error(error);
-        return reply.code(500).send({
-            message: "Failed to process assessment"
-        });
-    }
-}
+    return reply.code(201).send({
+        data: result
+    });
+};
 
 export {
-    postAssessment
-}
+    postPatientAssessment
+};

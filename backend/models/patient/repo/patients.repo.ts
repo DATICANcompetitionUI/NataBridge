@@ -1,11 +1,11 @@
 interface PatientRepoInput {
      id: string;
      firstName: string;
-     middleName: string;
+     middleName: string | null;
      lastName: string;
      dob: string | Date;
-     email: string;
-     phone: string;
+     email: string | null;
+     phone: string | null;
 }
 
 export type { PatientRepoInput };

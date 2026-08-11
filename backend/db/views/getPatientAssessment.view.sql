@@ -15,15 +15,19 @@ SELECT
 FROM patients p
 LEFT JOIN LATERAL (
      SELECT
-          a.age,
-          a.gestational_age,
-          a.created_at,
-          pr.prediction
-     FROM assessments a
-     LEFT JOIN prediction_results pr
-          ON pr.assessment_id = a.id
-     WHERE a.patient_id = p.id
-     ORDER BY a.created_at DESC
+          prediction_run.age,
+          assessment.gestational_age,
+          assessment.created_at,
+          prediction_result.prediction
+     FROM assessments assessment
+     INNER JOIN prediction_runs prediction_run
+          ON prediction_run.id = assessment.prediction_run_id
+     INNER JOIN prediction_results prediction_result
+          ON prediction_result.prediction_run_id = prediction_run.id
+     WHERE assessment.patient_id = p.id
+       AND prediction_run.source = 'patient_assessment'
+       AND prediction_run.status = 'completed'
+     ORDER BY assessment.created_at DESC, assessment.id DESC
      LIMIT 1
 ) latest ON TRUE
 ORDER BY p.created_at DESC;

@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
-import { postAssessment } from "../../controllers/assessment/assessment.controller";
+import { getDashboardDetails } from "../../controllers/dashboard/dashboard.controller";
 
 export async function dashboardRoutes(fastify: FastifyInstance) {
-    fastify.post('', postAssessment);
+    fastify.get("", getDashboardDetails);
 }

@@ -1,12 +1,8 @@
 interface AssessmentRepoInput {
+     id: string;
      patientId: string;
-     age: number;
-     systolicBP: number;
-     diastolicBP: number;
-     bloodSugar: number;
-     bodyTemp: number;
-     heartRate: number;
-     bodyTemperatureCelsius: number;
+     predictionRunId: string;
+     createdByUserId: string;
      gestationalAge: number | null;
      firstPregnancy: boolean | null;
      previousComplications: string | null;

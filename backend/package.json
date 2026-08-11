@@ -1,7 +1,10 @@
 {
 	"scripts": {
 		"dev": "tsx --env-file=.env app.ts",
-		"docker": "tsx app.ts"
+		"docker": "tsx app.ts",
+		"test": "npm run test:build && node --test dist/test/tests/*.test.js",
+		"test:build": "tsc -p tsconfig.test.json",
+		"typecheck": "tsc"
 	},
 	"devDependencies": {
 		"@types/node": "^26.1.1",

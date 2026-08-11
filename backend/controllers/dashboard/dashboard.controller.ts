@@ -1,15 +1,17 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { getDashboard } from "../../services/dashboard/dashboard.service";
+import { requireAuthenticatedUserId } from "../../utils/auth";
 
 const getDashboardDetails = async (request: FastifyRequest, reply: FastifyReply) => {
-     try {
-          const details = await getDashboard();
+     requireAuthenticatedUserId(request);
 
-          return reply.code(200).send(details)
-     } catch (error) {
-          request.log.error(error);
-        return reply.code(500).send({
-            message: "Failed to retrieve dashboard details"
-        });
-     }
-}
+     const details = await getDashboard(request.server);
+
+     return reply.code(200).send({
+          data: details
+     });
+};
+
+export {
+     getDashboardDetails
+};

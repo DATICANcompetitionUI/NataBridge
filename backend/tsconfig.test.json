@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "noEmit": false,
+    "outDir": "./dist/test",
+    "rootDir": ".",
+    "allowImportingTsExtensions": false,
+    "sourceMap": false
+  }
+}

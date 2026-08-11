@@ -1,6 +1,14 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { fetchPatientsWithLatestAssessment, registerPatient } from "../../services/patient/patient.service";
-import { CreatePatientRequest } from "../../models/patient/dto/patient.dto";
+import {
+     fetchPatientById,
+     fetchPatientsWithLatestAssessment,
+     registerPatient
+} from "../../services/patient/patient.service";
+import type {
+     CreatePatientRequest,
+     PatientParams
+} from "../../models/patient/dto/patient.dto";
+import { requireAuthenticatedUserId } from "../../utils/auth";
 
 const postPatient = async (
      request: FastifyRequest<{
@@ -8,43 +16,46 @@ const postPatient = async (
      }>,
      reply: FastifyReply
 ) => {
-     try {
-          if (!request.user) return reply.code(403).send("Unauthenticated");
+     requireAuthenticatedUserId(request);
 
-          const patient = await registerPatient(request.server, request.body);
+     const patient = await registerPatient(request.server, request.body);
 
-          return reply.code(201).send(patient);
-     } catch (error) {
-          request.log.error(error);
-
-          return reply.code(500).send({
-               message: "Failed to create patient"
-          });
-     }
+     return reply.code(201).send({
+          data: patient
+     });
 };
 
 const getPatients = async (
      request: FastifyRequest,
      reply: FastifyReply
 ) => {
-     try {          
-          if (!request.user) return reply.code(403).send("Unauthenticated");
+     requireAuthenticatedUserId(request);
 
-          const patients = await fetchPatientsWithLatestAssessment(request.server);
+     const patients = await fetchPatientsWithLatestAssessment(request.server);
 
-          return reply.status(200).send({
-               data: patients
-          });
-     } catch (error) {
-          request.log.error(error);
+     return reply.status(200).send({
+          data: patients
+     });
+};
 
-          return reply.code(500).send({
-               message: "Failed to get patients"
-          });
-     }
+const getPatient = async (
+     request: FastifyRequest<{ Params: PatientParams }>,
+     reply: FastifyReply
+) => {
+     requireAuthenticatedUserId(request);
+
+     const patient = await fetchPatientById(
+          request.server,
+          request.params.patientId
+     );
+
+     return reply.status(200).send({
+          data: patient
+     });
 };
 
 export {
+     getPatient,
      postPatient,
      getPatients
 };
